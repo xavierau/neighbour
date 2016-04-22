@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'facebook' => [
+        'client_id' => '992111334205671',
+        'client_secret' => 'c3e3e5e399d24a6e97d657eab4904b5e',
+        'redirect' => 'http://neighbour.dev/facebook/register/callback',
+        'default_graph_version' => 'v2.6',
+    ],
+
 ];

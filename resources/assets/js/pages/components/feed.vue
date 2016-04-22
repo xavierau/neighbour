@@ -51,8 +51,8 @@
     <div class="feed-container">
         <div class="clearfix">
             <div class="feed-owner">
-                <img class="avatar" :src="feed.avatarSrc" :alt="feed.sender">
-                <p class="name">{{feed.sender}}</p>
+                <img class="avatar" :src="feed.sender.avatar" :alt="feed.sender">
+                <p class="name">{{feed.sender.name}}</p>
                 <p class="time">
                     <small>{{feed.created_at | parseDateToHuman}}</small>
                 </p>

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\FacebookUser;
+use App\Services\FbServices;
 use App\User;
+use Facebook\FacebookRequest;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -28,7 +34,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/app';
 
     /**
      * Create a new authentication controller instance.
@@ -69,4 +75,47 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    public function facebookSignUp()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+
+    public function facebookLogin()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+
+    public function handleFacebookSignUpCallback()
+    {
+        $fbUser = Socialite::driver('facebook')->user();
+        $fbService = new FbServices($fbUser->token);
+        $avatar = $fbService->getAvatar($fbUser->id);
+        $user = User::whereEmail($fbUser->email)->first();
+        if($user){
+            Auth::login($user);
+        }else{
+
+            $user = new User();
+            $user->name = $fbUser->name;
+            $user->email = $fbUser->email;
+            $user->avatar = $avatar;
+            $user->password = bcrypt(str_random(12));
+            $user->save();
+
+            $newFbUser = new FacebookUser();
+            $newFbUser->id = $fbUser->id;
+            $newFbUser->token = $fbUser->token;
+            $newFbUser->name = $fbUser->name;
+            $newFbUser->email = $fbUser->email;
+            $newFbUser->avatar = $avatar;
+            $newFbUser->gender = $fbUser->user["gender"];
+            $newFbUser->user_id = $user->id;
+            $newFbUser->save();
+        }
+        return redirect('/app');
+    }
+    
 }
