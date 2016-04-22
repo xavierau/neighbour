@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     protected $fillable=[
-      'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic'
+      'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic', "description"
     ];
     public function organiser()
     {

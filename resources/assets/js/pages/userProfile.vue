@@ -65,7 +65,6 @@
 </template>
 
 <script>
-    var toastr = require('toastr');
     export default{
         route: {
             data: function (transition) {

@@ -48,47 +48,14 @@
 
 </style>
 <template>
-    <div class="feed-container">
-        <div class="clearfix">
-            <div class="feed-owner">
-                <img class="avatar" :src="feed.sender.avatar" :alt="feed.sender">
-                <p class="name">{{feed.sender.name}}</p>
-                <p class="time">
-                    <small>{{feed.created_at | parseDateToHuman}}</small>
-                </p>
-            </div>
-            <content-container :content="feed.content"></content-container>
-            <button
-                    class="pull-right unstyled"
-                    v-show="feed.numberOfComments>0"
-                    @click.prevent="clickShowComment">{{feed.numberOfComments}} comments
-            </button>
-        </div>
-        <hr>
-        <div class="actions">
-            <ul class="list-inline">
-                <li>
-                    <button class="unstyled"><i class="fa fa-comment-o" aria-hidden="true"></i>
-                        Comment
-                    </button>
-                </li>
-                <li>
-                    <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
-                        Share
-                    </button>
-                </li>
-            </ul>
-        </div>
-        <div class="comment" v-show="comments.length>0">
-            <comment-container v-for="comment in comments" :comment="comment"></comment-container>
-        </div>
-    </div>
+    <text-feed :feed="feed" v-show="!isEvent"></text-feed>
+    <event-feed :feed="feed" v-show="isEvent"></event-feed>
 </template>
 
 <script>
     var moment = require('moment');
-    import ContentContainer from './commons/content.vue';
-    import CommentContainer from './commons/comment.vue';
+    import TextFeed from './commons/textFeed.vue';
+    import EventFeed from './commons/eventFeed.vue';
     export default{
         props: {
             feed: {
@@ -101,9 +68,15 @@
                 comments: []
             }
         },
+        computed:{
+          isEvent: function(){
+              console.log(typeof this.feed.location != "undefined");
+              return typeof this.feed.location != "undefined";
+          }
+        },
         components:{
-            ContentContainer,
-            CommentContainer
+            TextFeed,
+            EventFeed
         },
         methods: {
             clickShowComment: function () {

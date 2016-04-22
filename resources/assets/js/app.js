@@ -3,8 +3,8 @@
 var Vue = require('vue');
 var Router = require('vue-router');
 var Resource = require('vue-resource');
-var toastr = require('toastr');
-
+window.toastr = require('toastr');
+window.moment = require('moment');
 Vue.use(Router);
 Vue.use(Resource);
 
@@ -42,6 +42,9 @@ Vue.mixin({
                 case "userProfile":
                     uri = uri + "profile"
                     break;
+                case "createEvent":
+                    uri = uri + "events"
+                    break;
             }
             return uri;
         }
@@ -58,6 +61,14 @@ router.map({
                 component: require('./pages/mainFeedPage.vue')
             },
             "/profile":{
+                name: 'profile',
+                component: require('./pages/userProfile.vue')
+            },
+            "/events":{
+                name: 'profile',
+                component: require('./pages/events.vue')
+            },
+            "/events/:eventId":{
                 name: 'profile',
                 component: require('./pages/userProfile.vue')
             },

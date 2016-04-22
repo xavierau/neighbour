@@ -91,12 +91,11 @@ class AuthController extends Controller
     public function handleFacebookSignUpCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
-        $fbService = new FbServices($fbUser->token);
-        $avatar = $fbService->getAvatar($fbUser->id);
         $user = User::whereEmail($fbUser->email)->first();
-        if($user){
-            Auth::login($user);
-        }else{
+
+        if(!$user){
+            $fbService = new FbServices($fbUser->token);
+            $avatar = $fbService->getAvatar($fbUser->id);
 
             $user = new User();
             $user->name = $fbUser->name;
@@ -115,6 +114,8 @@ class AuthController extends Controller
             $newFbUser->user_id = $user->id;
             $newFbUser->save();
         }
+        
+        Auth::login($user);
         return redirect('/app');
     }
     

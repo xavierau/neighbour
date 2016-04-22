@@ -5,6 +5,8 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",
+    "datetimepicker": "^0.1.26",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "jquery": "^2.2.3",
     "jquery.autogrow-textarea": "^0.4.1",
     "laravel-elixir": "^5.0.0",
