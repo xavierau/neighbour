@@ -15,6 +15,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a v-link="{name:'conversation'}">Inbox</a>
+                    </li>
+                    <li>
                         <a id="profile" data-target="#" href="" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <img :src="user.avatar" style="height:50px; width:50px; border-radius: 25px" alt="">
                             {{ user.name }}
@@ -27,7 +30,9 @@
                         </ul>
                     </li>
 
-
+                    <li  class="visible-xs">
+                        <a href="" v-link="{name:'events'}">Events</a>
+                    </li>
                     <li class="visible-xs"  v-for="category in categoryList">
                         <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
                     </li>

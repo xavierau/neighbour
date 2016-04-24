@@ -11,7 +11,7 @@
     }
 </style>
 <template>
-    <div class="standard stream-container col-sm-8 col-md-7">
+    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
         <div class="center-block">
             <img :src="user.avatar"
                  alt="" id="profilePic">

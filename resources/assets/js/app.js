@@ -16,7 +16,6 @@ Vue.config.debug = true;
 
 Vue.mixin({
     methods: {
-        
         setRequestHeaders:function(){
             return {
                 headers:{
@@ -45,6 +44,24 @@ Vue.mixin({
                 case "createEvent":
                     uri = uri + "events"
                     break;
+                case "joinEvent":
+                    uri = uri + "joinEvent"
+                    break;
+                case "getEvents":
+                    uri = uri + "events"
+                    break;
+                case "allConversation":
+                    uri = uri + "conversations"
+                    break;
+                case "getTheConversation":
+                    uri = uri + "conversation"
+                    break;
+                case "conversationMessages":
+                    uri = uri + "conversations/messages"
+                    break;
+                case "searchUserByUserName":
+                    uri = uri + "users/search/username"
+                    break;
             }
             return uri;
         }
@@ -60,17 +77,25 @@ router.map({
                 name: 'home',
                 component: require('./pages/mainFeedPage.vue')
             },
+            "/inbox":{
+                name: 'conversation',
+                component: require('./pages/conversation.vue')
+            },
+            "/inbox/:conversationId/messages":{
+                name: 'messages',
+                component: require('./pages/messages.vue')
+            },
             "/profile":{
                 name: 'profile',
                 component: require('./pages/userProfile.vue')
             },
             "/events":{
-                name: 'profile',
+                name: 'events',
                 component: require('./pages/events.vue')
             },
             "/events/:eventId":{
-                name: 'profile',
-                component: require('./pages/userProfile.vue')
+                name: 'eventDetail',
+                component: require('./pages/eventDetail.vue')
             },
             "/:category":{
                 name: 'category',
@@ -90,7 +115,6 @@ var App = Vue.extend({
     },
     events: {
         logout: function () {
-            console.log("catch logout event");
             window.location.replace('/logout');
         },
         updateUser:function(newUser){

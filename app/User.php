@@ -53,5 +53,15 @@ class User extends Authenticatable
     public function parties(){
         return $this->belongsToMany(Event::class);
     }
+
+    public function conversations()
+    {
+        return $this->belongsToMany(Conversation::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
     
 }

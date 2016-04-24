@@ -38,7 +38,7 @@ trait UserAuthorizationTrait
 
     public function is($roleCode)
     {
-        $roleCodes = $this->roles()->lists('code');
+        $roleCodes = $this->roles()->lists('code')->toArray();
         return in_array($roleCode, $roleCodes);
     }
 

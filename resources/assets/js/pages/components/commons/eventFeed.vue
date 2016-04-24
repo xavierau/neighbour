@@ -109,14 +109,16 @@
             <button
                     class="pull-right unstyled"
                     v-show="feed.numberOfComments>0"
-                    @click.prevent="clickShowComment">
+                    @click.prevent="">
             </button>
         </div>
         <hr>
         <div class="actions">
             <ul class="list-inline">
                 <li>
-                    <button class="unstyled"><i class="fa fa-calendar-o"></i>
+                    <button class="unstyled"
+                            :class="{'btn btn-primary':joinEvent}"
+                            @click.prevent="clickJoinEvent"><i class="fa fa-calendar-o"></i>
                         Join
                     </button>
                 </li>
@@ -138,6 +140,11 @@
                 type: Object
             }
         },
+        data: function(){
+            return {
+                joinEvent: false
+            }
+        },
         filters: {
             parseDateToHuman: function (value) {
                 return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
@@ -151,6 +158,18 @@
         },
         components:{
             ContentContainer
+        },
+        methods:{
+            clickJoinEvent: function(){
+                if(!this.joinEvent)
+                    this.$dispatch("joinEvent", this.feed)
+            }
+        },
+        events:{
+            jointedEvent: function (eventId) {
+                if(this.feed.id == eventId)
+                        this.joinEvent = true;
+            }
         }
     }
 </script>

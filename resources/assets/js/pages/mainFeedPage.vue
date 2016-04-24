@@ -1,7 +1,7 @@
 <style></style>
 <template>
     <div>
-        <div class="standard stream-container col-sm-8 col-md-7">
+        <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
             <desktop-editor
                     :content.sync="feed.content"
                     :category_id.sync="feed.category_id"
@@ -37,7 +37,7 @@
                     transition.next({
                         stream: response.data
                     })
-                },function () {
+                }, function () {
                     transition.abort("cannot fetch category list.");
                 })
             }
@@ -93,29 +93,42 @@
             }
         },
         events: {
-            showCreateEventModalEvent:function(){
+            joinEvent: function (event) {
+                var uri = this.getApi("joinEvent"),
+                        headers = this.setRequestHeaders(),
+                        data = {eventId: event.id};
+                this.$http.post(uri, data, headers).then(
+                        function (response) {
+                            console.log(response);
+                            this.$broadcast('jointedEvent', response.data.eventId)
+                        },
+                        function (response) {
+                            conole.log(response);
+                        })
+            },
+            showCreateEventModalEvent: function () {
                 this.showModal();
             },
             createNewEvent: function (data) {
                 var uri = this.getApi("createEvent"),
                         headers = this.setRequestHeaders();
-                this.$http.post(uri, data, headers).then(function(response){
+                this.$http.post(uri, data, headers).then(function (response) {
                     $("#myModal").modal('hide');
                     toastr.success("Event Created!");
                     console.log(response)
-                }, function(response){
-                   console.log(response)
+                }, function (response) {
+                    console.log(response)
                 });
                 console.log("create new Event with newEvent Object store here")
             },
             updateFeed: function () {
-                    var uri = this.getApi("postFeed"),
-                            headers = this.setRequestHeaders(),
-                            data = this.feed;
-                    this.$http.post(uri, data, headers).then(
-                            this.postCreated,
-                            this.unableToCreatePost
-                    );
+                var uri = this.getApi("postFeed"),
+                        headers = this.setRequestHeaders(),
+                        data = this.feed;
+                this.$http.post(uri, data, headers).then(
+                        this.postCreated,
+                        this.unableToCreatePost
+                );
             },
             fetchComments: function (feedId) {
                 var result = this.comments.filter(function (commentCollection) {

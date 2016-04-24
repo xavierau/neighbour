@@ -48,8 +48,7 @@
 
 </style>
 <template>
-    <text-feed :feed="feed" v-show="!isEvent"></text-feed>
-    <event-feed :feed="feed" v-show="isEvent"></event-feed>
+    <component :is="isEvent" :feed="feed"></component>
 </template>
 
 <script>
@@ -70,8 +69,7 @@
         },
         computed:{
           isEvent: function(){
-              console.log(typeof this.feed.location != "undefined");
-              return typeof this.feed.location != "undefined";
+              return typeof this.feed.location != "undefined"?"EventFeed":"TextFeed";
           }
         },
         components:{

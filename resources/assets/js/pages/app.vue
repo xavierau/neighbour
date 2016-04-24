@@ -4,18 +4,6 @@
         top: 80px;
     }
 
-    div.main-container div.standard {
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-
-    div.left-side-menu {
-        position: fixed;
-        top: 80px;
-        min-height: 300px;
-        background: rgba(255, 255, 255, 0.5);
-    }
-
     div.inputContainer {
         background: white;
         padding: 10px;
@@ -86,11 +74,10 @@
 
     <main-section :category-list="categoryList">
         <router-view
+                :user="user"
                 :category-list="categoryList"
         ></router-view>
     </main-section>
-
-
 </template>
 
 <script>

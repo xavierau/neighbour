@@ -33,4 +33,11 @@ class UsersController extends Controller
         $user->save();
         return response()->json(compact('user'));
     }
+
+    public function searchByUserName(Request $request)
+    {
+        $needle = $request->get('name');
+        $users = User::where('name', 'like', "%$needle%")->get();
+        return response()->json(compact('users'));
+    }
 }
