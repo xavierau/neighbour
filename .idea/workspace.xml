@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f800e0a4-1662-4575-960c-49ed71a34269" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/pages/categories.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Feed.php" afterPath="$PROJECT_DIR$/app/Feed.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js" afterPath="$PROJECT_DIR$/public/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js.map" afterPath="$PROJECT_DIR$/public/js/app.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/app.js" afterPath="$PROJECT_DIR$/resources/assets/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/comment.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/comment.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/headerNav.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/headerNav.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/mobileEditor.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/mobileEditor.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/textFeed.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/textFeed.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/desktopFeedEditor.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/desktopFeedEditor.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/conversation.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/conversation.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/events.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/events.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
     </list>
     <ignored path="Neighbour.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -113,8 +98,8 @@
           <file leaf-file-name="CategoriesController.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CategoriesController.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1265">
-                  <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+                <state relative-caret-position="299">
+                  <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
                   <folding>
                     <element signature="e#40#57#0#PHP" expanded="true" />
                   </folding>
@@ -173,7 +158,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/Services/FacebookServices.php" />
         <option value="$PROJECT_DIR$/app/Services/FbServices.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_21_102053_create_facebook_users_table.php" />
         <option value="$PROJECT_DIR$/.env" />
@@ -224,6 +208,7 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/components/desktopFeedEditor.vue" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/components/commons/mobileEditor.vue" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
       </list>
     </option>
   </component>
@@ -366,12 +351,12 @@
       <workItem from="1461226254300" duration="487000" />
       <workItem from="1461226766390" duration="14222000" />
       <workItem from="1461299788158" duration="28005000" />
-      <workItem from="1461490419601" duration="18944000" />
+      <workItem from="1461490419601" duration="19467000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126911000" />
+    <option name="totallyTimeSpent" value="127434000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -444,13 +429,6 @@
         <state relative-caret-position="529">
           <caret line="23" column="40" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="40" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/Authenticate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -824,16 +802,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CategoriesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1265">
-          <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/components/desktopFeedEditor.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
@@ -845,14 +813,9 @@
     <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/categories.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
-          <caret line="43" column="32" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
           <folding>
             <element signature="e#752#793#0" expanded="true" />
-            <element signature="e#2047#2304#0" expanded="false" />
-            <element signature="e#3987#4554#0" expanded="false" />
-            <element signature="e#4607#4656#0" expanded="false" />
-            <element signature="e#4702#5238#0" expanded="false" />
-            <element signature="e#5276#5611#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -862,6 +825,24 @@
         <state relative-caret-position="460">
           <caret line="28" column="53" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/Authenticate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="43" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/CategoriesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
