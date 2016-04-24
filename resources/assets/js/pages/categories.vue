@@ -31,11 +31,15 @@
     export default{
         route: {
             data: function (transition) {
-                var uri = this.getApi("getPublicShownFeeds"),
+                var uri = this.getApi("getFeeds")+"/"+this.$route.params.category,
                         headers = this.setRequestHeaders();
                 this.$http.get(uri, "", headers).then(function (response) {
                     transition.next({
-                        stream: response.data
+                        stream: response.data.feeds,
+                        feed:{
+                            category_id : response.data.category_id,
+                            content: ""
+                        }
                     })
                 }, function () {
                     transition.abort("cannot fetch category list.");
@@ -146,8 +150,6 @@
                         this.unableToCreatePost
                 );
             },
-            fetchComments: function (feed) {
-            }
         }
     }
 </script>

@@ -10,6 +10,8 @@
     }
     ul.searchResult{
         max-height: 150px;
+        background-color: rgba(255, 255, 255, 0.4);
+        overflow: scroll;
     }
     ul.searchResult img{
         display: inline-block;

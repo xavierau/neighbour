@@ -40,10 +40,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("profile", "UsersController@getProfile");
         Route::post("profile", "UsersController@updateProfile");
         Route::post("feed", "FeedsController@postFeed");
-        Route::get("feeds/{feedOption}", "FeedsController@getFeeds");
+
         Route::get("frontPage", "FrontPageController@index");
         Route::get("categoryList", "CategoriesController@getCategoryList");
         Route::post("categoryList", "CategoriesController@getCategoryList");
+
+        Route::get('feeds/comments', "FeedsController@getFeedComments");
+        Route::post('feeds/comment', "FeedsController@commentFeed");
+        Route::get("feeds/{feedOption}", "FeedsController@getFeeds");
 
         Route::post('events', "EventsController@postEvent");
         Route::get('events', "EventsController@getEvents");

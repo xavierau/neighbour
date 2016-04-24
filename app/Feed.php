@@ -10,6 +10,11 @@ class Feed extends Model
         'content','category_id','reply_to'
     ];
 
+    protected $appends = [
+        "numberOfComment"
+    ];
+
+
     public function sender()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -18,6 +23,11 @@ class Feed extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getNumberOfCommentAttribute()
+    {
+        return $this->whereReplyTo($this->id)->count();
     }
 
     public function scopePublicShown($query)
@@ -29,6 +39,7 @@ class Feed extends Model
     public function scopeStandardFetchSetting($query)
     {
         return $query->orderBy('created_at',"desc")
+            ->where("reply_to",0)
             ->with("sender")
             ->take(15);
     }

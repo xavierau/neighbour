@@ -32,6 +32,9 @@ Vue.mixin({
                 case "categoryList":
                     uri = uri + "categoryList"
                     break;
+                case "getFeeds":
+                    uri = uri + "feeds"
+                    break;
                 case "getPublicShownFeeds":
                     uri = uri + "feeds/showPublic"
                     break;
@@ -61,6 +64,12 @@ Vue.mixin({
                     break;
                 case "searchUserByUserName":
                     uri = uri + "users/search/username"
+                    break;
+                case "commentFeed":
+                    uri = uri + "feeds/comment"
+                    break;
+                case "getFeedComments":
+                    uri = uri + "feeds/comments"
                     break;
             }
             return uri;
@@ -99,7 +108,7 @@ router.map({
             },
             "/:category":{
                 name: 'category',
-                component: require('./pages/events.vue')
+                component: require('./pages/categories.vue')
             }
         }
     }

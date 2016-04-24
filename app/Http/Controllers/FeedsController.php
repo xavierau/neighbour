@@ -37,35 +37,70 @@ class FeedsController extends Controller
             $events = Event::where('isPublic', 1)->orderBy('created_at', 'desc')->with('organiser')->take(5)->get();
 
             $stream = new Collection();
-            while($feeds->count() != 0 and $events->count()!=0){
+            while ($feeds->count() != 0 and $events->count() != 0) {
                 $firstFeed = $feeds->first();
                 $firstEvent = $events->first();
-                if($firstFeed->created_at > $firstEvent->created_at){
+                if ($firstFeed->created_at > $firstEvent->created_at) {
                     $stream->push($feeds->first());
                     $feeds->shift();
-                }else{
+                } else {
                     $stream->push($events->first());
                     $events->shift();
                 }
             };
-            if($feeds->count() != 0) $stream =$this->pushToStream($feeds, $stream);
-            if($events->count() != 0) $stream =$this->pushToStream($events, $stream);
+            if ($feeds->count() != 0) {
+                $stream = $this->pushToStream($feeds, $stream);
+            }
+            if ($events->count() != 0) {
+                $stream = $this->pushToStream($events, $stream);
+            }
 
             return response()->json($stream);
-        } elseif (in_array($feedOption, Category::lists('code')->toArray())) {
+        } elseif (in_array($feedOption, $categoryList = Category::lists('code', "id")->toArray())) {
             $feeds = Feed::feedCategory($feedOption)
                 ->standardFetchSetting()
                 ->get();
+            $category_id=0;
+            foreach ($categoryList as $id=>$categoryCode){
+                if($feedOption == $categoryCode)
+                    $category_id=$id;
+            }
 
-            return response()->json($feeds);
+            return response()->json(compact("feeds", "category_id"));
         }
+    }
+
+    public function commentFeed(Request $request)
+    {
+        $feedId = $request->get('feedId');
+        $comment = $request->get('comment');
+        $feed = Feed::find($feedId);
+        $replay = $request->user()->feeds()->create([
+            "content"     => $comment,
+            "reply_to"    => $feedId,
+            "category_id" => $feed->category->id
+        ]);
+        $replay->load('sender');
+
+        return response()->json(['comment' => $replay]);
+    }
+
+    public function getFeedComments(Request $request)
+    {
+        $comments = Feed::orderBy('created_at', 'desc')
+            ->where("reply_to", $request->get('feedId'))
+            ->with('sender')
+            ->get();
+
+        return response()->json(compact("comments"));
     }
 
     private function pushToStream($collection, $stream)
     {
-        $collection->map(function($item)use($stream){
+        $collection->map(function ($item) use ($stream) {
             $stream->push($item);
         });
-           return $stream;
+
+        return $stream;
     }
 }

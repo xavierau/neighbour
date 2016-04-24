@@ -8,7 +8,7 @@
     }
 </style>
 <template>
-    <div class="standard stream-container col-sm-8 col-md-7">
+    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
         <h2>My Events</h2>
         <div class="row">
             <div v-for="event in myEvents" class="col-xs-6 col-sm-4 col-md-3 eventContainer">

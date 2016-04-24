@@ -5,10 +5,10 @@
 </style>
 <template>
     <div class=" comment-row">
-        <img class="avatar pull-left" :src="comment.avatarSrc" alt="">
+        <img class="avatar pull-left" :src="comment.sender.avatar" alt="">
         <content-container
                 class="comment-container"
-                :sender="comment.sender"
+                :sender="comment.sender.name"
                 :sender-link="comment.avatarSrc"
                 :content="comment.content"
         ></content-container>

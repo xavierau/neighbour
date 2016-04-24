@@ -1,4 +1,8 @@
-<style></style>
+<style>
+    ul.nav li.default{
+        margin-top: 13px;
+    }
+</style>
 <template>
     <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
         <div class="container">
@@ -8,13 +12,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" v-link="{name:home}">
+                <a class="navbar-brand" v-link="{name:'home'}">
                     Neighbour
                 </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
+                    <li class="default">
                         <a v-link="{name:'conversation'}">Inbox</a>
                     </li>
                     <li>
