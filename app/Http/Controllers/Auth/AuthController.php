@@ -78,13 +78,17 @@ class AuthController extends Controller
 
     public function facebookSignUp()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->scopes([
+            'user_managed_groups', 'email','user_status','user_relationships','user_friends'
+        ])->redirect();
     }
 
 
     public function facebookLogin()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->scopes([
+            'user_managed_groups', 'email','user_status','user_relationships','user_friends'
+        ])->redirect();
     }
 
 
@@ -114,7 +118,29 @@ class AuthController extends Controller
             $newFbUser->user_id = $user->id;
             $newFbUser->save();
         }
-        
+
+        $service  = new FbServices($fbUser->token);
+        $response = $service->get("/1170712616312556/feed");
+
+        $bodyObject = json_decode($response->getBody(), true);
+        $feeds = $bodyObject['data'];
+        $feedDetail = [];
+        foreach ($feeds as $feed){
+            if(array_key_exists('message',$feed)){
+                $temp = [
+                    'created_at' =>$feed['updated_time'],
+                    'id' =>$feed['id'],
+                    'message' =>$feed['message'],
+                ];
+                $response = $service->get("/".$feed['id']."/?fields=from");
+                $responseArray = json_decode($response->getBody(), true);
+                $temp['sender'] = $responseArray['from']['name'];
+                $temp['sender_id'] = $responseArray['from']['id'];
+                $feedDetail[] = $temp;
+            }
+        }
+        dd($feedDetail);
+
         Auth::login($user);
         return redirect('/app');
     }

@@ -11,6 +11,7 @@
 |
 */
 
+use App\Events\SocketTesting;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
@@ -95,7 +96,12 @@ Route::get("facebook/register/callback", "Auth\\AuthController@handleFacebookSig
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-
+Route::get('/socket', function(){
+   return view('socket');
+});
+Route::get('/socket/new', function(){
+    event(new SocketTesting());
+});
 function getMetaTags($str)
 {
     $pattern = '
