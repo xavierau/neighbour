@@ -31,5 +31,6 @@ io.on('connection', function (socket) {
 
 
 server.listen(3000, function () {
+    console.log(server);
     console.log("Listening to *:3000");
 });

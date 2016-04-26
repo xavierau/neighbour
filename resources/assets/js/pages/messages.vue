@@ -56,7 +56,9 @@
                 })
             },
             activate: function (transition) {
-                socket = require('socket.io-client')(window.location.host + ":3000");
+//                var url = "http://oup25o.anacreation.com:3000";
+//                var url = window.location.host + ":3000";
+                socket = require('socket.io-client')(":3000");
                 transition.next()
             },
             deactivate: function (transition) {
