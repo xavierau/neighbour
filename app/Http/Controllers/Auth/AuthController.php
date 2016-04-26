@@ -139,8 +139,6 @@ class AuthController extends Controller
                 $feedDetail[] = $temp;
             }
         }
-        dd($feedDetail);
-
         Auth::login($user);
         return redirect('/app');
     }
