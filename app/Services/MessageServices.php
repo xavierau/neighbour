@@ -5,10 +5,11 @@
  * Time: 9:48 AM
  */
 
-namespace app\Services;
+namespace App\Services;
 
 
 use App\Conversation;
+use App\Events\NewMessageEvent;
 use App\Message;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -46,9 +47,10 @@ class MessageServices
     {
         // get the conversation
         $this->getConversation();
-
         // create a new message for the conversation
-        return $this->addMessageToConversation();
+        $message = $this->addMessageToConversation();
+        
+        return $message;
     }
 
     /**
@@ -64,10 +66,19 @@ class MessageServices
         throw new InvalidArgumentException("conversationId must present and in user conversation list");
     }
 
+    public function getAllConversationForAUser()
+    {
+        return $this->request->user()->conversations()->with([
+            'users'=>function($query){
+                $query->where('user_id', '<>', $this->request->user()->id);
+            }
+        ])->get();
+    }
+
     /**
-     * @return void
+     * @param null $conversationId
      */
-    private function getConversation($conversationId = null)
+    public function getConversation($conversationId = null)
     {
         $id = $conversationId ? $conversationId : $this->request->get('conversationId');
         if ($id) {
@@ -87,6 +98,7 @@ class MessageServices
                 $this->conversation = $conversation;
             }
         }
+        return $this->conversation;
     }
 
     /**

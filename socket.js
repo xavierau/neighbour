@@ -5,33 +5,31 @@ var Redis = require('ioredis');
 var redis = new Redis();
 
 
-redis.subscribe("neighbourApp", function (error, count) {
+redis.subscribe("neighbourApp:message", function (err, count) {
+});
 
+var connectionCounter = 0;
+
+redis.on('message', function (channel, message) {
+    message = JSON.parse(message);
+    console.log('get redis pub');
+    var newChannel = channel + ":" + message.data.type;
+    io.emit(newChannel, message.data.message);
 });
 
 io.on('connection', function (socket) {
-
-    redis.on('message', function(channel, data){
-        data = JSON.parse(data);
-        console.log(data.data);
-        console.log(data.data.type);
-        console.log(data.data.data.type);
-        console.log(data.data.data.data);
-
-        var newChannel = channel+":"+data.data.data.type;
-        console.log(newChannel);
-
-        io.emit(newChannel, data.data.data.data);
-    });
-
-    console.log('new connection');
+    console.log('new Connection')
+    connectionCounter++;
+    console.log(connectionCounter)
 
     socket.on('disconnect', function () {
-        console.log('disconnect')
+        console.log("disconnected")
+        connectionCounter--;
+        console.log(connectionCounter)
     })
 });
 
 
-server.listen(3000, function(){
+server.listen(3000, function () {
     console.log("Listening to *:3000");
 });

@@ -3,10 +3,13 @@
 var Vue = require('vue');
 var Router = require('vue-router');
 var Resource = require('vue-resource');
-window.toastr = require('toastr');
-window.moment = require('moment');
 Vue.use(Router);
 Vue.use(Resource);
+
+window.toastr = require('toastr');
+window.moment = require('moment');
+
+
 
 var router = new Router({
     history: true
@@ -37,8 +40,7 @@ Vue.mixin({
                     break;
                 case "getPublicShownFeeds":
                     uri = uri + "feeds/showPublic"
-                    break;
-                case "frontPage":
+;                case "frontPage":
                     uri = uri + "frontPage"
                     break;
                 case "userProfile":

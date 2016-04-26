@@ -2,10 +2,23 @@
 
 namespace App;
 
+use App\Events\NewMessageEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function($message)
+        {
+           
+        });
+    }
+
+
     protected $fillable = [
         'message', "conversation_id"
     ];

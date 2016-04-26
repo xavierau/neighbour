@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessageEvent;
 use App\Http\Requests;
-use app\Services\MessageServices;
+use App\Services\MessageServices;
 use Illuminate\Http\Request;
 
 
@@ -13,15 +14,31 @@ use Illuminate\Http\Request;
  */
 class ConversationsController extends Controller
 {
+    private $messageService;
+
+    /**
+     * ConversationsController constructor.
+     * @param $messageServices
+     */
+    public function __construct(Request $request)
+    {
+        $this->messageService = new MessageServices($request);
+    }
+
+
+    public function getAllConversations()
+    {
+        $conversations = $this->messageService->getAllConversationForAUser();
+        return response()->json(compact('conversations'));
+    }
     /**
      * @param \Illuminate\Http\Request $request
      * @return mixed
      */
-    public function newMessage(Request $request)
+    public function newMessage()
     {
-        $messageService = new MessageServices($request);
-        $message = $messageService->create();
-
+        $message = $this->messageService->create();
+        event(new NewMessageEvent($message));
         return response()->json(compact('message'));
 
     }
@@ -30,10 +47,9 @@ class ConversationsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return mixed
      */
-    public function getConversation(Request $request)
+    public function getConversation()
     {
-        $messageService = new MessageServices($request);
-        $conversation = $messageService->conversation;
+        $conversation = $this->messageService->getConversation();
 
         return response()->json(compact('conversation'));
     }
@@ -43,10 +59,9 @@ class ConversationsController extends Controller
      * @param                          $conversationId
      * @return mixed
      */
-    public function getAllMessage(Request $request, $conversationId)
+    public function getAllMessage($conversationId)
     {
-        $messageService = new MessageServices($request);
-        $messages = $messageService->getConversationMessages($conversationId);
+        $messages = $this->messageService->getConversationMessages($conversationId);
 
         return response()->json(compact('messages'));
 

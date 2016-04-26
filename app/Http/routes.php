@@ -16,7 +16,10 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    if(Auth::guest()){
+        return view('welcome');
+    }
+    return redirect("/app");
 });
 
 Route::group(['middleware' => 'auth'], function () {
