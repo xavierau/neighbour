@@ -10,6 +10,8 @@ namespace App\Services;
 
 use App\Conversation;
 use App\Events\NewMessageEvent;
+use App\Events\Notification;
+use App\Events\NotificationEvent;
 use App\Message;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -30,6 +32,10 @@ class MessageServices
      * @type \Illuminate\Http\Request
      */
     protected $request;
+    /**
+     * @type \App\Message
+     */
+    protected $message;
 
     /**
      * MessageServices constructor.
@@ -41,16 +47,16 @@ class MessageServices
     }
 
     /**
-     * @return Message
+     * @return Message message
      */
     public function create()
     {
         // get the conversation
         $this->getConversation();
         // create a new message for the conversation
-        $message = $this->addMessageToConversation();
+        $this->message = $this->addMessageToConversation();
         
-        return $message;
+        return $this->message;
     }
 
     /**
@@ -110,6 +116,18 @@ class MessageServices
             'message'         => $this->request->get('message'),
             'conversation_id' => $this->conversation->id
         ]);
+    }
+
+    public function notifyOtherUsers()
+    {
+        $users = $this->conversation->users->filter(function($user){
+            return $user->id != $this->request->user()->id;
+        });
+
+        foreach ($users as $user){
+            event(new NotificationEvent($this->message, $user->id, $this->request->user()->id));
+            event(new Notification($user));
+        }
     }
 
 

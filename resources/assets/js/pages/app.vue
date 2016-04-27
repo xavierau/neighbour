@@ -68,8 +68,9 @@
 </style>
 <template>
     <header-nav
-        :user="user"
-        :category-list="categoryList"
+            :user="user"
+            :category-list="categoryList"
+            :notifications="notifications"
     ></header-nav>
 
     <main-section :category-list="categoryList">
@@ -86,11 +87,29 @@
     export default{
         route: {
             data: function (transition) {
+                var requiredFetch = {
+                            categoryList: false,
+                            notifications: false
+                        },
+                        data = {
+                            categoryList: [],
+                            notifications: []
+                        };
+
                 var uri = this.getApi('categoryList');
                 this.$http.get(uri).then(function (response) {
-                    transition.next({
-                        categoryList : response.data
-                    });
+                    requiredFetch.categoryList = true;
+                    data.categoryList = response.data;
+                    if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
+                }, function () {
+                    transition.abort("cannot fetch category list.");
+                });
+
+                uri = this.getApi('notifications');
+                this.$http.get(uri).then(function (response) {
+                    requiredFetch.notifications = true;
+                    data.notifications = response.data.notifications;
+                    if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
                 }, function () {
                     transition.abort("cannot fetch category list.");
                 });
@@ -104,11 +123,12 @@
         data: function () {
             return {
                 user: this.$root.$data.user,
-                categoryList: []
+                categoryList: [],
+                notifications:[]
             }
         },
-        events:{
-            userHasBeenUpdated:function(newUser){
+        events: {
+            userHasBeenUpdated: function (newUser) {
                 this.$set('user', newUser);
             }
         }

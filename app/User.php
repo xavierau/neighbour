@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
+ * @property integer notificationsCount
  * @package App
  */
 class User extends Authenticatable
@@ -41,6 +42,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $appends =[
+        'notificationsCount'
+    ];
+
+    protected $casts =[
+        "has_notification"=>'boolean'
     ];
 
     /**
@@ -96,6 +105,20 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function myNotifications()
+    {
+        return Notification::orderBy("created_at","desc")->whereNotifiedUserId($this->id)->with('user')->get();
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function getNotificationsCountAttribute()
+    {
+        return Notification::whereIsNew(true)->whereNotifiedUserId($this->id)->count();
     }
     
 }

@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Feed extends Model
 {
+    use NotificationTrait;
+    
     protected $fillable = [
         'content','category_id','reply_to'
     ];

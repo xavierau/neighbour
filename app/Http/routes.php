@@ -65,6 +65,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('conversations/messages', 'ConversationsController@newMessage');
         Route::get('conversations/messages/{conversationId}', 'ConversationsController@getAllMessage');
 
+
+        Route::get('notifications', "NotificationsController@getNotifications");
+        Route::get('notifications/acknowledge', "NotificationsController@acknowledge");
+
         Route::get("users/search/username", "UsersController@searchByUserName");
 
         Route::get('urlPreview', function (\Illuminate\Http\Request $request) {

@@ -7,13 +7,17 @@ var redis = new Redis();
 
 redis.subscribe("neighbourApp:message", function (err, count) {
 });
+redis.subscribe("neighbourApp:notification", function (err, count) {
+});
 
 var connectionCounter = 0;
 
 redis.on('message', function (channel, message) {
     message = JSON.parse(message);
     console.log('get redis pub');
+    console.log(channel);
     var newChannel = channel + ":" + message.data.type;
+    console.log(newChannel);
     io.emit(newChannel, message.data.message);
 });
 

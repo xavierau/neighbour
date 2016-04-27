@@ -19,6 +19,16 @@ Vue.config.debug = true;
 
 Vue.mixin({
     methods: {
+        everyPairIsTrue:function(object){
+            var check = true;
+            for(var key in object){
+                if(object[key] == false) {
+                    check = false;
+                    break
+                }
+            }
+            return check;
+        },
         setRequestHeaders:function(){
             return {
                 headers:{
@@ -29,6 +39,12 @@ Vue.mixin({
         getApi: function (apiName) {
             var uri = "/api/";
             switch (apiName) {
+                case "acknowledgedNotifications":
+                    uri = uri + "notifications/acknowledge"
+                    break;
+                case "notifications":
+                    uri = uri + "notifications"
+                    break;
                 case "postFeed":
                     uri = uri + "feed"
                     break;

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Event;
+use App\Events\Notification;
+use App\Events\NotificationEvent;
 use App\Feed;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -30,7 +32,7 @@ class FeedsController extends Controller
 
     public function getFeeds(Request $request, $feedOption)
     {
-        if ($feedOption == "showPublic") {
+        if ($feedOption == "showPublicfrontPage") {
             $feeds = Feed::publicShown()
                 ->standardFetchSetting()
                 ->get();
@@ -81,6 +83,10 @@ class FeedsController extends Controller
             "category_id" => $feed->category->id
         ]);
         $replay->load('sender');
+        if($feed->sender->id != $request->user()->id){
+            event(new NotificationEvent($feed,$feed->sender->id, $request->user()->id));
+            event(new Notification($feed->sender));
+        }
 
         return response()->json(['comment' => $replay]);
     }

@@ -3,10 +3,12 @@
 namespace App;
 
 use App\Events\NewMessageEvent;
+use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
+    use NotificationTrait;
 
     public static function boot()
     {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewMessageEvent;
+use App\Events\Notification;
+use App\Events\NotificationEvent;
 use App\Http\Requests;
 use App\Services\MessageServices;
 use Illuminate\Http\Request;
@@ -39,6 +41,7 @@ class ConversationsController extends Controller
     {
         $message = $this->messageService->create();
         event(new NewMessageEvent($message));
+        $this->messageService->notifyOtherUsers();
         return response()->json(compact('message'));
 
     }
