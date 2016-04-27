@@ -9,12 +9,13 @@
 <template>
     <div :class="class">
         <a :href="senderLink" v-show="sender">{{sender}}</a>
-        {{calculateContent}}
+        <div v-html="content | summarize | marked"></div>
         <button v-show="showButton" class="showMoreButton unstyled" @click.prevent="showAll=true">...more
         </button>
     </div>
 </template>
 <script>
+    var marked = require('marked');
     export default{
         props:{
             sender:{
@@ -52,6 +53,15 @@
                 }
                 return this.content;
             }
+        },
+        filters:{
+            summarize: function(content){
+                if (content.length > this.maxChar && !this.showAll) {
+                    return content.substr(0, this.maxChar);
+                }
+                return content;
+            },
+            marked: marked
         }
 
     }

@@ -33,6 +33,11 @@ class Feed extends Model
         return $this->whereReplyTo($this->id)->count();
     }
 
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = nl2br($value);
+    }
+
     public function scopePublicShown($query)
     {
         return $query->whereHas("category", function($q){

@@ -22,11 +22,13 @@ Route::get('/', function () {
     return redirect("/app");
 });
 
+
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/app', function () {
         return view('app');
     });
-    Route::get('/app//events', function () {
+    Route::get('/app/events/{events?}', function () {
         return view('app');
     });
     
@@ -103,12 +105,7 @@ Route::get("facebook/register/callback", "Auth\\AuthController@handleFacebookSig
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/socket', function(){
-   return view('socket');
-});
-Route::get('/socket/new', function(){
-    event(new SocketTesting());
-});
+
 function getMetaTags($str)
 {
     $pattern = '

@@ -1,6 +1,6 @@
 <style></style>
 <template>
-    <div class="standard stream-container col-sm-8 col-md-7">
+    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
         <h1>{{event.name}}</h1>
         <table>
             <tbody>
@@ -31,6 +31,7 @@
             </tbody>
         </table>
         <button class="btn btn-info">Edit</button>
+        <button class="btn btn-info">Invite Others</button>
     </div>
 </template>
 
