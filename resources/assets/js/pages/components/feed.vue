@@ -35,6 +35,7 @@
         background: none;
         border: none;
     }
+
     button.unstyled:focus {
         outline: none;
     }
@@ -48,7 +49,7 @@
 
 </style>
 <template>
-    <component :is="isEvent" :feed="feed"></component>
+    <component :is="isEvent" :feed="feed" :user="user"></component>
 </template>
 
 <script>
@@ -60,6 +61,10 @@
             feed: {
                 type: Object,
                 required: true
+            },
+            user: {
+                type: Object,
+                required: true
             }
         },
         data: function () {
@@ -67,12 +72,12 @@
                 comments: []
             }
         },
-        computed:{
-          isEvent: function(){
-              return typeof this.feed.location != "undefined"?"EventFeed":"TextFeed";
-          }
+        computed: {
+            isEvent: function () {
+                return typeof this.feed.location != "undefined" ? "EventFeed" : "TextFeed";
+            }
         },
-        components:{
+        components: {
             TextFeed,
             EventFeed
         },

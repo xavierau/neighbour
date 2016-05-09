@@ -12,6 +12,12 @@
                 :sender-link="comment.avatarSrc"
                 :content="comment.content"
         ></content-container>
+        <button class="unstyled"
+                @click.prevent="deleteComment"
+                v-show="comment.sender.id == user.id"
+        ><i class="fa fa-trash" aria-hidden="true"></i>
+            Delete
+        </button>
     </div>
 </template>
 
@@ -22,10 +28,18 @@
             comment: {
                 type: Object,
                 required: true
+            },
+            user:{
+                type:Object
             }
         },
         components: {
             ContentContainer
+        },
+        methods:{
+            deleteComment: function () {
+                this.$dispatch("deleteCommentEvent", this.comment)
+            }
         }
     }
 </script>

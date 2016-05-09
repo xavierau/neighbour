@@ -45,11 +45,17 @@ Vue.mixin({
                 case "notifications":
                     uri = uri + "notifications"
                     break;
+                case "feed":
+                    uri = uri + "feed"
+                    break;
                 case "postFeed":
                     uri = uri + "feed"
                     break;
                 case "categoryList":
                     uri = uri + "categoryList"
+                    break;
+                case "selectCategoryList":
+                    uri = uri + "selectCategoryList"
                     break;
                 case "getFeeds":
                     uri = uri + "feeds"
@@ -89,6 +95,9 @@ Vue.mixin({
                 case "getFeedComments":
                     uri = uri + "feeds/comments"
                     break;
+                case "deleteComment":
+                    uri = uri + "feeds/feedId/comments/commentId"
+                    break;
             }
             return uri;
         }
@@ -124,6 +133,9 @@ router.map({
                 name: 'eventDetail',
                 component: require('./pages/eventDetail.vue')
             },
+            "/public":{
+                component: require('./pages/mainFeedPage.vue')
+            },
             "/:category":{
                 name: 'category',
                 component: require('./pages/categories.vue')
@@ -132,6 +144,8 @@ router.map({
     }
 }).redirect({
     '*': "/"
+}).afterEach(function () {
+    $('.collapse.in').collapse('hide');
 });
 
 var App = Vue.extend({

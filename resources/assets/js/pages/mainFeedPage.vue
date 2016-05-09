@@ -8,7 +8,9 @@
                     :category-list="categoryList"
             ></desktop-editor>
             <feed v-for="feed in stream"
-                  :feed="feed"></feed>
+                  :feed="feed"
+                  :user="user"
+            ></feed>
 
         </div>
         <create-event-modal
@@ -45,6 +47,9 @@
         props: {
             categoryList: {
                 type: Array
+            },
+            user:{
+                type:Object
             }
         },
         data: function () {
@@ -90,10 +95,27 @@
                     content: ""
                 };
                 this.$set('feed', defaultFeedObject);
-            }
-        },
-        events: {
-            commentFeed: function (feed, comment) {
+            },
+            deleteFeed: function(feed){
+                var uri = this.getApi("feed")+"/"+feed.id,
+                        data = null,
+                        headers = this.setRequestHeaders();
+                this.$http.delete(uri, data, headers).then(function (response) {
+                    this.stream.$remove(feed);
+                }.bind(this))
+            },
+            deleteComment: function(comment){
+                var uri = this.getApi("feed")+"/"+comment.id,
+                        data = null,
+                        headers = this.setRequestHeaders();
+                this.$http.delete(uri, data, headers).then(function (response) {
+                    this.stream.map(function(feed){
+                       if(feed.id == comment.reply_to)  feed.numberOfComment = feed.numberOfComment - 1
+                    });
+                    this.$broadcast("commentDeletedEvent", comment.reply_to,  comment);
+                }.bind(this))
+            },
+            newComment: function(feed, comment){
                 var uri = this.getApi("commentFeed"),
                         headers = this.setRequestHeaders(),
                         data = {
@@ -102,12 +124,22 @@
                         };
                 this.$http.post(uri, data, headers).then(
                         function (response) {
-                            console.log(response);
+                            this.stream.map(function(feed){
+                                if(feed.id == response.data.comment.reply_to)  feed.numberOfComment = feed.numberOfComment + 1
+                            });
                             this.$broadcast('updateComment', feed.id, response.data.comment)
                         },
                         function (response) {
                             conole.log(response);
                         })
+            }
+        },
+        events: {
+            commentFeed: function (feed, comment) {
+                this.newComment(feed, comment);
+            },
+            deleteCommentEvent:function(comment){
+                this.deleteComment(comment)
             },
             joinEvent: function (event) {
                 var uri = this.getApi("joinEvent"),
@@ -138,15 +170,20 @@
                 console.log("create new Event with newEvent Object store here")
             },
             updateFeed: function () {
-                var uri = this.getApi("postFeed"),
-                        headers = this.setRequestHeaders(),
-                        data = this.feed;
-                this.$http.post(uri, data, headers).then(
-                        this.postCreated,
-                        this.unableToCreatePost
-                );
+                if(this.feed.content.trim().length>0){
+                    var uri = this.getApi("postFeed"),
+                            headers = this.setRequestHeaders(),
+                            data = this.feed;
+                    this.$http.post(uri, data, headers).then(
+                            this.postCreated,
+                            this.unableToCreatePost
+                    );
+                }
             },
             fetchComments: function (feed) {
+            },
+            deleteFeed: function (feed) {
+                this.deleteFeed(feed)
             }
         }
     }

@@ -33,6 +33,14 @@
             </div>
 
             <div class="form-group">
+                <label for="canSelect">Can User select this category?</label>
+                <select name="canSelect" id="canSelect" class="form-control">
+                    <option value="0" >No</option>
+                    <option value="1" >Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <a href="/categories" class="btn btn-default">Back</a>
                 <input type="submit" class="btn btn-primary" value="Update">
             </div>

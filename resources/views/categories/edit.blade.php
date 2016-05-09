@@ -34,6 +34,14 @@
             </div>
 
             <div class="form-group">
+                <label for="canSelect">Can User select this category?</label>
+                <select name="canSelect" id="canSelect" class="form-control">
+                    <option value="0" @if($category->canSelect)selected @endif>No</option>
+                    <option value="1" @if($category->canSelect)selected @endif>Yes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
                 <a href="/categories" class="btn btn-default">Back</a>
                 <input type="submit" class="btn btn-primary" value="Update">
             </div>

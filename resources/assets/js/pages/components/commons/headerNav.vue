@@ -24,7 +24,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="default">
-                        <a v-link="{name:'conversation'}">Inbox</a>
+                        <a v-link="{name:'conversation'}">Direct Message</a>
                     </li>
                     <li class="default">
                         <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"

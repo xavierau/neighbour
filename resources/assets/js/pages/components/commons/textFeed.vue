@@ -28,6 +28,12 @@
                     <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
                         Share
                     </button>
+                    <button class="unstyled"
+                            @click.prevent="deleteFeed"
+                            v-show="feed.sender.id == user.id"
+                    ><i class="fa fa-trash" aria-hidden="true"></i>
+                        Delete
+                    </button>
                 </li>
             </ul>
         </div>
@@ -38,7 +44,7 @@
             </form>
         </div>
         <div class="comment" v-show="comments.length>0">
-            <comment-container v-for="comment in comments" :comment="comment"></comment-container>
+            <comment-container v-for="comment in comments" :user="user" :comment="comment"></comment-container>
         </div>
     </div>
 </template>
@@ -54,6 +60,10 @@
                 type: Object,
                 required: true
             },
+            user: {
+                type: Object,
+                required: true
+            }
         },
         data: function () {
             return {
@@ -72,11 +82,14 @@
             CommentContainer
         },
         methods: {
+            deleteFeed: function () {
+              this.$dispatch('deleteFeed', this.feed);
+            },
             commentFeed:function(){
-              this.$dispatch('commentFeed',this.feed, this.comment);
+                if(this.comment.trim().length>0)
+                    this.$dispatch('commentFeed',this.feed, this.comment);
             },
             clickShowComment: function () {
-//                this.$dispatch('fetchComments', this.feed)
                 var uri = this.getApi("getFeedComments"),
                         headers = this.setRequestHeaders(),
                         data = {
@@ -87,7 +100,7 @@
                             this.comments = response.data.comments;
                         },
                         function (response) {
-                            conole.log(response);
+                            console.log(response);
                         })
             },
             clickComment: function(){
@@ -105,11 +118,13 @@
                     this.comments.unshift(comment);
                     this.comment="";
                 }
-
             },
             pushCommentsCollections: function (feedId, comments) {
-                console.log('get teh event');
                 if (feedId == this.feed.id) this.comments = comments;
+            },
+            commentDeletedEvent: function(feedId, comment){
+                if(feedId == this.feed.id)
+                    this.comments.$remove(comment);
             }
         }
     }

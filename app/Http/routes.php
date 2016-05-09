@@ -46,9 +46,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("profile", "UsersController@getProfile");
         Route::post("profile", "UsersController@updateProfile");
         Route::post("feed", "FeedsController@postFeed");
+        Route::delete("feed/{id}", "FeedsController@deleteFeed");
+        Route::delete("feeds/{id}/comments/{commentId}", "FeedsController@deleteComment");
 
         Route::get("frontPage", "FrontPageController@index");
         Route::get("categoryList", "CategoriesController@getCategoryList");
+        Route::get("selectCategoryList", "CategoriesController@getSelectCategoryList");
         Route::post("categoryList", "CategoriesController@getCategoryList");
 
         Route::get('feeds/comments', "FeedsController@getFeedComments");

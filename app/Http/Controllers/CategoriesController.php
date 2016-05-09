@@ -19,6 +19,17 @@ class CategoriesController extends Controller
         }
     }
 
+    public function getSelectCategoryList(Request $request)
+    {
+        if ($request->wantsJson()) {
+            $list = Category::where("canSelect", true)
+                ->select("id", "name", "code")
+                ->get();
+
+            return response()->json($list);
+        }
+    }
+
     public function index()
     {
         $categories = Category::all();

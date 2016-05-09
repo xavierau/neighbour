@@ -26,7 +26,6 @@
         <div class="btn-group btn-group-sm btn-group-justified">
             <div class="btn-group" role="group">
                 <select name="type" class="form-control" v-model="category_id">
-                    <option value="1">Public</option>
                     <option v-for="category in categoryList" :value="category.id">{{category.name}}</option>
                 </select>
             </div>

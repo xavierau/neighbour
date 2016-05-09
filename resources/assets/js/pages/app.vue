@@ -76,7 +76,7 @@
     <main-section :category-list="categoryList">
         <router-view
                 :user="user"
-                :category-list="categoryList"
+                :category-list="selectCategoryList"
         ></router-view>
     </main-section>
 </template>
@@ -89,11 +89,13 @@
             data: function (transition) {
                 var requiredFetch = {
                             categoryList: false,
+                            selectCategoryList: false,
                             notifications: false
                         },
                         data = {
                             categoryList: [],
-                            notifications: []
+                            notifications: [],
+                            selectCategoryList:[]
                         };
 
                 var uri = this.getApi('categoryList');
@@ -114,6 +116,15 @@
                     transition.abort("cannot fetch category list.");
                 });
 
+                uri = this.getApi('selectCategoryList');
+                this.$http.get(uri).then(function (response) {
+                    requiredFetch.selectCategoryList = true;
+                    data.selectCategoryList = response.data;
+                    if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
+                }, function () {
+                    transition.abort("cannot fetch selected category list.");
+                });
+
             }
         },
         components: {
@@ -124,7 +135,8 @@
             return {
                 user: this.$root.$data.user,
                 categoryList: [],
-                notifications:[]
+                notifications:[],
+                selectCategoryList:[]
             }
         },
         events: {

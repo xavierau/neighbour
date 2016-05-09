@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Event;
+use App\Events\NewPostCreated;
 use App\Events\Notification;
 use App\Events\NotificationEvent;
 use App\Feed;
@@ -20,9 +21,11 @@ class FeedsController extends Controller
             $feedData = $request->all();
             $feedData["reply_to"] = 0;
             $feed = Auth::user()->feeds()->create($feedData);
+            
+            event(new NewPostCreated($feed));
+
             if ($feed->category->showInPublic) {
                 $feed->load("sender");
-
                 return response()->json(['status' => "okay", 'feed' => $feed]);
             }
 
@@ -32,7 +35,7 @@ class FeedsController extends Controller
 
     public function getFeeds(Request $request, $feedOption)
     {
-        if ($feedOption == "showPublicfrontPage") {
+        if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
             $feeds = Feed::publicShown()
                 ->standardFetchSetting()
                 ->get();
@@ -108,5 +111,19 @@ class FeedsController extends Controller
         });
 
         return $stream;
+    }
+
+    public function deleteFeed(Request $request, $feedId)
+    {
+        $feed = $request->user()->feeds()->find($feedId);
+        $feed->delete();
+        return response()->json('completed');
+    }
+
+    public function deleteComment(Request $request, $postId, $commentId)
+    {
+        $feed = $request->user()->feeds()->whereReplyTo($postId)->whereId($commentId)->first();
+        if($feed) $feed->delete();
+        return response()->json('completed');
     }
 }
