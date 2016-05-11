@@ -9,7 +9,9 @@ use App\Events\Notification;
 use App\Events\NotificationEvent;
 use App\Feed;
 use App\Http\Requests;
+use App\Services\MediaServices;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,15 +19,30 @@ class FeedsController extends Controller
 {
     public function postFeed(Request $request)
     {
+        $files = array_filter($request->all(), function($entry){
+            return $entry instanceof UploadedFile;
+        });
         if ($request->ajax()) {
             $feedData = $request->all();
             $feedData["reply_to"] = 0;
             $feed = Auth::user()->feeds()->create($feedData);
             
+            if(count($files)>0){
+                $mediaService = new MediaServices();
+                foreach ($files as $file){
+                    $link = $mediaService->storeFeedPhoto($file);
+                    $data =[
+                        'link'=>$link,
+                        'type'=>'image'
+                    ];
+                    $feed->media()->create([])->update($data);
+                }
+            }
+            
             event(new NewPostCreated($feed));
 
             if ($feed->category->showInPublic) {
-                $feed->load("sender");
+                $feed->load(["sender","media"]);
                 return response()->json(['status' => "okay", 'feed' => $feed]);
             }
 

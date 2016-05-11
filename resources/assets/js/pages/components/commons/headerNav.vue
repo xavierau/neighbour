@@ -18,7 +18,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" v-link="{name:'home'}">
-                    Neighbour
+                    Localhood
                 </a>
             </div>
             <div class="navbar-collapse collapse">

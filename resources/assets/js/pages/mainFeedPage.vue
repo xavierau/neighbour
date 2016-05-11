@@ -6,12 +6,15 @@
                     :content.sync="feed.content"
                     :category_id.sync="feed.category_id"
                     :category-list="categoryList"
+                    :photos="feed.photos"
+                    :firt-url="firstUrl"
+                    :has-preview-url="hasPreviewUrl"
+                    :url-preview="urlPreview"
             ></desktop-editor>
             <feed v-for="feed in stream"
                   :feed="feed"
                   :user="user"
             ></feed>
-
         </div>
         <create-event-modal
                 :new-event.sync="newEvent"
@@ -21,6 +24,10 @@
                 :category_id.sync="feed.category_id"
                 :category-list="categoryList"
         ></mobile-editor>
+        <image-carousel-modal
+                :images="carouselImages"
+                :active-item-index="activeItemIndex"
+        ></image-carousel-modal>
     </div>
 </template>
 
@@ -29,6 +36,9 @@
     import CreateEventModal from './components/commons/createEventModal.vue';
     import DesktopEditor from './components/desktopFeedEditor.vue';
     import MobileEditor from './components/commons/mobileEditor.vue';
+    import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
+
+    import methods from "./methods/MainFeedPage";
 
     export default{
         route: {
@@ -48,8 +58,8 @@
             categoryList: {
                 type: Array
             },
-            user:{
-                type:Object
+            user: {
+                type: Object
             }
         },
         data: function () {
@@ -57,7 +67,8 @@
                 stream: [],
                 feed: {
                     category_id: 1,
-                    content: ""
+                    content: "",
+                    photos: []
                 },
                 newEvent: {
                     name: "",
@@ -67,123 +78,68 @@
                     description: "",
                     pic: "",
                     isPublic: 0
-                }
+                },
+                firstUrl: "",
+                hasPreviewUrl: false,
+                urlPreview: {
+                    imageSrc: "",
+                    url: "",
+                    title: "",
+                    description: ""
+                },
+                carouselImages:[],
+                activeItemIndex:0
+            }
+        },
+        watch: {
+            "feed.content": function (value) {
+                this.checkAndParseUrl(value)
+            },
+            firstUrl: function (value) {
+                this.fetchUrlPreview(value)
             }
         },
         components: {
             Feed,
             CreateEventModal,
             DesktopEditor,
-            MobileEditor
+            MobileEditor,
+            ImageCarouselModal
         },
-        methods: {
-            postCreated: function (response) {
-                this.resetFeed();
-                if (response.data.hasOwnProperty('feed'))
-                    this.stream.unshift(response.data.feed);
-                this.$broadcast('updateFeedCompleted')
-            },
-            unableToCreatePost: function (response) {
-            },
-            showModal: function () {
-                var target = $("#myModal");
-                target.modal('show');
-            },
-            resetFeed: function () {
-                var defaultFeedObject = {
-                    category_id: 1,
-                    content: ""
-                };
-                this.$set('feed', defaultFeedObject);
-            },
-            deleteFeed: function(feed){
-                var uri = this.getApi("feed")+"/"+feed.id,
-                        data = null,
-                        headers = this.setRequestHeaders();
-                this.$http.delete(uri, data, headers).then(function (response) {
-                    this.stream.$remove(feed);
-                }.bind(this))
-            },
-            deleteComment: function(comment){
-                var uri = this.getApi("feed")+"/"+comment.id,
-                        data = null,
-                        headers = this.setRequestHeaders();
-                this.$http.delete(uri, data, headers).then(function (response) {
-                    this.stream.map(function(feed){
-                       if(feed.id == comment.reply_to)  feed.numberOfComment = feed.numberOfComment - 1
-                    });
-                    this.$broadcast("commentDeletedEvent", comment.reply_to,  comment);
-                }.bind(this))
-            },
-            newComment: function(feed, comment){
-                var uri = this.getApi("commentFeed"),
-                        headers = this.setRequestHeaders(),
-                        data = {
-                            feedId: feed.id,
-                            comment: comment
-                        };
-                this.$http.post(uri, data, headers).then(
-                        function (response) {
-                            this.stream.map(function(feed){
-                                if(feed.id == response.data.comment.reply_to)  feed.numberOfComment = feed.numberOfComment + 1
-                            });
-                            this.$broadcast('updateComment', feed.id, response.data.comment)
-                        },
-                        function (response) {
-                            conole.log(response);
-                        })
-            }
-        },
+        methods,
         events: {
+            removeTemUploadPhoto: function (photo) {
+                this.feed.photos.$remove(photo);
+            },
+            newFile: function (file, dataUrl) {
+                console.log(file)
+                this.feed.photos.push({file: file, url: dataUrl})
+            },
             commentFeed: function (feed, comment) {
                 this.newComment(feed, comment);
             },
-            deleteCommentEvent:function(comment){
+            deleteCommentEvent: function (comment) {
                 this.deleteComment(comment)
             },
             joinEvent: function (event) {
-                var uri = this.getApi("joinEvent"),
-                        headers = this.setRequestHeaders(),
-                        data = {eventId: event.id};
-                this.$http.post(uri, data, headers).then(
-                        function (response) {
-                            console.log(response);
-                            this.$broadcast('jointedEvent', response.data.eventId)
-                        },
-                        function (response) {
-                            conole.log(response);
-                        })
+                this.joinEvent(event)
             },
             showCreateEventModalEvent: function () {
                 this.showModal();
             },
             createNewEvent: function (data) {
-                var uri = this.getApi("createEvent"),
-                        headers = this.setRequestHeaders();
-                this.$http.post(uri, data, headers).then(function (response) {
-                    $("#myModal").modal('hide');
-                    toastr.success("Event Created!");
-                    console.log(response)
-                }, function (response) {
-                    console.log(response)
-                });
-                console.log("create new Event with newEvent Object store here")
+                this.createNewEvent(data);
             },
             updateFeed: function () {
-                if(this.feed.content.trim().length>0){
-                    var uri = this.getApi("postFeed"),
-                            headers = this.setRequestHeaders(),
-                            data = this.feed;
-                    this.$http.post(uri, data, headers).then(
-                            this.postCreated,
-                            this.unableToCreatePost
-                    );
-                }
+                this.updateFeed();
             },
             fetchComments: function (feed) {
             },
             deleteFeed: function (feed) {
                 this.deleteFeed(feed)
+            },
+            showLargerImage: function(images, selectedImageIndex){
+                this.showLargerImage(images, selectedImageIndex)
             }
         }
     }

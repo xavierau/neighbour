@@ -5,11 +5,21 @@
     button.showMoreButton{
         color: #3dbce9;
     }
+
+    .feed-img-container img{
+        max-height:394px;
+        margin-bottom:15px;
+    }
 </style>
 <template>
     <div :class="class">
         <a :href="senderLink" v-show="sender">{{sender}}</a>
         <div v-html="content | summarize | marked"></div>
+        <div class="feed-img-container" :class="{'first':$index==0,'more':$index>0}" v-for="photo in media">
+            <div :class="{'col-sm-12':$index==0,'col-sm-4':$index>0}">
+                <img :src="photo.link" alt="" class="img-responsive" @click.prevent="showLargerImage($index)">
+            </div>
+        </div>
         <button v-show="showButton" class="showMoreButton unstyled" @click.prevent="showAll=true">...more
         </button>
     </div>
@@ -29,6 +39,9 @@
             content:{
                 type: String,
                 required: true
+            },
+            media:{
+              type:Array
             },
             maxChar:{
                 type:Number,
@@ -62,7 +75,11 @@
                 return content;
             },
             marked: marked
+        },
+        methods:{
+            showLargerImage:function(index){
+                this.$dispatch("showLargerImage", this.media, index)
+            }
         }
-
     }
 </script>

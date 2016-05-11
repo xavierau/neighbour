@@ -8,7 +8,7 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <title>Neighbour</title>
+    <title>Localhood</title>
     <!-- BOOTSTRAP CORE CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- ION ICONS STYLES -->
@@ -43,7 +43,7 @@
             </button>
             <a class="navbar-brand" href="#">
 
-                Neighbour
+                Localhood
 
             </a>
         </div>

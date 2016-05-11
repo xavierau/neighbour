@@ -9,6 +9,7 @@ namespace App\Services;
 
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class MediaServices
 {
@@ -27,6 +28,18 @@ class MediaServices
     public function storeProfilePic(UploadedFile $file)
     {
         $path = public_path()."/".$this->basePath;
+        $extension = $file->getClientOriginalExtension();
+        $fileName = str_random(10).".".$extension;
+        $file->move($path, $fileName);
+        return '/'.$this->basePath."/".$fileName;
+    }
+
+    public function storeFeedPhoto(UploadedFile $file)
+    {
+        $this->basePath = 'media';
+        $path = public_path()."/".$this->basePath;
+        if(!Storage::disk('local')->exists($path))
+            Storage::makeDirectory($path);
         $extension = $file->getClientOriginalExtension();
         $fileName = str_random(10).".".$extension;
         $file->move($path, $fileName);

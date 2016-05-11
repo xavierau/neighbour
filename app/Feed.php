@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\RelationshipTraits\HasMedia;
 use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Feed extends Model
 {
-    use NotificationTrait;
+    use NotificationTrait, HasMedia;
     
     protected $fillable = [
         'content','category_id','reply_to'
@@ -48,7 +49,7 @@ class Feed extends Model
     {
         return $query->orderBy('created_at',"desc")
             ->where("reply_to",0)
-            ->with("sender")
+            ->with(["sender", "media"])
             ->take(15);
     }
     public function scopeFeedCategory($query, $categoryCode)

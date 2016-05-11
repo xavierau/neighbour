@@ -1,4 +1,25 @@
 <style>
+    .img-container div{
+        margin-bottom: 15px;
+    }
+    .img-container .img-controls{
+        display: none;
+        position: absolute;
+        font-size: 2em;
+        text-shadow: 2px 2px black;
+    }
+    .img-container div:hover .img-controls{
+        display: block;
+    }
+    .img-controls.fa-times{
+        color:rgba(255,255,255,0.7);
+        top:10px;
+        right:30px
+    }
+    .img-controls.fa-times:hover{
+        color:rgb(255,255,255);
+    }
+
 </style>
 <template>
     <div class="hidden-xs ">
@@ -22,6 +43,13 @@
                                 v-model="content"
                         ></textarea>
                     <url-preview :url-preview="urlPreview" v-show="hasPreviewUrl"></url-preview>
+                    <div class="img-container row" v-show="photos.length>0">
+                        <input type="file" style="display: none" name="file1" id="file1" @change="inputFileChange" accept="image/*" multiple>
+                        <div class="col-xs-6 col-sm-3" v-for="photo in photos">
+                            <img :src="photo.url" alt="" class="img-responsive">
+                            <i class="fa img-controls fa-times" aria-hidden="true" @click.prevent="removePhoto(photo)"></i>
+                        </div>
+                    </div>
                 </div>
                 <input
                         type="submit"
@@ -33,8 +61,8 @@
                         <option v-for="category in categoryList" :value="category.id">{{category.name}}</option>
                     </select>
                 </div>
+                <button class="btn btn-default" @click.prevent="showFileInput">Add Photo</button>
             </form>
-
         </div>
     </div>
 </template>
@@ -53,47 +81,45 @@
             },
             categoryList: {
                 type: Array
-            }
-        },
-        data: function () {
-            return {
-                firstUrl: "",
-                hasPreviewUrl: false,
-                urlPreview: {
-                    imageSrc: "",
-                    url: "",
-                    title: "",
-                    description: ""
-                }
+            },
+            photos:{
+                type:Array
+            },
+            firstUrl:{
+                type:String
+            },
+            hasPreviewUrl:{
+                type:Boolean
+            },
+            urlPreview:{
+                type:Object
             }
         },
         components: {
             UrlPreview
         },
-        watch: {
-            content: function (value) {
-                var textArray = value.split(" ");
-                console.log('this is text array', textArray);
-                var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-                textArray.map(function (item) {
-                    if (item.match(expression)) this.firstUrl = item;
-                }.bind(this));
-            },
-            firstUrl: function (value) {
-                console.log('parse url');
-                var data = {
-                    uri: value
-                };
-                this.$http.get("/api/urlPreview", data).then(function (response) {
-                    this.hasPreviewUrl = true;
-                    if (response.data.hasOwnProperty('og:image'))this.urlPreview.imageSrc = response.data['og:image'];
-                    if (response.data.hasOwnProperty('og:url'))this.urlPreview.url = response.data['og:url'];
-                    if (response.data.hasOwnProperty('og:title'))this.urlPreview.title = response.data['og:title'];
-                    if (response.data.hasOwnProperty('og:description'))this.urlPreview.description = response.data['og:description'];
-                })
-            }
-        },
         methods: {
+            removePhoto: function(photo){
+                this.$dispatch("removeTemUploadPhoto", photo)
+            },
+            showFileInput: function () {
+              document.querySelector("input[type='file']").click()
+            },
+            inputFileChange: function (e) {
+                var  self = this,
+                    files = e.target.files;
+                function readAndPreview(file){
+                    var reader = new FileReader();
+                    reader.addEventListener("load", function () {
+                        self.$dispatch('newFile', file, this.result)
+                    }, false);
+                    reader.readAsDataURL(file)
+                }
+                if(files){
+                    for(var key in files)
+                        readAndPreview(files[key]);
+                }
+            },
             clickUpdate: function () {
                 this.$dispatch('updateFeed')
             },

@@ -1,4 +1,5 @@
-<style></style>
+<style>
+</style>
 <template>
     <div class="feed-container">
         <div class="clearfix">
@@ -9,7 +10,7 @@
                     <small>{{feed.created_at | parseDateToHuman}}</small>
                 </p>
             </div>
-            <content-container :content="feed.content"></content-container>
+            <content-container :content="feed.content" :media="feed.media"></content-container>
             <button
                     class="pull-right unstyled"
                     v-show="feed.numberOfComment>0"

@@ -52436,7 +52436,7 @@ var App = Vue.extend({
 
 router.start(App, '#app');
 
-},{"./pages/app.vue":84,"./pages/categories.vue":85,"./pages/conversation.vue":100,"./pages/eventDetail.vue":101,"./pages/events.vue":102,"./pages/mainFeedPage.vue":103,"./pages/messages.vue":104,"./pages/userProfile.vue":105,"moment":35,"toastr":52,"vue":80,"vue-resource":68,"vue-router":79}],84:[function(require,module,exports){
+},{"./pages/app.vue":84,"./pages/categories.vue":85,"./pages/conversation.vue":102,"./pages/eventDetail.vue":103,"./pages/events.vue":104,"./pages/mainFeedPage.vue":105,"./pages/messages.vue":106,"./pages/userProfile.vue":108,"moment":35,"toastr":52,"vue":80,"vue-resource":68,"vue-router":79}],84:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.main-container {\n    position: relative;\n    top: 80px;\n}\n\ndiv.inputContainer {\n    background: white;\n    padding: 10px;\n}\n\ndiv.inputContainer select {\n    border-radius: 0;\n}\n\ndiv.inputContainer textarea {\n    border: none;\n    box-shadow: none;\n}\n\ndiv.inputContainer textarea:focus {\n    box-shadow: none;\n}\n\ndiv.inputContainer input[type='submit'] {\n    border-radius: 0;\n}\n\nul.unstyled.list-group li.list-group-item {\n    border: none;\n    border-radius: 0;\n    background-color: transparent;\n}\n\nul.unstyled.list-group li.list-group-item a {\n    color: black;\n}\n\nul.unstyled.list-group {\n    border: none;\n    color: black;\n}\n\ndiv.main-actions {\n    background-color: white;\n    color: grey;\n}\n\ndiv.main-actions div.active {\n    color: black;\n}\n\ndiv.mobile-input {\n    position: fixed;\n    bottom: 10px;\n    left: 0;\n    right: 0;\n    width: 90%;\n    margin: 0 auto;\n}\n\ndiv.mobile-input div.mobile-textarea {\n    width: 100%;\n    background-color: white;\n    color: black;\n    padding: 5px;\n}\n")
 'use strict';
 
@@ -52532,7 +52532,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/headerNav.vue":92,"./components/commons/mainSection.vue":93,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],85:[function(require,module,exports){
+},{"./components/commons/headerNav.vue":92,"./components/commons/mainSection.vue":95,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],85:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -52685,7 +52685,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/createEventModal.vue":88,"./components/commons/mobileEditor.vue":94,"./components/desktopFeedEditor.vue":98,"./components/feed.vue":99,"vue":80,"vue-hot-reload-api":54}],86:[function(require,module,exports){
+},{"./components/commons/createEventModal.vue":88,"./components/commons/mobileEditor.vue":96,"./components/desktopFeedEditor.vue":100,"./components/feed.vue":101,"vue":80,"vue-hot-reload-api":54}],86:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.comment-row{\n    margin-bottom: 15px;\n}\n")
 "use strict";
 
@@ -52736,7 +52736,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"./content.vue":87,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],87:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.comment-container{\n    margin-left: 50px;\n}\nbutton.showMoreButton{\n    color: #3dbce9;\n}\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.comment-container{\n    margin-left: 50px;\n}\nbutton.showMoreButton{\n    color: #3dbce9;\n}\n\n.feed-img-container img{\n    max-height:394px;\n    margin-bottom:15px;\n}\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52758,6 +52758,9 @@ exports.default = {
         content: {
             type: String,
             required: true
+        },
+        media: {
+            type: Array
         },
         maxChar: {
             type: Number,
@@ -52791,18 +52794,22 @@ exports.default = {
             return content;
         },
         marked: marked
+    },
+    methods: {
+        showLargerImage: function showLargerImage(index) {
+            this.$dispatch("showLargerImage", this.media, index);
+        }
     }
-
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"class\">\n    <a :href=\"senderLink\" v-show=\"sender\">{{sender}}</a>\n    <div v-html=\"content | summarize | marked\"></div>\n    <button v-show=\"showButton\" class=\"showMoreButton unstyled\" @click.prevent=\"showAll=true\">...more\n    </button>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div :class=\"class\">\n    <a :href=\"senderLink\" v-show=\"sender\">{{sender}}</a>\n    <div v-html=\"content | summarize | marked\"></div>\n    <div class=\"feed-img-container\" :class=\"{'first':$index==0,'more':$index>0}\" v-for=\"photo in media\">\n        <div :class=\"{'col-sm-12':$index==0,'col-sm-4':$index>0}\">\n            <img :src=\"photo.link\" alt=\"\" class=\"img-responsive\" @click.prevent=\"showLargerImage($index)\">\n        </div>\n    </div>\n    <button v-show=\"showButton\" class=\"showMoreButton unstyled\" @click.prevent=\"showAll=true\">...more\n    </button>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/content.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\ndiv.comment-container{\n    margin-left: 50px;\n}\nbutton.showMoreButton{\n    color: #3dbce9;\n}\n"] = false
+    require("vueify-insert-css").cache["\ndiv.comment-container{\n    margin-left: 50px;\n}\nbutton.showMoreButton{\n    color: #3dbce9;\n}\n\n.feed-img-container img{\n    max-height:394px;\n    margin-bottom:15px;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -53080,7 +53087,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"navbar navbar-inverse navbar-fixed-top scroll-me\" id=\"menu-section\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <a class=\"navbar-brand\" v-link=\"{name:'home'}\">\n                Neighbour\n            </a>\n        </div>\n        <div class=\"navbar-collapse collapse\">\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li class=\"default\">\n                    <a v-link=\"{name:'conversation'}\">Direct Message</a>\n                </li>\n                <li class=\"default\">\n                    <a id=\"notifications\" data-target=\"#\" href=\"\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" @click=\"getNotifications\">\n                        Notifications\n                        <span class=\"badge\" v-show=\"user.has_notification\">New</span>\n                    </a>\n\n                    <notifications my-class=\"dropdown-menu notifications\" aria-labelledby=\"notifications\" :notifications=\"notifications\"></notifications>\n                </li>\n                <li>\n                    <a id=\"profile\" data-target=\"#\" href=\"\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <img :src=\"user.avatar\" style=\"height:50px; width:50px; border-radius: 25px\" alt=\"\">\n                        {{ user.name }}\n                        <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"profile\">\n                        <li><a v-link=\"{name:'profile'}\">My Profile</a></li>\n                        <li><a @click.prevent=\"logout\">Logout</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"visible-xs\">\n                    <a href=\"\" v-link=\"{name:'events'}\">Events</a>\n                </li>\n                <li class=\"visible-xs\" v-for=\"category in categoryList\">\n                    <a href=\"\" v-link=\"{name:'category', params:{category:category.code}}\">{{category.name}}</a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"navbar navbar-inverse navbar-fixed-top scroll-me\" id=\"menu-section\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <a class=\"navbar-brand\" v-link=\"{name:'home'}\">\n                Localhood\n            </a>\n        </div>\n        <div class=\"navbar-collapse collapse\">\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li class=\"default\">\n                    <a v-link=\"{name:'conversation'}\">Direct Message</a>\n                </li>\n                <li class=\"default\">\n                    <a id=\"notifications\" data-target=\"#\" href=\"\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" @click=\"getNotifications\">\n                        Notifications\n                        <span class=\"badge\" v-show=\"user.has_notification\">New</span>\n                    </a>\n\n                    <notifications my-class=\"dropdown-menu notifications\" aria-labelledby=\"notifications\" :notifications=\"notifications\"></notifications>\n                </li>\n                <li>\n                    <a id=\"profile\" data-target=\"#\" href=\"\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n                        <img :src=\"user.avatar\" style=\"height:50px; width:50px; border-radius: 25px\" alt=\"\">\n                        {{ user.name }}\n                        <span class=\"caret\"></span>\n                    </a>\n\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"profile\">\n                        <li><a v-link=\"{name:'profile'}\">My Profile</a></li>\n                        <li><a @click.prevent=\"logout\">Logout</a></li>\n                    </ul>\n                </li>\n\n                <li class=\"visible-xs\">\n                    <a href=\"\" v-link=\"{name:'events'}\">Events</a>\n                </li>\n                <li class=\"visible-xs\" v-for=\"category in categoryList\">\n                    <a href=\"\" v-link=\"{name:'category', params:{category:category.code}}\">{{category.name}}</a>\n                </li>\n            </ul>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -53096,7 +53103,79 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./notification.vue":95,"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],93:[function(require,module,exports){
+},{"./notification.vue":97,"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],93:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: {
+        images: {
+            type: Array,
+            required: true
+        },
+        activeItemIndex: {
+            type: Number,
+            default: 0
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"image-carousel\" class=\"carousel slide\" data-ride=\"carousel\">\n    <!-- Indicators -->\n    <ol class=\"carousel-indicators\" v-show=\"images.length>1\">\n        <li data-target=\"#image-carousel\" data-slide-to=\"$index\" :class=\"{'active':$index==activeItemIndex}\" v-for=\"image in images\"></li>\n    </ol>\n\n    <!-- Wrapper for slides -->\n    <div class=\"carousel-inner\" role=\"listbox\">\n        <div class=\"item\" :class=\"{'active':$index==activeItemIndex}\" v-for=\"image in images\">\n            <img :src=\"image.link\" alt=\"\">\n        </div>\n    </div>\n\n    <!-- Controls -->\n    <a class=\"left carousel-control\" href=\"#image-carousel\" role=\"button\" data-slide=\"prev\" v-show=\"images.length>1\">\n        <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"right carousel-control\" href=\"#image-carousel\" role=\"button\" data-slide=\"next\" v-show=\"images.length>1\">\n        <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Next</span>\n    </a>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/imageCarousel.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":80,"vue-hot-reload-api":54}],94:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _imageCarousel = require('./imageCarousel.vue');
+
+var _imageCarousel2 = _interopRequireDefault(_imageCarousel);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    props: {
+        images: {
+            type: Array,
+            required: true
+        },
+        activeItemIndex: {
+            type: Number,
+            default: 0
+        }
+    },
+    components: {
+        ImageCarousel: _imageCarousel2.default
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Modal -->\n<div class=\"modal fade\" id=\"imageCarouselModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\">\n    <div class=\"modal-dialog modal-lg\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-body\">\n                <image-carousel :images=\"images\" :active-item-index=\"activeItemIndex\"></image-carousel>\n            </div>\n        </div>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/imageCarouselModal.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./imageCarousel.vue":93,"vue":80,"vue-hot-reload-api":54}],95:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.main.container{\n    position: relative;\n    top:80px;\n}\n\ndiv.left-side-menu {\n    position: fixed;\n    top:80px;\n    min-height: 300px;\n    background: rgba(255, 255, 255, 0.5);\n}\n\ndiv.left-side-menu li{\n    padding-left: 0;\n    padding-right: 0;\n}\n\n@media (max-width: 767px) {\n    div.stream-container {\n        margin-bottom: 90px;\n    }\n}\n\n")
 "use strict";
 
@@ -53127,7 +53206,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],94:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],96:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#mobileTextAreaInputGroupButton{\n    vertical-align: bottom;\n}\n#mobileSendButton{\n    border:none;\n}\n")
 'use strict';
 
@@ -53190,7 +53269,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"jquery":33,"jquery.autogrow-textarea":32,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],95:[function(require,module,exports){
+},{"jquery":33,"jquery.autogrow-textarea":32,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],97:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\nli.notification.new{\n    background-color: #02eac0;\n}\n")
 "use strict";
 
@@ -53240,7 +53319,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],96:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],98:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53328,19 +53408,23 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"feed-container\">\n    <div class=\"clearfix\">\n        <div class=\"feed-owner\">\n            <img class=\"avatar\" :src=\"feed.sender.avatar\" :alt=\"feed.sender\">\n            <p class=\"name\">{{feed.sender.name}}</p>\n            <p class=\"time\">\n                <small>{{feed.created_at | parseDateToHuman}}</small>\n            </p>\n        </div>\n        <content-container :content=\"feed.content\"></content-container>\n        <button class=\"pull-right unstyled\" v-show=\"feed.numberOfComment>0\" @click.prevent=\"clickShowComment\">{{feed.numberOfComment}} comments\n        </button>\n    </div>\n    <hr>\n    <div class=\"actions\">\n        <ul class=\"list-inline\">\n            <li>\n                <button class=\"unstyled\" @click.prevent=\"clickComment\"><i class=\"fa fa-comment-o\" aria-hidden=\"true\"></i>\n                    Comment\n                </button>\n            </li>\n            <li>\n                <button class=\"unstyled\"><i class=\"fa fa-share-alt\" aria-hidden=\"true\"></i>\n                    Share\n                </button>\n                <button class=\"unstyled\" @click.prevent=\"deleteFeed\" v-show=\"feed.sender.id == user.id\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                    Delete\n                </button>\n            </li>\n        </ul>\n    </div>\n    <div v-show=\"wantToCommentFeed\">\n        <form @submit.prevent=\"commentFeed\">\n            <textarea name=\"comment\" id=\"comment\" rows=\"1\" class=\"form-control\" v-model=\"comment\"></textarea>\n            <button class=\"btn default btn-block btn-xs\">Comment</button>\n        </form>\n    </div>\n    <div class=\"comment\" v-show=\"comments.length>0\">\n        <comment-container v-for=\"comment in comments\" :user=\"user\" :comment=\"comment\"></comment-container>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"feed-container\">\n    <div class=\"clearfix\">\n        <div class=\"feed-owner\">\n            <img class=\"avatar\" :src=\"feed.sender.avatar\" :alt=\"feed.sender\">\n            <p class=\"name\">{{feed.sender.name}}</p>\n            <p class=\"time\">\n                <small>{{feed.created_at | parseDateToHuman}}</small>\n            </p>\n        </div>\n        <content-container :content=\"feed.content\" :media=\"feed.media\"></content-container>\n        <button class=\"pull-right unstyled\" v-show=\"feed.numberOfComment>0\" @click.prevent=\"clickShowComment\">{{feed.numberOfComment}} comments\n        </button>\n    </div>\n    <hr>\n    <div class=\"actions\">\n        <ul class=\"list-inline\">\n            <li>\n                <button class=\"unstyled\" @click.prevent=\"clickComment\"><i class=\"fa fa-comment-o\" aria-hidden=\"true\"></i>\n                    Comment\n                </button>\n            </li>\n            <li>\n                <button class=\"unstyled\"><i class=\"fa fa-share-alt\" aria-hidden=\"true\"></i>\n                    Share\n                </button>\n                <button class=\"unstyled\" @click.prevent=\"deleteFeed\" v-show=\"feed.sender.id == user.id\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\n                    Delete\n                </button>\n            </li>\n        </ul>\n    </div>\n    <div v-show=\"wantToCommentFeed\">\n        <form @submit.prevent=\"commentFeed\">\n            <textarea name=\"comment\" id=\"comment\" rows=\"1\" class=\"form-control\" v-model=\"comment\"></textarea>\n            <button class=\"btn default btn-block btn-xs\">Comment</button>\n        </form>\n    </div>\n    <div class=\"comment\" v-show=\"comments.length>0\">\n        <comment-container v-for=\"comment in comments\" :user=\"user\" :comment=\"comment\"></comment-container>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/textFeed.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./comment.vue":86,"./content.vue":87,"vue":80,"vue-hot-reload-api":54}],97:[function(require,module,exports){
+},{"./comment.vue":86,"./content.vue":87,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],99:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n\ndiv.urlPreviewContainer {\n    max-height: 150px;\n    color:black;\n}\n\ndiv.urlPreviewContainer div.urlPreviewTitle {\n    font-size: 16px;\n    margin-top: 0;\n}\n\ndiv.urlPreviewContainer div.urlPreviewDescription {\n    font-size: 10px;\n}\n")
 "use strict";
 
@@ -53371,8 +53455,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],98:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n")
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],100:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.img-container div{\n    margin-bottom: 15px;\n}\n.img-container .img-controls{\n    display: none;\n    position: absolute;\n    font-size: 2em;\n    text-shadow: 2px 2px black;\n}\n.img-container div:hover .img-controls{\n    display: block;\n}\n.img-controls.fa-times{\n    color:rgba(255,255,255,0.7);\n    top:10px;\n    right:30px\n}\n.img-controls.fa-times:hover{\n    color:rgb(255,255,255);\n}\n\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53397,47 +53481,46 @@ exports.default = {
         },
         categoryList: {
             type: Array
+        },
+        photos: {
+            type: Array
+        },
+        firstUrl: {
+            type: String
+        },
+        hasPreviewUrl: {
+            type: Boolean
+        },
+        urlPreview: {
+            type: Object
         }
-    },
-    data: function data() {
-        return {
-            firstUrl: "",
-            hasPreviewUrl: false,
-            urlPreview: {
-                imageSrc: "",
-                url: "",
-                title: "",
-                description: ""
-            }
-        };
     },
     components: {
         UrlPreview: _urlPrviewContainer2.default
     },
-    watch: {
-        content: function content(value) {
-            var textArray = value.split(" ");
-            console.log('this is text array', textArray);
-            var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-            textArray.map(function (item) {
-                if (item.match(expression)) this.firstUrl = item;
-            }.bind(this));
-        },
-        firstUrl: function firstUrl(value) {
-            console.log('parse url');
-            var data = {
-                uri: value
-            };
-            this.$http.get("/api/urlPreview", data).then(function (response) {
-                this.hasPreviewUrl = true;
-                if (response.data.hasOwnProperty('og:image')) this.urlPreview.imageSrc = response.data['og:image'];
-                if (response.data.hasOwnProperty('og:url')) this.urlPreview.url = response.data['og:url'];
-                if (response.data.hasOwnProperty('og:title')) this.urlPreview.title = response.data['og:title'];
-                if (response.data.hasOwnProperty('og:description')) this.urlPreview.description = response.data['og:description'];
-            });
-        }
-    },
     methods: {
+        removePhoto: function removePhoto(photo) {
+            this.$dispatch("removeTemUploadPhoto", photo);
+        },
+        showFileInput: function showFileInput() {
+            document.querySelector("input[type='file']").click();
+        },
+        inputFileChange: function inputFileChange(e) {
+            var self = this,
+                files = e.target.files;
+            function readAndPreview(file) {
+                var reader = new FileReader();
+                reader.addEventListener("load", function () {
+                    self.$dispatch('newFile', file, this.result);
+                }, false);
+                reader.readAsDataURL(file);
+            }
+            if (files) {
+                for (var key in files) {
+                    readAndPreview(files[key]);
+                }
+            }
+        },
         clickUpdate: function clickUpdate() {
             this.$dispatch('updateFeed');
         },
@@ -53447,14 +53530,14 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"hidden-xs \">\n    <div class=\" main-actions\">\n        <div class=\"col-xs-6 active\">\n            <p class=\"text-center\">Feed</p>\n        </div>\n        <div class=\"col-xs-6\">\n            <p class=\"text-center\" @click.prevent=\"showCreateEventModal\">Create Event</p>\n        </div>\n    </div>\n    <div class=\"clearfix inputContainer\">\n        <form action=\"\" class=\"form\">\n            <div class=\"form-group clearfix\">\n                    <textarea name=\"replay\" class=\"form-control\" id=\"\" cols=\"30\" rows=\"3\" v-model=\"content\"></textarea>\n                <url-preview :url-preview=\"urlPreview\" v-show=\"hasPreviewUrl\"></url-preview>\n            </div>\n            <input type=\"submit\" class=\"btn btn-default pull-right\" value=\"Update\" @click.prevent=\"clickUpdate\">\n            <div class=\"col-xs-3 pull-right\">\n                <select name=\"type\" class=\"form-control\" v-model=\"category_id\">\n                    <option v-for=\"category in categoryList\" :value=\"category.id\">{{category.name}}</option>\n                </select>\n            </div>\n        </form>\n\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"hidden-xs \">\n    <div class=\" main-actions\">\n        <div class=\"col-xs-6 active\">\n            <p class=\"text-center\">Feed</p>\n        </div>\n        <div class=\"col-xs-6\">\n            <p class=\"text-center\" @click.prevent=\"showCreateEventModal\">Create Event</p>\n        </div>\n    </div>\n    <div class=\"clearfix inputContainer\">\n        <form action=\"\" class=\"form\">\n            <div class=\"form-group clearfix\">\n                    <textarea name=\"replay\" class=\"form-control\" id=\"\" cols=\"30\" rows=\"3\" v-model=\"content\"></textarea>\n                <url-preview :url-preview=\"urlPreview\" v-show=\"hasPreviewUrl\"></url-preview>\n                <div class=\"img-container row\" v-show=\"photos.length>0\">\n                    <input type=\"file\" style=\"display: none\" name=\"file1\" id=\"file1\" @change=\"inputFileChange\" accept=\"image/*\" multiple=\"\">\n                    <div class=\"col-xs-6 col-sm-3\" v-for=\"photo in photos\">\n                        <img :src=\"photo.url\" alt=\"\" class=\"img-responsive\">\n                        <i class=\"fa img-controls fa-times\" aria-hidden=\"true\" @click.prevent=\"removePhoto(photo)\"></i>\n                    </div>\n                </div>\n            </div>\n            <input type=\"submit\" class=\"btn btn-default pull-right\" value=\"Update\" @click.prevent=\"clickUpdate\">\n            <div class=\"col-xs-3 pull-right\">\n                <select name=\"type\" class=\"form-control\" v-model=\"category_id\">\n                    <option v-for=\"category in categoryList\" :value=\"category.id\">{{category.name}}</option>\n                </select>\n            </div>\n            <button class=\"btn btn-default\" @click.prevent=\"showFileInput\">Add Photo</button>\n        </form>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/desktopFeedEditor.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n"] = false
+    require("vueify-insert-css").cache["\n.img-container div{\n    margin-bottom: 15px;\n}\n.img-container .img-controls{\n    display: none;\n    position: absolute;\n    font-size: 2em;\n    text-shadow: 2px 2px black;\n}\n.img-container div:hover .img-controls{\n    display: block;\n}\n.img-controls.fa-times{\n    color:rgba(255,255,255,0.7);\n    top:10px;\n    right:30px\n}\n.img-controls.fa-times:hover{\n    color:rgb(255,255,255);\n}\n\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -53463,7 +53546,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./commons/urlPrviewContainer.vue":97,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],99:[function(require,module,exports){
+},{"./commons/urlPrviewContainer.vue":99,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],101:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.feed-container {\n    padding: 10px;\n    background-color: white;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: black\n}\n\ndiv.feed-container img.avatar {\n    height: 30px;\n    width: 30px;\n    border-radius: 15px;\n    display: inline-block\n}\n\ndiv.feed-container hr {\n    margin-top: 10px;\n    margin-bottom: 5px;\n}\n\ndiv.feed-owner {\n    margin-bottom: 5px;\n}\n\ndiv.feed-owner p.name {\n    display: inline-block\n}\n\ndiv.actions ul {\n    margin-bottom: 0;\n}\n\nbutton.unstyled {\n    background: none;\n    border: none;\n}\n\nbutton.unstyled:focus {\n    outline: none;\n}\n\ndiv.feed-container div.comment {\n    margin: -10px;\n    margin-top: 15px;\n    background-color: #dedede;\n    padding: 20px;\n}\n\n")
 'use strict';
 
@@ -53540,7 +53623,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./commons/eventFeed.vue":91,"./commons/textFeed.vue":96,"moment":35,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],100:[function(require,module,exports){
+},{"./commons/eventFeed.vue":91,"./commons/textFeed.vue":98,"moment":35,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],102:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\nli.conversation {\n    margin-bottom: 15px;\n}\n\nimg.avatar {\n    width: 60px;\n    height: 60px;\n    border-radius: 30px;\n}\nul.searchResult{\n    max-height: 150px;\n    background-color: rgba(255, 255, 255, 0.4);\n    overflow: scroll;\n}\nul.searchResult img{\n    display: inline-block;\n    height: 30px;\n    width: 30px;\n    border-radius: 15px;\n}\n")
 "use strict";
 
@@ -53609,7 +53692,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],101:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],103:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53651,7 +53734,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54}],102:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54}],104:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.eventContainer {\n    border: 1px solid grey;\n}\n\n.row .eventContainer:first-child {\n    margin-left: 15px\n}\n")
 'use strict';
 
@@ -53708,7 +53791,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/eventContainer.vue":89,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],103:[function(require,module,exports){
+},{"./components/commons/eventContainer.vue":89,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],105:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53730,6 +53813,14 @@ var _desktopFeedEditor2 = _interopRequireDefault(_desktopFeedEditor);
 var _mobileEditor = require('./components/commons/mobileEditor.vue');
 
 var _mobileEditor2 = _interopRequireDefault(_mobileEditor);
+
+var _imageCarouselModal = require('./components/commons/imageCarouselModal.vue');
+
+var _imageCarouselModal2 = _interopRequireDefault(_imageCarouselModal);
+
+var _MainFeedPage = require('./methods/MainFeedPage');
+
+var _MainFeedPage2 = _interopRequireDefault(_MainFeedPage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53760,7 +53851,8 @@ exports.default = {
             stream: [],
             feed: {
                 category_id: 1,
-                content: ""
+                content: "",
+                photos: []
             },
             newEvent: {
                 name: "",
@@ -53770,70 +53862,43 @@ exports.default = {
                 description: "",
                 pic: "",
                 isPublic: 0
-            }
+            },
+            firstUrl: "",
+            hasPreviewUrl: false,
+            urlPreview: {
+                imageSrc: "",
+                url: "",
+                title: "",
+                description: ""
+            },
+            carouselImages: [],
+            activeItemIndex: 0
         };
+    },
+    watch: {
+        "feed.content": function feedContent(value) {
+            this.checkAndParseUrl(value);
+        },
+        firstUrl: function firstUrl(value) {
+            this.fetchUrlPreview(value);
+        }
     },
     components: {
         Feed: _feed2.default,
         CreateEventModal: _createEventModal2.default,
         DesktopEditor: _desktopFeedEditor2.default,
-        MobileEditor: _mobileEditor2.default
+        MobileEditor: _mobileEditor2.default,
+        ImageCarouselModal: _imageCarouselModal2.default
     },
-    methods: {
-        postCreated: function postCreated(response) {
-            this.resetFeed();
-            if (response.data.hasOwnProperty('feed')) this.stream.unshift(response.data.feed);
-            this.$broadcast('updateFeedCompleted');
-        },
-        unableToCreatePost: function unableToCreatePost(response) {},
-        showModal: function showModal() {
-            var target = $("#myModal");
-            target.modal('show');
-        },
-        resetFeed: function resetFeed() {
-            var defaultFeedObject = {
-                category_id: 1,
-                content: ""
-            };
-            this.$set('feed', defaultFeedObject);
-        },
-        deleteFeed: function deleteFeed(feed) {
-            var uri = this.getApi("feed") + "/" + feed.id,
-                data = null,
-                headers = this.setRequestHeaders();
-            this.$http.delete(uri, data, headers).then(function (response) {
-                this.stream.$remove(feed);
-            }.bind(this));
-        },
-        deleteComment: function deleteComment(comment) {
-            var uri = this.getApi("feed") + "/" + comment.id,
-                data = null,
-                headers = this.setRequestHeaders();
-            this.$http.delete(uri, data, headers).then(function (response) {
-                this.stream.map(function (feed) {
-                    if (feed.id == comment.reply_to) feed.numberOfComment = feed.numberOfComment - 1;
-                });
-                this.$broadcast("commentDeletedEvent", comment.reply_to, comment);
-            }.bind(this));
-        },
-        newComment: function newComment(feed, comment) {
-            var uri = this.getApi("commentFeed"),
-                headers = this.setRequestHeaders(),
-                data = {
-                feedId: feed.id,
-                comment: comment
-            };
-            this.$http.post(uri, data, headers).then(function (response) {
-                this.stream.map(function (feed) {
-                    if (feed.id == response.data.comment.reply_to) feed.numberOfComment = feed.numberOfComment + 1;
-                });
-                this.$broadcast('updateComment', feed.id, response.data.comment);
-            }, function (response) {
-                conole.log(response);
-            });
-        }
-    },
+    methods: _MainFeedPage2.default,
     events: {
+        removeTemUploadPhoto: function removeTemUploadPhoto(photo) {
+            this.feed.photos.$remove(photo);
+        },
+        newFile: function newFile(file, dataUrl) {
+            console.log(file);
+            this.feed.photos.push({ file: file, url: dataUrl });
+        },
         commentFeed: function commentFeed(feed, comment) {
             this.newComment(feed, comment);
         },
@@ -53841,47 +53906,28 @@ exports.default = {
             this.deleteComment(comment);
         },
         joinEvent: function joinEvent(event) {
-            var uri = this.getApi("joinEvent"),
-                headers = this.setRequestHeaders(),
-                data = { eventId: event.id };
-            this.$http.post(uri, data, headers).then(function (response) {
-                console.log(response);
-                this.$broadcast('jointedEvent', response.data.eventId);
-            }, function (response) {
-                conole.log(response);
-            });
+            this.joinEvent(event);
         },
         showCreateEventModalEvent: function showCreateEventModalEvent() {
             this.showModal();
         },
         createNewEvent: function createNewEvent(data) {
-            var uri = this.getApi("createEvent"),
-                headers = this.setRequestHeaders();
-            this.$http.post(uri, data, headers).then(function (response) {
-                $("#myModal").modal('hide');
-                toastr.success("Event Created!");
-                console.log(response);
-            }, function (response) {
-                console.log(response);
-            });
-            console.log("create new Event with newEvent Object store here");
+            this.createNewEvent(data);
         },
         updateFeed: function updateFeed() {
-            if (this.feed.content.trim().length > 0) {
-                var uri = this.getApi("postFeed"),
-                    headers = this.setRequestHeaders(),
-                    data = this.feed;
-                this.$http.post(uri, data, headers).then(this.postCreated, this.unableToCreatePost);
-            }
+            this.updateFeed();
         },
         fetchComments: function fetchComments(feed) {},
         deleteFeed: function deleteFeed(feed) {
             this.deleteFeed(feed);
+        },
+        showLargerImage: function showLargerImage(images, selectedImageIndex) {
+            this.showLargerImage(images, selectedImageIndex);
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <div class=\"col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7\">\n        <desktop-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\"></desktop-editor>\n        <feed v-for=\"feed in stream\" :feed=\"feed\" :user=\"user\"></feed>\n\n    </div>\n    <create-event-modal :new-event.sync=\"newEvent\"></create-event-modal>\n    <mobile-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\"></mobile-editor>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <div class=\"col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7\">\n        <desktop-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\" :photos=\"feed.photos\" :firt-url=\"firstUrl\" :has-preview-url=\"hasPreviewUrl\" :url-preview=\"urlPreview\"></desktop-editor>\n        <feed v-for=\"feed in stream\" :feed=\"feed\" :user=\"user\"></feed>\n    </div>\n    <create-event-modal :new-event.sync=\"newEvent\"></create-event-modal>\n    <mobile-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\"></mobile-editor>\n    <image-carousel-modal :images=\"carouselImages\" :active-item-index=\"activeItemIndex\"></image-carousel-modal>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -53893,7 +53939,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/createEventModal.vue":88,"./components/commons/mobileEditor.vue":94,"./components/desktopFeedEditor.vue":98,"./components/feed.vue":99,"vue":80,"vue-hot-reload-api":54}],104:[function(require,module,exports){
+},{"./components/commons/createEventModal.vue":88,"./components/commons/imageCarouselModal.vue":94,"./components/commons/mobileEditor.vue":96,"./components/desktopFeedEditor.vue":100,"./components/feed.vue":101,"./methods/MainFeedPage":107,"vue":80,"vue-hot-reload-api":54}],106:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.standard.stream-container {\n    margin-top: 15px;\n}\n\ndiv.messageContainer div.message {\n    display: inline-block;\n    padding: 10px;\n    border-radius: 5px;\n    margin-bottom: 10px;\n    background: rgba(255, 255, 255, 0.8);\n}\n\ndiv.messageContainer.myMessage div.message {\n    text-align: right;\n    background: rgba(34, 255, 46, 0.8);\n}\n\ndiv.messagesContainer.row {\n    margin-top: 15px;\n}\n\n")
 "use strict";
 
@@ -53979,7 +54025,145 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],105:[function(require,module,exports){
+},{"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],107:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * Created by Xavier on 11/5/2016.
+ */
+var methods = {
+    postCreated: function postCreated(response) {
+        this.resetFeed();
+        if (response.data.hasOwnProperty('feed')) this.stream.unshift(response.data.feed);
+        this.$broadcast('updateFeedCompleted');
+    },
+    unableToCreatePost: function unableToCreatePost(response) {},
+    showModal: function showModal() {
+        var target = $("#myModal");
+        target.modal('show');
+    },
+    resetFeed: function resetFeed() {
+        var defaultFeedObject = {
+            category_id: 1,
+            content: "",
+            photos: []
+        };
+        this.$set('feed', defaultFeedObject);
+        this.firstUrl = "";
+        this.hasPreviewUrl = false;
+        this.urlPreview = {
+            imageSrc: "",
+            url: "",
+            title: "",
+            description: ""
+        };
+    },
+    deleteFeed: function deleteFeed(feed) {
+        var uri = this.getApi("feed") + "/" + feed.id,
+            data = null,
+            headers = this.setRequestHeaders();
+        this.$http.delete(uri, data, headers).then(function (response) {
+            this.stream.$remove(feed);
+        }.bind(this));
+    },
+    deleteComment: function deleteComment(comment) {
+        var uri = this.getApi("feed") + "/" + comment.id,
+            data = null,
+            headers = this.setRequestHeaders();
+        this.$http.delete(uri, data, headers).then(function (response) {
+            this.stream.map(function (feed) {
+                if (feed.id == comment.reply_to) feed.numberOfComment = feed.numberOfComment - 1;
+            });
+            this.$broadcast("commentDeletedEvent", comment.reply_to, comment);
+        }.bind(this));
+    },
+    newComment: function newComment(feed, comment) {
+        var uri = this.getApi("commentFeed"),
+            headers = this.setRequestHeaders(),
+            data = {
+            feedId: feed.id,
+            comment: comment
+        };
+        this.$http.post(uri, data, headers).then(function (response) {
+            this.stream.map(function (feed) {
+                if (feed.id == response.data.comment.reply_to) feed.numberOfComment = feed.numberOfComment + 1;
+            });
+            this.$broadcast('updateComment', feed.id, response.data.comment);
+        }, function (response) {
+            conole.log(response);
+        });
+    },
+    joinEvent: function joinEvent() {
+        var uri = this.getApi("joinEvent"),
+            headers = this.setRequestHeaders(),
+            data = { eventId: event.id };
+        this.$http.post(uri, data, headers).then(function (response) {
+            console.log(response);
+            this.$broadcast('jointedEvent', response.data.eventId);
+        }, function (response) {
+            conole.log(response);
+        });
+    },
+    createNewEvent: function createNewEvent(data) {
+        var uri = this.getApi("createEvent"),
+            headers = this.setRequestHeaders();
+        this.$http.post(uri, data, headers).then(function (response) {
+            $("#myModal").modal('hide');
+            toastr.success("Event Created!");
+            console.log(response);
+        }, function (response) {
+            console.log(response);
+        });
+        console.log("create new Event with newEvent Object store here");
+    },
+    updateFeed: function updateFeed() {
+        if (this.feed.content.trim().length > 0) {
+            var formData = new FormData();
+            formData.append('category_id', this.feed.category_id);
+            formData.append('content', this.feed.content);
+            if (this.feed.photos.length > 0) this.feed.photos.map(function (photo, index) {
+                formData.append('photo' + index, photo.file);
+            });
+            var uri = this.getApi("postFeed"),
+                headers = this.setRequestHeaders(),
+                data = formData;
+            this.$http.post(uri, data, headers).then(this.postCreated, this.unableToCreatePost);
+        }
+    },
+    checkAndParseUrl: function checkAndParseUrl(value) {
+        var textArray = value.split(" ");
+        console.log('this is text array', textArray);
+        var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+        textArray.map(function (item) {
+            if (item.match(expression)) this.firstUrl = item;
+        }.bind(this));
+    },
+    fetchUrlPreview: function fetchUrlPreview(value) {
+        console.log('parse url');
+        var data = {
+            uri: value
+        };
+        this.$http.get("/api/urlPreview", data).then(function (response) {
+            this.hasPreviewUrl = true;
+            if (response.data.hasOwnProperty('og:image')) this.urlPreview.imageSrc = response.data['og:image'];
+            if (response.data.hasOwnProperty('og:url')) this.urlPreview.url = response.data['og:url'];
+            if (response.data.hasOwnProperty('og:title')) this.urlPreview.title = response.data['og:title'];
+            if (response.data.hasOwnProperty('og:description')) this.urlPreview.description = response.data['og:description'];
+        });
+    },
+    showLargerImage: function showLargerImage(images, selectedImageIndex) {
+        this.$set("carouselImages", images);
+        this.$set("activeItemIndex", selectedImageIndex);
+        $('#imageCarouselModal').modal('show');
+    }
+};
+
+exports.default = methods;
+
+},{}],108:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#profilePic {\n    height: 120px;\n    width: 120px;\n    border-radius: 60px;\n    margin-bottom: 15px;\n}\n\n.standard.stream-container {\n    margin-top: 15px;\n}\n")
 "use strict";
 
