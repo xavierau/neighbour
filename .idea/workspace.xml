@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f800e0a4-1662-4575-960c-49ed71a34269" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Jobs/EmailNotification.php" afterPath="$PROJECT_DIR$/app/Jobs/EmailNotification.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php" />
     </list>
     <ignored path="Neighbour.iws" />
@@ -37,7 +36,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EmailNotification.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="EmailNotification.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="920">
@@ -47,11 +46,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NewPostNotification.blade.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="NewPostNotification.blade.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="138">
-                  <caret line="6" column="102" selection-start-line="6" selection-start-column="102" selection-end-line="6" selection-end-column="102" />
+                <state relative-caret-position="207">
+                  <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
                   <folding />
                 </state>
               </provider>
@@ -64,29 +63,31 @@
           <file leaf-file-name="EmailNotification.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="594">
-                  <caret line="39" column="76" selection-start-line="39" selection-start-column="76" selection-end-line="39" selection-end-column="76" />
+                <state relative-caret-position="686">
+                  <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name=".env" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/.env">
+          <file leaf-file-name="helpers.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="736">
-                  <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+                <state relative-caret-position="405">
+                  <caret line="522" column="0" selection-start-line="522" selection-start-column="0" selection-end-line="522" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="queue.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="queue.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/config/queue.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="874">
-                  <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
-                  <folding />
+                <state relative-caret-position="897">
+                  <caret line="75" column="74" selection-start-line="75" selection-start-column="74" selection-end-line="75" selection-end-column="74" />
+                  <folding>
+                    <element signature="e#1047#1924#1#PHP" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -179,8 +180,8 @@
         <option value="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/methods/MainFeedPage.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/components/commons/content.vue" />
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Jobs/EmailNotification.php" />
         <option value="$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php" />
       </list>
@@ -338,12 +339,12 @@
       <workItem from="1462751434199" duration="5311000" />
       <workItem from="1462786622841" duration="14449000" />
       <workItem from="1462937540408" duration="8560000" />
-      <workItem from="1463044827926" duration="2956000" />
+      <workItem from="1463044827926" duration="3187000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199719000" />
+    <option name="totallyTimeSpent" value="199950000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-545" y="-1296" width="2304" height="1296" extended-state="0" />
@@ -390,14 +391,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Events/NewPostCreated.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Providers/EventServiceProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
@@ -724,18 +717,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/queue.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="897">
+          <caret line="75" column="74" selection-start-line="75" selection-start-column="74" selection-end-line="75" selection-end-column="74" />
+          <folding>
+            <element signature="e#1047#1924#1#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state relative-caret-position="414">
+          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/queue.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="54" column="42" selection-start-line="54" selection-start-column="42" selection-end-line="54" selection-end-column="42" />
+        <state relative-caret-position="405">
+          <caret line="522" column="0" selection-start-line="522" selection-start-column="0" selection-end-line="522" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="920">
+          <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -750,16 +761,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="102" selection-start-line="6" selection-start-column="102" selection-end-line="6" selection-end-column="102" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="920">
-          <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
+        <state relative-caret-position="207">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
           <folding />
         </state>
       </provider>
