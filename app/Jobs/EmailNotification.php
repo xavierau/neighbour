@@ -49,8 +49,7 @@ class EmailNotification extends Job implements ShouldQueue
     public function handle(Mailer $mailer)
     {
         $data = [
-            "feed"=>$this->feed->load(['sender','media']),
-            "host"=>url()
+            "feed"=>$this->feed->load(['sender','media'])
         ];
 
         $mailer->send('emails.NewPostNotification', $data, function ($m) {
