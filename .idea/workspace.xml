@@ -49,8 +49,8 @@
           <file leaf-file-name="NewPostNotification.blade.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="161">
-                  <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+                <state relative-caret-position="138">
+                  <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
                   <folding />
                 </state>
               </provider>
@@ -337,12 +337,12 @@
       <workItem from="1462751434199" duration="5311000" />
       <workItem from="1462786622841" duration="14449000" />
       <workItem from="1462937540408" duration="8560000" />
-      <workItem from="1463044827926" duration="2579000" />
+      <workItem from="1463044827926" duration="2732000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199342000" />
+    <option name="totallyTimeSpent" value="199495000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-545" y="-1296" width="2304" height="1296" extended-state="0" />
@@ -757,8 +757,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+        <state relative-caret-position="138">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
           <folding />
         </state>
       </provider>
