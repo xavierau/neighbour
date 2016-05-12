@@ -7,6 +7,7 @@
             <img src="{{$image->link}}" alt="" style="margin:15px; max-height:200px; max-width:200px">
             <p>{{asset($image->link)}}</p>
             <p>{{url($image->link)}}</p>
+            <p>{{$host}}</p>
         @endforeach
     @endif
 </html>

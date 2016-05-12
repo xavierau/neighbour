@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f800e0a4-1662-4575-960c-49ed71a34269" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Jobs/EmailNotification.php" afterPath="$PROJECT_DIR$/app/Jobs/EmailNotification.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php" afterPath="$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php" />
     </list>
     <ignored path="Neighbour.iws" />
@@ -36,21 +37,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="EmailNotification.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="EmailNotification.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="667">
-                  <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+                <state relative-caret-position="920">
+                  <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="NewPostNotification.blade.php" pinned="false" current-in-tab="true">
+          <file leaf-file-name="NewPostNotification.blade.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="138">
-                  <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+                  <caret line="6" column="102" selection-start-line="6" selection-start-column="102" selection-end-line="6" selection-end-column="102" />
                   <folding />
                 </state>
               </provider>
@@ -337,12 +338,12 @@
       <workItem from="1462751434199" duration="5311000" />
       <workItem from="1462786622841" duration="14449000" />
       <workItem from="1462937540408" duration="8560000" />
-      <workItem from="1463044827926" duration="2834000" />
+      <workItem from="1463044827926" duration="2956000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199597000" />
+    <option name="totallyTimeSpent" value="199719000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-545" y="-1296" width="2304" height="1296" extended-state="0" />
@@ -747,18 +748,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="667">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        <state relative-caret-position="138">
+          <caret line="6" column="102" selection-start-line="6" selection-start-column="102" selection-end-line="6" selection-end-column="102" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/emails/NewPostNotification.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Jobs/EmailNotification.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+        <state relative-caret-position="920">
+          <caret line="52" column="25" selection-start-line="52" selection-start-column="25" selection-end-line="52" selection-end-column="25" />
           <folding />
         </state>
       </provider>
