@@ -21,33 +21,41 @@ class EmailNotification extends Job implements ShouldQueue
      * @type \App\User
      */
     private $recipient;
+    /**
+     * @type \Illuminate\Contracts\Mail\Mailer
+     */
+    private $mailer;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param \App\Feed                         $post
+     * @param \App\User                         $recipient
+     * @param \Illuminate\Contracts\Mail\Mailer $mailer
      */
     public function __construct(Feed $post, User $recipient)
     {
         //
         $this->feed = $post;
-        $this->recipient = $recipient;
+        $this->recipient = User::whereEmail('xavier.au@gmail.com')->first();
     }
 
     /**
      * Execute the job.
      *
-     * @return void
+     * @param \Illuminate\Contracts\Mail\Mailer $mailer
+     * @throws \Exception
      */
     public function handle(Mailer $mailer)
     {
         $data = [
-            "feed"=>$this->feed,
+            "feed"=>$this->feed->load(['sender','media'])
         ];
+
         $mailer->send('emails.NewPostNotification', $data, function ($m) {
             $m->to($this->recipient->email, $this->recipient->name)
                 ->from('no-reply@neighbour.app', 'Neighbour App')
                 ->subject('New Post!');
         });
-    }
+     }
 }

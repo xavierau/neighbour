@@ -12,6 +12,8 @@
 */
 
 use App\Events\SocketTesting;
+use App\Jobs\EmailNotification;
+use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
@@ -21,8 +23,6 @@ Route::get('/', function () {
     }
     return redirect("/app");
 });
-
-
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/app', function () {
