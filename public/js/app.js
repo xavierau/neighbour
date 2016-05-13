@@ -52436,7 +52436,7 @@ var App = Vue.extend({
 
 router.start(App, '#app');
 
-},{"./pages/app.vue":84,"./pages/categories.vue":85,"./pages/conversation.vue":102,"./pages/eventDetail.vue":103,"./pages/events.vue":104,"./pages/mainFeedPage.vue":105,"./pages/messages.vue":106,"./pages/userProfile.vue":108,"moment":35,"toastr":52,"vue":80,"vue-resource":68,"vue-router":79}],84:[function(require,module,exports){
+},{"./pages/app.vue":84,"./pages/categories.vue":85,"./pages/conversation.vue":103,"./pages/eventDetail.vue":104,"./pages/events.vue":105,"./pages/mainFeedPage.vue":106,"./pages/messages.vue":107,"./pages/userProfile.vue":109,"moment":35,"toastr":52,"vue":80,"vue-resource":68,"vue-router":79}],84:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.main-container {\n    position: relative;\n    top: 80px;\n}\n\ndiv.inputContainer {\n    background: white;\n    padding: 10px;\n}\n\ndiv.inputContainer select {\n    border-radius: 0;\n}\n\ndiv.inputContainer textarea {\n    border: none;\n    box-shadow: none;\n}\n\ndiv.inputContainer textarea:focus {\n    box-shadow: none;\n}\n\ndiv.inputContainer input[type='submit'] {\n    border-radius: 0;\n}\n\nul.unstyled.list-group li.list-group-item {\n    border: none;\n    border-radius: 0;\n    background-color: transparent;\n}\n\nul.unstyled.list-group li.list-group-item a {\n    color: black;\n}\n\nul.unstyled.list-group {\n    border: none;\n    color: black;\n}\n\ndiv.main-actions {\n    background-color: white;\n    color: grey;\n}\n\ndiv.main-actions div.active {\n    color: black;\n}\n\ndiv.mobile-input {\n    position: fixed;\n    bottom: 10px;\n    left: 0;\n    right: 0;\n    width: 90%;\n    margin: 0 auto;\n}\n\ndiv.mobile-input div.mobile-textarea {\n    width: 100%;\n    background-color: white;\n    color: black;\n    padding: 5px;\n}\n")
 'use strict';
 
@@ -52685,7 +52685,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/createEventModal.vue":88,"./components/commons/mobileEditor.vue":96,"./components/desktopFeedEditor.vue":100,"./components/feed.vue":101,"vue":80,"vue-hot-reload-api":54}],86:[function(require,module,exports){
+},{"./components/commons/createEventModal.vue":88,"./components/commons/mobileEditor.vue":96,"./components/desktopFeedEditor.vue":101,"./components/feed.vue":102,"vue":80,"vue-hot-reload-api":54}],86:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.comment-row{\n    margin-bottom: 15px;\n}\n")
 "use strict";
 
@@ -53103,7 +53103,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./notification.vue":97,"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],93:[function(require,module,exports){
+},{"./notification.vue":98,"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],93:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53207,7 +53207,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],96:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n#mobileTextAreaInputGroupButton{\n    vertical-align: bottom;\n}\n#mobileSendButton{\n    border:none;\n}\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n#mobileTextAreaInputGroupButton {\n    vertical-align: bottom;\n}\n\n#mobileSendButton {\n    border: none;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53236,6 +53236,9 @@ exports.default = {
         }
     },
     methods: {
+        showMobilePhotoUpload: function showMobilePhotoUpload() {
+            this.$dispatch("showMobilePhotoUpload");
+        },
         showCreateEventModal: function showCreateEventModal() {
             this.$dispatch("showCreateEventModalEvent");
         },
@@ -53249,18 +53252,19 @@ exports.default = {
     events: {
         updateFeedCompleted: function updateFeedCompleted() {
             this.resetTextAreaHeight();
+            return true;
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"mobile-input visible-xs\">\n    <div class=\"input-group\" style=\"background-color: white\">\n         <textarea class=\"form-control\" rows=\"1\" id=\"mobileTextArea\" v-model=\"content\"></textarea>\n  <span class=\"input-group-btn\" id=\"mobileTextAreaInputGroupButton\">\n    <button class=\"btn btn-default\" type=\"button\" id=\"mobileSendButton\" @click.prevent=\"clickUpdate\">Send!</button>\n  </span>\n    </div>\n\n    <div class=\"btn-group btn-group-sm btn-group-justified\">\n        <div class=\"btn-group\" role=\"group\">\n            <select name=\"type\" class=\"form-control\" v-model=\"category_id\">\n                <option v-for=\"category in categoryList\" :value=\"category.id\">{{category.name}}</option>\n            </select>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-default\" @click.prevent=\"showCreateEventModal\">Create Event\n            </button>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"mobile-input visible-xs\">\n    <div class=\"input-group\" style=\"background-color: white\">\n        <span class=\"input-group-addon\" v-show=\"content.length==0\" @click=\"showMobilePhotoUpload\">\n        <i class=\"fa fa-camera\" aria-hidden=\"true\"></i>\n    </span>\n         <textarea class=\"form-control\" rows=\"1\" id=\"mobileTextArea\" v-model=\"content\"></textarea>\n  <span class=\"input-group-btn\" id=\"mobileTextAreaInputGroupButton\">\n    <button class=\"btn btn-default\" type=\"button\" id=\"mobileSendButton\" @click.prevent=\"clickUpdate\">Send!</button>\n  </span>\n    </div>\n\n    <div class=\"btn-group btn-group-sm btn-group-justified\">\n        <div class=\"btn-group\" role=\"group\">\n            <select name=\"type\" class=\"form-control\" v-model=\"category_id\">\n                <option v-for=\"category in categoryList\" :value=\"category.id\">{{category.name}}</option>\n            </select>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-default\" @click.prevent=\"showCreateEventModal\">Create Event\n            </button>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/mobileEditor.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n#mobileTextAreaInputGroupButton{\n    vertical-align: bottom;\n}\n#mobileSendButton{\n    border:none;\n}\n"] = false
+    require("vueify-insert-css").cache["\n#mobileTextAreaInputGroupButton {\n    vertical-align: bottom;\n}\n\n#mobileSendButton {\n    border: none;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -53270,6 +53274,74 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"jquery":33,"jquery.autogrow-textarea":32,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],97:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n.clickDiv{\n    border:dashed 2px #00b3ff;\n    height: 100px;\n}\n.clickDiv i{\n    display: block;\n    color: #00b3ff;\n    font-size: 2em;\n    text-align: center;\n    line-height: 100px;\n}\n.mobileImageContainer .img-controls.mobile{\n    border: 1px solid black;\n    height:20px;\n    width:20px;\n    border-radius: 10px;\n    background-color: white;\n    color: black;\n    position: absolute;\n    top:-5px;\n    right:-5px;\n}\n.mobileImageContainer .img-controls.mobile i{\n    display: block;\n    line-height: 17px;\n    text-align: center;\n}\n.mobileImageContainer{\n    position:relative;\n}\n")
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    props: {
+        content: {
+            type: String,
+            twoWay: true
+        },
+        photos: {
+            type: Array
+        }
+    },
+    methods: {
+        showFileInput: function showFileInput() {
+            document.querySelector("input#mobileUploadFileInput").click();
+        },
+        inputFileChange: function inputFileChange(e) {
+            var self = this,
+                files = e.target.files;
+            function readAndPreview(file) {
+                var reader = new FileReader();
+                reader.addEventListener("load", function () {
+                    self.$dispatch('newFile', file, this.result);
+                }, false);
+                reader.readAsDataURL(file);
+            }
+            if (files) {
+                for (var key in files) {
+                    readAndPreview(files[key]);
+                }
+            }
+        },
+        removePhoto: function removePhoto(photo) {
+            this.$dispatch("removeTemUploadPhoto", photo);
+        },
+        clickUpdate: function clickUpdate() {
+            console.log("this fired");
+            this.$dispatch('updateFeed');
+        }
+    },
+    events: {
+        updateFeedCompleted: function updateFeedCompleted() {
+            $("#mobileImageUploadModal").modal('hide');
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Modal -->\n<div class=\"modal fade\" id=\"mobileImageUploadModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n            <div class=\"modal-body\">\n                <textarea name=\"\" id=\"\" cols=\"30\" rows=\"3\" class=\"form-control\" autofocus=\"\" placeholder=\"Comments for the photos\" v-model=\"content\" style=\"margin-bottom: 10px\"></textarea>\n                <div class=\"row\">\n                    <input type=\"file\" id=\"mobileUploadFileInput\" style=\"display: none;\" accept=\"image/*\" multiple=\"\" @change=\"inputFileChange\">\n                    <div v-show=\"photos.length>0\" v-for=\"photo in photos\" class=\"col-xs-4 col-sm-3\">\n                        <div class=\"mobileImageContainer\">\n                            <img :src=\"photo.url\" alt=\"\" class=\"img-responsive\">\n                            <div class=\"img-controls mobile\">\n                                <i class=\"fa fa-times\" aria-hidden=\"true\" @click.prevent=\"removePhoto(photo)\"></i>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"col-xs-4 col-sm-3\">\n                        <div class=\"clickDiv\" @click=\"showFileInput\">\n                            <i class=\"fa fa-plus\"></i>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cancel</button>\n                <button type=\"button\" class=\"btn btn-primary\" @click.prevent=\"clickUpdate\">Update</button>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/adrianexavier/Code/Neighbour/resources/assets/js/pages/components/commons/mobilePhotoUplaod.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n.clickDiv{\n    border:dashed 2px #00b3ff;\n    height: 100px;\n}\n.clickDiv i{\n    display: block;\n    color: #00b3ff;\n    font-size: 2em;\n    text-align: center;\n    line-height: 100px;\n}\n.mobileImageContainer .img-controls.mobile{\n    border: 1px solid black;\n    height:20px;\n    width:20px;\n    border-radius: 10px;\n    background-color: white;\n    color: black;\n    position: absolute;\n    top:-5px;\n    right:-5px;\n}\n.mobileImageContainer .img-controls.mobile i{\n    display: block;\n    line-height: 17px;\n    text-align: center;\n}\n.mobileImageContainer{\n    position:relative;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],98:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\nli.notification.new{\n    background-color: #02eac0;\n}\n")
 "use strict";
 
@@ -53319,7 +53391,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],98:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],99:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n")
 'use strict';
 
@@ -53424,7 +53496,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./comment.vue":86,"./content.vue":87,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],99:[function(require,module,exports){
+},{"./comment.vue":86,"./content.vue":87,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],100:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n\ndiv.urlPreviewContainer {\n    max-height: 150px;\n    color:black;\n}\n\ndiv.urlPreviewContainer div.urlPreviewTitle {\n    font-size: 16px;\n    margin-top: 0;\n}\n\ndiv.urlPreviewContainer div.urlPreviewDescription {\n    font-size: 10px;\n}\n")
 "use strict";
 
@@ -53455,7 +53527,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],100:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],101:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.img-container div{\n    margin-bottom: 15px;\n}\n.img-container .img-controls{\n    display: none;\n    position: absolute;\n    font-size: 2em;\n    text-shadow: 2px 2px black;\n}\n.img-container div:hover .img-controls{\n    display: block;\n}\n.img-controls.fa-times{\n    color:rgba(255,255,255,0.7);\n    top:10px;\n    right:30px\n}\n.img-controls.fa-times:hover{\n    color:rgb(255,255,255);\n}\n\n")
 "use strict";
 
@@ -53546,7 +53618,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./commons/urlPrviewContainer.vue":99,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],101:[function(require,module,exports){
+},{"./commons/urlPrviewContainer.vue":100,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],102:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\ndiv.feed-container {\n    padding: 10px;\n    background-color: white;\n    margin-top: 10px;\n    margin-bottom: 10px;\n    color: black\n}\n\ndiv.feed-container img.avatar {\n    height: 30px;\n    width: 30px;\n    border-radius: 15px;\n    display: inline-block\n}\n\ndiv.feed-container hr {\n    margin-top: 10px;\n    margin-bottom: 5px;\n}\n\ndiv.feed-owner {\n    margin-bottom: 5px;\n}\n\ndiv.feed-owner p.name {\n    display: inline-block\n}\n\ndiv.actions ul {\n    margin-bottom: 0;\n}\n\nbutton.unstyled {\n    background: none;\n    border: none;\n}\n\nbutton.unstyled:focus {\n    outline: none;\n}\n\ndiv.feed-container div.comment {\n    margin: -10px;\n    margin-top: 15px;\n    background-color: #dedede;\n    padding: 20px;\n}\n\n")
 'use strict';
 
@@ -53623,7 +53695,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./commons/eventFeed.vue":91,"./commons/textFeed.vue":98,"moment":35,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],102:[function(require,module,exports){
+},{"./commons/eventFeed.vue":91,"./commons/textFeed.vue":99,"moment":35,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],103:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\nli.conversation {\n    margin-bottom: 15px;\n}\n\nimg.avatar {\n    width: 60px;\n    height: 60px;\n    border-radius: 30px;\n}\nul.searchResult{\n    max-height: 150px;\n    background-color: rgba(255, 255, 255, 0.4);\n    overflow: scroll;\n}\nul.searchResult img{\n    display: inline-block;\n    height: 30px;\n    width: 30px;\n    border-radius: 15px;\n}\n")
 "use strict";
 
@@ -53692,7 +53764,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],103:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],104:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53734,7 +53806,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":80,"vue-hot-reload-api":54}],104:[function(require,module,exports){
+},{"vue":80,"vue-hot-reload-api":54}],105:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.eventContainer {\n    border: 1px solid grey;\n}\n\n.row .eventContainer:first-child {\n    margin-left: 15px\n}\n")
 'use strict';
 
@@ -53791,7 +53863,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/eventContainer.vue":89,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],105:[function(require,module,exports){
+},{"./components/commons/eventContainer.vue":89,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],106:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -53817,6 +53889,10 @@ var _mobileEditor2 = _interopRequireDefault(_mobileEditor);
 var _imageCarouselModal = require('./components/commons/imageCarouselModal.vue');
 
 var _imageCarouselModal2 = _interopRequireDefault(_imageCarouselModal);
+
+var _mobilePhotoUplaod = require('./components/commons/mobilePhotoUplaod.vue');
+
+var _mobilePhotoUplaod2 = _interopRequireDefault(_mobilePhotoUplaod);
 
 var _MainFeedPage = require('./methods/MainFeedPage');
 
@@ -53888,10 +53964,14 @@ exports.default = {
         CreateEventModal: _createEventModal2.default,
         DesktopEditor: _desktopFeedEditor2.default,
         MobileEditor: _mobileEditor2.default,
-        ImageCarouselModal: _imageCarouselModal2.default
+        ImageCarouselModal: _imageCarouselModal2.default,
+        MobilePhotoUpload: _mobilePhotoUplaod2.default
     },
     methods: _MainFeedPage2.default,
     events: {
+        showMobilePhotoUpload: function showMobilePhotoUpload() {
+            $("#mobileImageUploadModal").modal("show");
+        },
         removeTemUploadPhoto: function removeTemUploadPhoto(photo) {
             this.feed.photos.$remove(photo);
         },
@@ -53915,6 +53995,7 @@ exports.default = {
             this.createNewEvent(data);
         },
         updateFeed: function updateFeed() {
+            console.log('event catch');
             this.updateFeed();
         },
         fetchComments: function fetchComments(feed) {},
@@ -53927,7 +54008,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <div class=\"col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7\">\n        <desktop-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\" :photos=\"feed.photos\" :firt-url=\"firstUrl\" :has-preview-url=\"hasPreviewUrl\" :url-preview=\"urlPreview\"></desktop-editor>\n        <feed v-for=\"feed in stream\" :feed=\"feed\" :user=\"user\"></feed>\n    </div>\n    <create-event-modal :new-event.sync=\"newEvent\"></create-event-modal>\n    <mobile-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\"></mobile-editor>\n    <image-carousel-modal :images=\"carouselImages\" :active-item-index=\"activeItemIndex\"></image-carousel-modal>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <div class=\"col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7\">\n        <desktop-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\" :photos=\"feed.photos\" :firt-url=\"firstUrl\" :has-preview-url=\"hasPreviewUrl\" :url-preview=\"urlPreview\"></desktop-editor>\n        <feed v-for=\"feed in stream\" :feed=\"feed\" :user=\"user\"></feed>\n    </div>\n    <create-event-modal :new-event.sync=\"newEvent\"></create-event-modal>\n    <mobile-editor :content.sync=\"feed.content\" :category_id.sync=\"feed.category_id\" :category-list=\"categoryList\"></mobile-editor>\n    <image-carousel-modal :images=\"carouselImages\" :active-item-index=\"activeItemIndex\"></image-carousel-modal>\n    <mobile-photo-upload :content.sync=\"feed.content\" :photos=\"feed.photos\"></mobile-photo-upload>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -53939,7 +54020,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/commons/createEventModal.vue":88,"./components/commons/imageCarouselModal.vue":94,"./components/commons/mobileEditor.vue":96,"./components/desktopFeedEditor.vue":100,"./components/feed.vue":101,"./methods/MainFeedPage":107,"vue":80,"vue-hot-reload-api":54}],106:[function(require,module,exports){
+},{"./components/commons/createEventModal.vue":88,"./components/commons/imageCarouselModal.vue":94,"./components/commons/mobileEditor.vue":96,"./components/commons/mobilePhotoUplaod.vue":97,"./components/desktopFeedEditor.vue":101,"./components/feed.vue":102,"./methods/MainFeedPage":108,"vue":80,"vue-hot-reload-api":54}],107:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.standard.stream-container {\n    margin-top: 15px;\n}\n\ndiv.messageContainer div.message {\n    display: inline-block;\n    padding: 10px;\n    border-radius: 5px;\n    margin-bottom: 10px;\n    background: rgba(255, 255, 255, 0.8);\n}\n\ndiv.messageContainer.myMessage div.message {\n    text-align: right;\n    background: rgba(34, 255, 46, 0.8);\n}\n\ndiv.messagesContainer.row {\n    margin-top: 15px;\n}\n\n")
 "use strict";
 
@@ -54025,7 +54106,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],107:[function(require,module,exports){
+},{"socket.io-client":41,"vue":80,"vue-hot-reload-api":54,"vueify-insert-css":81}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54163,7 +54244,7 @@ var methods = {
 
 exports.default = methods;
 
-},{}],108:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#profilePic {\n    height: 120px;\n    width: 120px;\n    border-radius: 60px;\n    margin-bottom: 15px;\n}\n\n.standard.stream-container {\n    margin-top: 15px;\n}\n")
 "use strict";
 

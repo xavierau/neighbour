@@ -28,6 +28,10 @@
                 :images="carouselImages"
                 :active-item-index="activeItemIndex"
         ></image-carousel-modal>
+        <mobile-photo-upload
+            :content.sync="feed.content"
+            :photos="feed.photos"
+        ></mobile-photo-upload>
     </div>
 </template>
 
@@ -37,6 +41,7 @@
     import DesktopEditor from './components/desktopFeedEditor.vue';
     import MobileEditor from './components/commons/mobileEditor.vue';
     import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
+    import MobilePhotoUpload from './components/commons/mobilePhotoUplaod.vue';
 
     import methods from "./methods/MainFeedPage";
 
@@ -104,10 +109,14 @@
             CreateEventModal,
             DesktopEditor,
             MobileEditor,
-            ImageCarouselModal
+            ImageCarouselModal,
+            MobilePhotoUpload
         },
         methods,
         events: {
+            showMobilePhotoUpload: function(){
+                $("#mobileImageUploadModal").modal("show");
+            },
             removeTemUploadPhoto: function (photo) {
                 this.feed.photos.$remove(photo);
             },
@@ -131,6 +140,7 @@
                 this.createNewEvent(data);
             },
             updateFeed: function () {
+                console.log('event catch');
                 this.updateFeed();
             },
             fetchComments: function (feed) {

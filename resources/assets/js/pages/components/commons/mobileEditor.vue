@@ -1,14 +1,20 @@
 <style>
-    #mobileTextAreaInputGroupButton{
+    #mobileTextAreaInputGroupButton {
         vertical-align: bottom;
     }
-    #mobileSendButton{
-        border:none;
+
+    #mobileSendButton {
+        border: none;
     }
 </style>
 <template>
     <div class="mobile-input visible-xs">
         <div class="input-group" style="background-color: white">
+            <span class="input-group-addon"
+                  v-show="content.length==0"
+                  @click="showMobilePhotoUpload">
+            <i class="fa fa-camera" aria-hidden="true"></i>
+        </span>
              <textarea class="form-control"
                        rows="1"
                        id="mobileTextArea"
@@ -42,7 +48,7 @@
     require('jquery.autogrow-textarea');
 
     export default{
-        ready:function () {
+        ready: function () {
             $("#mobileTextArea").autogrow();
         },
         props: {
@@ -59,19 +65,23 @@
             }
         },
         methods: {
+            showMobilePhotoUpload: function () {
+                this.$dispatch("showMobilePhotoUpload")
+            },
             showCreateEventModal: function () {
                 this.$dispatch("showCreateEventModalEvent")
             },
             clickUpdate: function () {
                 this.$dispatch('updateFeed')
             },
-            resetTextAreaHeight: function(){
+            resetTextAreaHeight: function () {
                 $("#mobileTextArea").css("height", 34);
             }
         },
-        events:{
-            updateFeedCompleted: function(){
-                this.resetTextAreaHeight()
+        events: {
+            updateFeedCompleted: function () {
+                this.resetTextAreaHeight();
+                return true;
             }
         }
     }
