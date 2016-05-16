@@ -37,7 +37,7 @@ class EmailNotification extends Job implements ShouldQueue
     {
         //
         $this->feed = $post;
-        $this->recipient = User::whereEmail('xavier.au@gmail.com')->first();
+        $this->recipient = $recipient;
     }
 
     /**

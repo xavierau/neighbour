@@ -12,6 +12,7 @@
 */
 
 use App\Events\SocketTesting;
+use App\Feed;
 use App\Jobs\EmailNotification;
 use App\User;
 use GuzzleHttp\Client;
@@ -24,7 +25,10 @@ Route::get('/', function () {
     return redirect("/app");
 });
 
+
 Route::group(['middleware' => 'auth'], function () {
+
+
     Route::get('/app', function () {
         return view('app');
     });
@@ -34,6 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
     
     
     Route::group(['middleware'=>"isAdmin"], function(){
+        Route::get('dashboard', function(){
+           return view('dashboard');
+        });
        Route::get("categories", "CategoriesController@index") ;
        Route::post("categories", "CategoriesController@store") ;
        Route::get("categories/new", "CategoriesController@create") ;
@@ -43,6 +50,29 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(["prefix" => "api"], function () {
+        Route::get('metrics', function(){
+           $metrics = [
+               [
+                   "label"=>"Visit Per Date"
+               ],
+               [
+                   "label"=>"Number of Post Per Day"
+               ]
+           ];
+            $shownMetrics = [
+                [
+                    "label"=>"Visit Per Date",
+                    "data"=>null
+                ],
+                [
+                    "label"=>"Number of Post Per Day",
+                    "data"=>Feed::where("created_at","<",date("Y-m-d h:i:sa"))->count()
+                ]
+            ];
+            return response()->json(compact("metrics", "shownMetrics"));
+        });
+
+
         Route::get("profile", "UsersController@getProfile");
         Route::post("profile", "UsersController@updateProfile");
         Route::post("feed", "FeedsController@postFeed");

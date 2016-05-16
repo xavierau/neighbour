@@ -4,4 +4,5 @@
 /public/media
 Homestead.yaml
 Homestead.json
+gulpfile.js
 .env

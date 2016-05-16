@@ -1,5 +1,5 @@
 <style>
-    .comment-row{
+    .comment-row {
         margin-bottom: 15px;
     }
 </style>
@@ -13,32 +13,95 @@
                 :content="comment.content"
         ></content-container>
         <button class="unstyled"
+                @click.prevent="clickReplyComment"
+        ><i class="fa fa-comment-o" aria-hidden="true"></i>
+            Reply
+        </button>
+        <button class="unstyled"
                 @click.prevent="deleteComment"
                 v-show="comment.sender.id == user.id"
         ><i class="fa fa-trash" aria-hidden="true"></i>
             Delete
         </button>
+        <button class="unstyled"
+                v-show="comment.numberOfComment>0"
+                @click.prevent="clickShowCommentReplay"
+        >
+            {{comment.numberOfComment}} comments
+        </button>
+        <div class="input-group" v-show="showReplyComment">
+            <input type="text" class="form-control" v-model="replyCommentContent" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" @click.prevent="replyComment">Send!</button>
+              </span>
+        </div>
+        <div class="comment" v-show="showCommentReply">
+            <comment v-for="commentItem in comments" :user="user" :comment="commentItem"></comment>
+        </div>
     </div>
 </template>
 
 <script>
     import ContentContainer from "./content.vue"
     export default{
+        name: "comment",
         props: {
             comment: {
                 type: Object,
                 required: true
             },
-            user:{
-                type:Object
+            user: {
+                type: Object
+            }
+        },
+        data(){
+            return {
+                replyCommentContent: "",
+                comments: [],
+                showReplyComment: false,
+                showCommentReply: false
             }
         },
         components: {
             ContentContainer
         },
-        methods:{
+        methods: {
             deleteComment: function () {
                 this.$dispatch("deleteCommentEvent", this.comment)
+            },
+            clickReplyComment(){
+                this.showReplyComment = true;
+                console.log('reply comment')
+            },
+            replyComment(){
+                this.$dispatch("commentFeed", this.comment, this.replyCommentContent)
+            },
+            clickShowCommentReplay(){
+                var uri = this.getApi("getFeedComments"),
+                        headers = this.setRequestHeaders(),
+                        data = {
+                            feedId: this.comment.id
+                        };
+                this.$http.get(uri, data, headers).then(
+                        function (response) {
+                            this.comments = response.data.comments;
+                            this.showCommentReply = true;
+                        },
+                        function (response) {
+                            console.log(response);
+                        })
+
+            }
+
+        },
+        events: {
+            updateComment(commentId, replay){
+                if (commentId == this.comment.id){
+                    this.replyCommentContent = "";
+                    this.showReplyComment= false;
+                    this.comment.numberOfComment++;
+                }
+                return true
             }
         }
     }

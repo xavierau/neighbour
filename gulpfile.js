@@ -1,6 +1,7 @@
 var elixir = require('laravel-elixir');
 
 require('laravel-elixir-vueify');
+require('laravel-elixir-webpack');
 
 /*
  |--------------------------------------------------------------------------
@@ -18,5 +19,20 @@ elixir(function(mix) {
         'app.scss',
         "../../../node_modules/toastr/toastr.scss"
     ])
-        .browserify('app.js');
+        .browserify('app.js')
+        .webpack('dashboard/app.js', {
+            module: {
+                loaders: [
+                    { test: /\.js$/, exclude: /node_modules/, loader: "babel", query: {
+                        presets: ['es2015']
+                    }},
+                    {test: /\.scss$/, loader: "style!css!scss"},
+                    {test: /\.html$/, loader: "html"}
+                ]
+            },
+            output: {
+                filename:"dashboard.js",
+                publicPath: "./public/js"
+            }
+        });
 });

@@ -119,6 +119,7 @@
                     this.comments.unshift(comment);
                     this.comment="";
                 }
+                return true
             },
             pushCommentsCollections: function (feedId, comments) {
                 if (feedId == this.feed.id) this.comments = comments;
