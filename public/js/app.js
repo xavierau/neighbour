@@ -53364,12 +53364,12 @@ exports.default = (0, _defineProperty3.default)({
         bottom = 10,
         windowHeight = window.innerHeight,
         topOffset = 80,
-        baseValue = topOffset - eleHeight - bottom;
+        baseValue = windowHeight - topOffset - eleHeight - bottom;
     fixed_el.style.position = 'absolute';
-    fixed_el.style.top = windowHeight - baseValue + "px";
+    fixed_el.style.top = baseValue + "px";
 
     document.addEventListener('scroll', function () {
-        fixed_el.style.top = window.innerHeight - baseValue + window.scrollY + "px";
+        fixed_el.style.top = window.innerHeight - topOffset - eleHeight - bottom + window.scrollY + "px";
     });
 });
 if (module.exports.__esModule) module.exports = module.exports.default
