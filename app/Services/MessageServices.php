@@ -59,6 +59,11 @@ class MessageServices
         return $this->message;
     }
 
+    public function getAllRecipients($conversationId)
+    {
+        return Conversation::find($conversationId)->users;
+    }
+
     /**
      * @param null $conversationId
      * @return Collection Messages

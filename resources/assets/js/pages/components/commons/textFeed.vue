@@ -29,6 +29,8 @@
                     <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
                         Share
                     </button>
+                </li>
+                <li>
                     <button class="unstyled"
                             @click.prevent="deleteFeed"
                             v-show="feed.sender.id == user.id"
@@ -40,11 +42,16 @@
         </div>
         <div v-show="wantToCommentFeed">
             <form @submit.prevent="commentFeed">
-                <textarea name="comment" id="comment" rows="1" class="form-control" v-model="comment"></textarea>
-                <button class="btn default btn-block btn-xs">Comment</button>
+                <div class="input-group">
+                    <textarea name="comment" id="comment" rows="1" class="form-control" v-model="comment"></textarea>
+                    <span class="input-group-addon">
+                        <button class="btn btn-default btn-xs">Comment</button>
+                    </span>
+                </div>
+
             </form>
         </div>
-        <div class="comment" v-show="comments.length>0">
+        <div class="comment" v-show="showCommentContainer && comments.length>0">
             <comment-container v-for="comment in comments" :user="user" :comment="comment"></comment-container>
         </div>
     </div>
@@ -70,7 +77,8 @@
             return {
                 comment:"",
                 comments: [],
-                wantToCommentFeed:false
+                wantToCommentFeed:false,
+                showCommentContainer:false
             }
         },
         computed:{
@@ -91,18 +99,22 @@
                     this.$dispatch('commentFeed',this.feed, this.comment);
             },
             clickShowComment: function () {
-                var uri = this.getApi("getFeedComments"),
-                        headers = this.setRequestHeaders(),
-                        data = {
-                            feedId: this.feed.id
-                        };
-                this.$http.get(uri, data, headers).then(
-                        function (response) {
-                            this.comments = response.data.comments;
-                        },
-                        function (response) {
-                            console.log(response);
-                        })
+                if(!this.showCommentContainer){
+                    var uri = this.getApi("getFeedComments"),
+                            headers = this.setRequestHeaders(),
+                            data = {
+                                feedId: this.feed.id
+                            };
+                    this.$http.get(uri, data, headers).then(
+                            function (response) {
+                                this.comments = response.data.comments;
+                            },
+                            function (response) {
+                                console.log(response);
+                            })
+                }
+                this.showCommentContainer = !this.showCommentContainer;
+
             },
             clickComment: function(){
                 this.wantToCommentFeed = true;

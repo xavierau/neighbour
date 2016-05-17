@@ -62,11 +62,15 @@ class ConversationsController extends Controller
      * @param                          $conversationId
      * @return mixed
      */
-    public function getAllMessage($conversationId)
+    public function getAllMessage(Request $request, $conversationId)
     {
         $messages = $this->messageService->getConversationMessages($conversationId);
+        $users = $this->messageService->getAllRecipients($conversationId);
+        $recipient = $users->filter(function($user)use($request){
+                return $user->id != $request->user()->id;
+            })->first();
 
-        return response()->json(compact('messages'));
+        return response()->json(compact('messages', 'recipient'));
 
     }
 

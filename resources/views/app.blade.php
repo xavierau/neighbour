@@ -33,6 +33,9 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
+        body {
+            position:relative
+        }
         .navbar-inverse .navbar-nav > .open > a,
         .navbar-inverse .navbar-nav > .open > a:hover,
         .navbar-inverse .navbar-nav > .open > a:focus {

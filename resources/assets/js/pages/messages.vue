@@ -19,15 +19,32 @@
     div.messagesContainer.row {
         margin-top: 15px;
     }
+    img.profile{
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
+    }
 
 </style>
 <template>
     <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
+        <div class="col-xs-12">
+            <img :src="recipient.avatar" alt="" class="profile">
+            <p>{{recipient.name}}</p>
+        </div>
         <form action="">
             <div class="form-group">
-                <textarea class="form-control" name="message" id="" cols="30" rows="3" v-model="newMessage"> </textarea>
+                <div class="input-group">
+                    <span class="input-group-addon" @click="clickCamera">
+                        <i class="fa fa-camera"></i>
+                    </span>
+                    <textarea class="form-control" name="message" id="" cols="30" rows="3" v-model="newMessage"> </textarea>
+                    <span class="input-group-addon" @click.prevent="sendMessage">
+                        <p>Send</p>
+                    </span>
+                </div>
             </div>
-            <button class="btn btn-primary" @click.prevent="sendMessage">Send</button>
         </form>
         <div class="messagesContainer row" v-for="message in messages">
             <div class="col-xs-8 {{notMe(message)}} messageContainer">
@@ -49,7 +66,8 @@
                         headers = this.setRequestHeaders();
                 this.$http.get(uri, data, headers).then(function (response) {
                     transition.next({
-                        messages: response.data.messages
+                        messages: response.data.messages,
+                        recipient: response.data.recipient
                     });
                 }, function () {
                     transition.abort("cannot fetch user data");
@@ -71,6 +89,7 @@
         },
         data: function () {
             return {
+                recipient:{},
                 newMessage: "",
                 messages: []
             }
@@ -82,6 +101,9 @@
             }.bind(this))
         },
         methods: {
+            clickCamera(){
+              console.log('camera click')
+            },
             notMe: function (message) {
                 return this.user.id == message.user_id ? "pull-right text-right myMessage" : "";
             },

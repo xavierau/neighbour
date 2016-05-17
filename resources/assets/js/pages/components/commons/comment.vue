@@ -12,23 +12,32 @@
                 :sender-link="comment.avatarSrc"
                 :content="comment.content"
         ></content-container>
-        <button class="unstyled"
-                @click.prevent="clickReplyComment"
-        ><i class="fa fa-comment-o" aria-hidden="true"></i>
-            Reply
-        </button>
-        <button class="unstyled"
-                @click.prevent="deleteComment"
-                v-show="comment.sender.id == user.id"
-        ><i class="fa fa-trash" aria-hidden="true"></i>
-            Delete
-        </button>
-        <button class="unstyled"
-                v-show="comment.numberOfComment>0"
-                @click.prevent="clickShowCommentReplay"
-        >
-            {{comment.numberOfComment}} comments
-        </button>
+        <ul class="list-inline">
+            <li>
+                <button class="unstyled"
+                        @click.prevent="clickReplyComment"
+                ><i class="fa fa-comment-o" aria-hidden="true"></i>
+                    Reply
+                </button>
+            </li>
+            <li v-show="comment.sender.id == user.id">
+                <button class="unstyled"
+                        @click.prevent="deleteComment"
+                ><i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete
+                </button>
+            </li>
+            <li v-show="comment.numberOfComment>0">
+                <button class="unstyled"
+                        @click.prevent="clickShowCommentReplay"
+                >
+                    {{comment.numberOfComment}} comments
+                </button>
+            </li>
+        </ul>
+
+
+
         <div class="input-group" v-show="showReplyComment">
             <input type="text" class="form-control" v-model="replyCommentContent" placeholder="Search for...">
               <span class="input-group-btn">
@@ -66,7 +75,7 @@
             ContentContainer
         },
         methods: {
-            deleteComment: function () {
+            deleteComment() {
                 this.$dispatch("deleteCommentEvent", this.comment)
             },
             clickReplyComment(){
@@ -77,22 +86,23 @@
                 this.$dispatch("commentFeed", this.comment, this.replyCommentContent)
             },
             clickShowCommentReplay(){
-                var uri = this.getApi("getFeedComments"),
-                        headers = this.setRequestHeaders(),
-                        data = {
-                            feedId: this.comment.id
-                        };
-                this.$http.get(uri, data, headers).then(
-                        function (response) {
-                            this.comments = response.data.comments;
-                            this.showCommentReply = true;
-                        },
-                        function (response) {
-                            console.log(response);
-                        })
-
+                if(!this.showCommentReply){
+                    var uri = this.getApi("getFeedComments"),
+                            headers = this.setRequestHeaders(),
+                            data = {
+                                feedId: this.comment.id
+                            };
+                    this.$http.get(uri, data, headers).then(
+                            function (response) {
+                                this.comments = response.data.comments;
+                                this.showCommentReply = true;
+                            },
+                            function (response) {
+                                console.log(response);
+                            })
+                }
+                this.showCommentReply = !this.showCommentReply;
             }
-
         },
         events: {
             updateComment(commentId, replay){

@@ -7,6 +7,12 @@
         max-height: 200px;
         overflow-y: scroll;
     }
+
+    @media (max-width: 767px){
+        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+            color: white;
+        }
+    }
 </style>
 <template>
     <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
@@ -22,11 +28,18 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse">
+
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="visible-xs" v-for="category in categoryList">
+                        <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
+                    </li>
+                    <li class="visible-xs">
+                        <a href="" v-link="{name:'events'}">Events</a>
+                    </li>
                     <li class="default">
                         <a v-link="{name:'conversation'}">Direct Message</a>
                     </li>
-                    <li class="default">
+                    <li class="default" v-show="false">
                         <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false"
                            @click="getNotifications">
@@ -54,12 +67,8 @@
                         </ul>
                     </li>
 
-                    <li class="visible-xs">
-                        <a href="" v-link="{name:'events'}">Events</a>
-                    </li>
-                    <li class="visible-xs" v-for="category in categoryList">
-                        <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
-                    </li>
+
+
                 </ul>
             </div>
         </div>
