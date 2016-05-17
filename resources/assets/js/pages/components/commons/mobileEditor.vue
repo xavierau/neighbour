@@ -92,10 +92,10 @@
             topOffset = 80,
             baseValue = topOffset-eleHeight-bottom;
             fixed_el.style.position = 'absolute';
-            fixed_el.style.top =  window.innerHeight - baseValue+"px";
+            fixed_el.style.top =  windowHeight-baseValue+"px";
 
             document.addEventListener('scroll',()=>{
-                fixed_el.style.top = window.innerHeight-baseValue+window.scrollY+"px";
+                fixed_el.style.top = window.innerHeight - baseValue + window.scrollY+"px";
             });
 
         }

@@ -53366,7 +53366,7 @@ exports.default = (0, _defineProperty3.default)({
         topOffset = 80,
         baseValue = topOffset - eleHeight - bottom;
     fixed_el.style.position = 'absolute';
-    fixed_el.style.top = window.innerHeight - baseValue + "px";
+    fixed_el.style.top = windowHeight - baseValue + "px";
 
     document.addEventListener('scroll', function () {
         fixed_el.style.top = window.innerHeight - baseValue + window.scrollY + "px";
