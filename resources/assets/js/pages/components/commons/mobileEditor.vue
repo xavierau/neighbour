@@ -90,12 +90,12 @@
             bottom = 10,
             windowHeight = window.innerHeight,
             topOffset = 80,
-            baseValue = windowHeight-topOffset-eleHeight-bottom;
+            baseValue = topOffset-eleHeight-bottom;
             fixed_el.style.position = 'absolute';
-            fixed_el.style.top =  baseValue+"px";
+            fixed_el.style.top =  window.innerHeight - baseValue+"px";
 
             document.addEventListener('scroll',()=>{
-                fixed_el.style.top = baseValue+window.scrollY+"px";
+                fixed_el.style.top = window.innerHeight-baseValue+window.scrollY+"px";
             });
 
         }
