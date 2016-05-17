@@ -52760,7 +52760,11 @@ exports.default = {
             return true;
         },
         commentDeletedEvent: function commentDeletedEvent(feedId, comment) {
-            if (feedId == this.comment.id) this.comments.$remove(comment);
+            if (feedId == this.comment.id) {
+                this.comments.$remove(comment);
+                this.comments.numberOfComment--;
+            }
+
             return true;
         }
     }

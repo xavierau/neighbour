@@ -114,8 +114,11 @@
                 return true
             },
             commentDeletedEvent(feedId, comment){
-                if(feedId == this.comment.id)
+                if(feedId == this.comment.id){
                     this.comments.$remove(comment);
+                    this.comments.numberOfComment--
+                }
+
                 return true;
             }
         }
