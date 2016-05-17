@@ -94,10 +94,10 @@
             fixed_el.style.position = 'absolute';
             fixed_el.style.top =  baseValue+"px";
 
-            input_el.addEventListener('scroll',()=>{
-                fixed_el.style.top =  baseValue+window.scrollY+"px";
+            document.addEventListener('scroll',()=>{
+                fixed_el.style.top = baseValue+window.scrollY+"px";
             });
-            
+
         }
     }
 </script>

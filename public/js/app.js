@@ -53368,7 +53368,7 @@ exports.default = (0, _defineProperty3.default)({
     fixed_el.style.position = 'absolute';
     fixed_el.style.top = baseValue + "px";
 
-    input_el.addEventListener('scroll', function () {
+    document.addEventListener('scroll', function () {
         fixed_el.style.top = baseValue + window.scrollY + "px";
     });
 });
