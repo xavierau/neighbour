@@ -112,6 +112,11 @@
                     this.comment.numberOfComment++;
                 }
                 return true
+            },
+            commentDeletedEvent(feedId, comment){
+                if(feedId == this.comment.id)
+                    this.comments.$remove(comment);
+                return true;
             }
         }
     }

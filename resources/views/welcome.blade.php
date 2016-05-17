@@ -71,7 +71,7 @@
             <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2 scroll-me">
 
                 <button class="btn-success btn-lg" data-toggle="modal" data-target="#signupModal">Join Now</button>
-                <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signupModal">Sign In</button>
+                <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signinModal">Sign In</button>
 
                 {{--<div class="social">--}}
                     {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-facebook "></i></a>--}}

@@ -52758,6 +52758,10 @@ exports.default = {
                 this.comment.numberOfComment++;
             }
             return true;
+        },
+        commentDeletedEvent: function commentDeletedEvent(feedId, comment) {
+            if (feedId == this.comment.id) this.comments.$remove(comment);
+            return true;
         }
     }
 };
@@ -53524,7 +53528,9 @@ exports.default = {
         },
         commentDeletedEvent: function commentDeletedEvent(feedId, comment) {
             if (feedId == this.feed.id) this.comments.$remove(comment);
+            return true;
         }
+
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default

@@ -139,7 +139,9 @@
             commentDeletedEvent: function(feedId, comment){
                 if(feedId == this.feed.id)
                     this.comments.$remove(comment);
+                return true;
             }
+
         }
     }
 
