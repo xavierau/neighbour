@@ -3,6 +3,7 @@
  */
 var methods = {
     postCreated: function (response) {
+        toastr['success']("Update successfully!");
         this.resetFeed();
         if (response.data.hasOwnProperty('feed'))
             this.stream.unshift(response.data.feed);
@@ -104,6 +105,7 @@ var methods = {
             var uri = this.getApi("postFeed"),
                 headers = this.setRequestHeaders(),
                 data = formData;
+            toastr['info']("Uploading...");
             this.$http.post(uri, data, headers).then(
                 this.postCreated,
                 this.unableToCreatePost

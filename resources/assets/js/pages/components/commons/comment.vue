@@ -35,9 +35,6 @@
                 </button>
             </li>
         </ul>
-
-
-
         <div class="input-group" v-show="showReplyComment">
             <input type="text" class="form-control" v-model="replyCommentContent" placeholder="Search for...">
               <span class="input-group-btn">
