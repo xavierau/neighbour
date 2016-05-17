@@ -94,10 +94,12 @@
             fixed_el.style.position = 'absolute';
             fixed_el.style.top =  baseValue+"px";
 
-            document.addEventListener('scroll',()=>{
+            updateHeight(){
                 fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
-            });
-
+            }
+            document.addEventListener('scroll',updateHeight);
+            input_el.addEventListener('focus', updateHeight);
+            input_el.addEventListener('blur', updateHeight)
         }
     }
 </script>
