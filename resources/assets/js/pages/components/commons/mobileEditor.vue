@@ -92,7 +92,7 @@
             topOffset = 80,
             baseValue = windowHeight-topOffset-eleHeight-bottom;
 
-            input_el.addEventListener('focus',()=>{
+            input_el.addEventListener('touchstart focus',()=>{
                 fixed_el.style.position = 'absolute';
                 fixed_el.style.top =  baseValue+window.scrollY+"px";
             });

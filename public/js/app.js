@@ -53366,7 +53366,7 @@ exports.default = (0, _defineProperty3.default)({
         topOffset = 80,
         baseValue = windowHeight - topOffset - eleHeight - bottom;
 
-    input_el.addEventListener('focus', function () {
+    input_el.addEventListener('touchstart focus', function () {
         fixed_el.style.position = 'absolute';
         fixed_el.style.top = baseValue + window.scrollY + "px";
     });
