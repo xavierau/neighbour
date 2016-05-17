@@ -53365,15 +53365,11 @@ exports.default = (0, _defineProperty3.default)({
         windowHeight = window.innerHeight,
         topOffset = 80,
         baseValue = windowHeight - topOffset - eleHeight - bottom;
+    fixed_el.style.position = 'absolute';
+    fixed_el.style.top = baseValue + "px";
 
-    input_el.addEventListener('touchstart focus', function () {
-        fixed_el.style.position = 'absolute';
+    input_el.addEventListener('scroll', function () {
         fixed_el.style.top = baseValue + window.scrollY + "px";
-    });
-
-    input_el.addEventListener('blur', function () {
-        fixed_el.style.position = '';
-        fixed_el.style.top = "";
     });
 });
 if (module.exports.__esModule) module.exports = module.exports.default

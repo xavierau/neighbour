@@ -91,16 +91,13 @@
             windowHeight = window.innerHeight,
             topOffset = 80,
             baseValue = windowHeight-topOffset-eleHeight-bottom;
+            fixed_el.style.position = 'absolute';
+            fixed_el.style.top =  baseValue+"px";
 
-            input_el.addEventListener('touchstart focus',()=>{
-                fixed_el.style.position = 'absolute';
+            input_el.addEventListener('scroll',()=>{
                 fixed_el.style.top =  baseValue+window.scrollY+"px";
             });
-
-            input_el.addEventListener('blur',()=>{
-                fixed_el.style.position = '';
-                fixed_el.style.top =  "";
-            });
+            
         }
     }
 </script>
