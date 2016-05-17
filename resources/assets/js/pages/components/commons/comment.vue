@@ -44,7 +44,7 @@
                 <button class="btn btn-secondary" type="button" @click.prevent="replyComment">Send!</button>
               </span>
         </div>
-        <div class="comment" v-show="showCommentReply">
+        <div class="comment" v-show="showCommentReply && comments.length>0">
             <comment v-for="commentItem in comments" :user="user" :comment="commentItem"></comment>
         </div>
     </div>
