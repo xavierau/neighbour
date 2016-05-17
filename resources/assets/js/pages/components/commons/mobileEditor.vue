@@ -85,7 +85,7 @@
         },
         ready(){
             var fixed_el = document.getElementById('mobileEditor'),
-            input_el = document.querySelector('#mobileTextArea'),
+            input_el = document.getElementById('mobileTextArea'),
             eleHeight = 68,
             bottom = 10,
             windowHeight = window.innerHeight,
@@ -94,14 +94,11 @@
             fixed_el.style.position = 'absolute';
             fixed_el.style.top =  baseValue+"px";
 
-            updateHeight(){
+            var updateHeight = function(){
                 fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
             }
             document.addEventListener('scroll',updateHeight);
-            input_el.addEventListener('focus', ()=>{
-                updateHeight();
-                alert( window.innerHeight)
-            });
+            input_el.addEventListener('focus', updateHeight);
             input_el.addEventListener('blur', updateHeight)
         }
     }
