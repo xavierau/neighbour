@@ -52762,7 +52762,7 @@ exports.default = {
         commentDeletedEvent: function commentDeletedEvent(feedId, comment) {
             if (feedId == this.comment.id) {
                 this.comments.$remove(comment);
-                this.comments.numberOfComment--;
+                this.comment.numberOfComment--;
             }
 
             return true;
