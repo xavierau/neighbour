@@ -140,7 +140,6 @@
                 this.createNewEvent(data);
             },
             updateFeed: function () {
-                console.log('event catch');
                 this.updateFeed();
             },
             fetchComments: function (feed) {

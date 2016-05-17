@@ -8,7 +8,7 @@
     }
 </style>
 <template>
-    <div class="mobile-input visible-xs">
+    <div class="mobile-input visible-xs" id="mobileEditor">
         <div class="input-group" style="background-color: white">
             <span class="input-group-addon"
                   v-show="content.length==0"
@@ -28,7 +28,6 @@
         >Send!</button>
       </span>
         </div>
-
         <div class="btn-group btn-group-sm btn-group-justified">
             <div class="btn-group" role="group">
                 <select name="type" class="form-control" v-model="category_id">
@@ -83,6 +82,25 @@
                 this.resetTextAreaHeight();
                 return true;
             }
+        },
+        ready(){
+            var fixed_el = document.getElementById('mobileEditor'),
+            input_el = document.querySelector('#mobileTextArea'),
+            eleHeight = 68,
+            bottom = 10,
+            windowHeight = window.innerHeight,
+            topOffset = 80,
+            baseValue = windowHeight-topOffset-eleHeight-bottom;
+
+            input_el.addEventListener('focus',()=>{
+                fixed_el.style.position = 'absolute';
+                fixed_el.style.top =  baseValue+window.scrollY+"px";
+            });
+
+            input_el.addEventListener('blur',()=>{
+                fixed_el.style.position = '';
+                fixed_el.style.top =  "";
+            });
         }
     }
 </script>
