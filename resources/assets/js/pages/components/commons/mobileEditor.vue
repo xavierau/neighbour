@@ -98,7 +98,10 @@
                 fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
             }
             document.addEventListener('scroll',updateHeight);
-            input_el.addEventListener('focus', updateHeight);
+            input_el.addEventListener('focus', ()=>{
+                updateHeight();
+                alert( window.innerHeight)
+            });
             input_el.addEventListener('blur', updateHeight)
         }
     }

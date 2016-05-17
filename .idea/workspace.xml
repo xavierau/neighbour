@@ -83,8 +83,8 @@
           <file leaf-file-name="mobileEditor.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/components/commons/mobileEditor.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1031">
-                  <caret line="100" column="61" selection-start-line="100" selection-start-column="61" selection-end-line="100" selection-end-column="61" />
+                <state relative-caret-position="1077">
+                  <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
                   <folding>
                     <element signature="n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
                   </folding>
@@ -361,12 +361,12 @@
       <workItem from="1463126349819" duration="1590000" />
       <workItem from="1463366396965" duration="5443000" />
       <workItem from="1463394659269" duration="3020000" />
-      <workItem from="1463453494097" duration="12955000" />
+      <workItem from="1463453494097" duration="13112000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="227887000" />
+    <option name="totallyTimeSpent" value="228044000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-545" y="-1296" width="2304" height="1296" extended-state="0" />
@@ -876,8 +876,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/components/commons/mobileEditor.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1031">
-          <caret line="100" column="61" selection-start-line="100" selection-start-column="61" selection-end-line="100" selection-end-column="61" />
+        <state relative-caret-position="1077">
+          <caret line="102" column="41" selection-start-line="102" selection-start-column="41" selection-end-line="102" selection-end-column="41" />
           <folding>
             <element signature="n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
           </folding>
