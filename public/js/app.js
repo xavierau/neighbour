@@ -53358,22 +53358,22 @@ exports.default = (0, _defineProperty3.default)({
         }
     }
 }, 'ready', function ready() {
-    var fixed_el = document.getElementById('mobileEditor'),
-        input_el = document.getElementById('mobileTextArea'),
-        eleHeight = 68,
-        bottom = 10,
-        windowHeight = window.innerHeight,
-        topOffset = 80,
-        baseValue = windowHeight - topOffset - eleHeight - bottom;
-    fixed_el.style.position = 'absolute';
-    fixed_el.style.top = baseValue + "px";
-
-    var updateHeight = function updateHeight() {
-        fixed_el.style.top = window.innerHeight - topOffset - eleHeight - bottom + window.scrollY + "px";
-    };
-    document.addEventListener('scroll', updateHeight);
-    input_el.addEventListener('focus', updateHeight);
-    input_el.addEventListener('blur', updateHeight);
+    //            var fixed_el = document.getElementById('mobileEditor'),
+    //            input_el = document.getElementById('mobileTextArea'),
+    //            eleHeight = 68,
+    //            bottom = 10,
+    //            windowHeight = window.innerHeight,
+    //            topOffset = 80,
+    //            baseValue = windowHeight-topOffset-eleHeight-bottom;
+    //            fixed_el.style.position = 'absolute';
+    //            fixed_el.style.top =  baseValue+"px";
+    //
+    //            var updateHeight = function(){
+    //                fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
+    //            }
+    //            document.addEventListener('scroll',updateHeight);
+    //            input_el.addEventListener('focus', updateHeight);
+    //            input_el.addEventListener('blur', updateHeight)
 });
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"mobile-input visible-xs\" id=\"mobileEditor\">\n    <div class=\"input-group\" style=\"background-color: white\">\n        <span class=\"input-group-addon\" v-show=\"content.length==0\" @click=\"showMobilePhotoUpload\">\n        <i class=\"fa fa-camera\" aria-hidden=\"true\"></i>\n    </span>\n         <textarea class=\"form-control\" rows=\"1\" id=\"mobileTextArea\" v-model=\"content\"></textarea>\n  <span class=\"input-group-btn\" id=\"mobileTextAreaInputGroupButton\">\n    <button class=\"btn btn-default\" type=\"button\" id=\"mobileSendButton\" @click.prevent=\"clickUpdate\">Send!</button>\n  </span>\n    </div>\n    <div class=\"btn-group btn-group-sm btn-group-justified\">\n        <div class=\"btn-group\" role=\"group\">\n            <select name=\"type\" class=\"form-control\" v-model=\"category_id\">\n                <option v-for=\"category in categoryList\" :value=\"category.id\">{{category.name}}</option>\n            </select>\n        </div>\n        <div class=\"btn-group\" role=\"group\">\n            <button type=\"button\" class=\"btn btn-default\" @click.prevent=\"showCreateEventModal\">Create Event\n            </button>\n        </div>\n    </div>\n</div>\n"

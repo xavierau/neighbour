@@ -84,22 +84,22 @@
             }
         },
         ready(){
-            var fixed_el = document.getElementById('mobileEditor'),
-            input_el = document.getElementById('mobileTextArea'),
-            eleHeight = 68,
-            bottom = 10,
-            windowHeight = window.innerHeight,
-            topOffset = 80,
-            baseValue = windowHeight-topOffset-eleHeight-bottom;
-            fixed_el.style.position = 'absolute';
-            fixed_el.style.top =  baseValue+"px";
-
-            var updateHeight = function(){
-                fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
-            }
-            document.addEventListener('scroll',updateHeight);
-            input_el.addEventListener('focus', updateHeight);
-            input_el.addEventListener('blur', updateHeight)
+//            var fixed_el = document.getElementById('mobileEditor'),
+//            input_el = document.getElementById('mobileTextArea'),
+//            eleHeight = 68,
+//            bottom = 10,
+//            windowHeight = window.innerHeight,
+//            topOffset = 80,
+//            baseValue = windowHeight-topOffset-eleHeight-bottom;
+//            fixed_el.style.position = 'absolute';
+//            fixed_el.style.top =  baseValue+"px";
+//
+//            var updateHeight = function(){
+//                fixed_el.style.top = window.innerHeight -topOffset-eleHeight-bottom + window.scrollY+"px";
+//            }
+//            document.addEventListener('scroll',updateHeight);
+//            input_el.addEventListener('focus', updateHeight);
+//            input_el.addEventListener('blur', updateHeight)
         }
     }
 </script>
