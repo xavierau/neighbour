@@ -35,42 +35,42 @@ Route::get('/', function () {
 
 Route::get('/sampling', function () {
 
-//    function pushToStream($collection, $stream)
-//    {
-//        $collection->map(function ($item) use ($stream) {
-//            $stream->push($item);
-//        });
-//
-//        return $stream;
-//    }
-//
-//
-//
-//    $topLevelFeeds = Feed::whereReplyTo(0)->get();
-//    $events = Event::all();
-//    $temp = new Collection();
-//
-//    while ($topLevelFeeds->count() != 0 and $events->count() != 0) {
-//        $firstFeed = $topLevelFeeds->first();
-//        $firstEvent = $events->first();
-//        if ($firstFeed->created_at > $firstEvent->created_at) {
-//            $temp->push($topLevelFeeds->first());
-//            $topLevelFeeds->shift();
-//        } else {
-//            $temp->push($events->first());
-//            $events->shift();
-//        }
-//    };
-//    if ($topLevelFeeds->count() != 0) {
-//        $temp = pushToStream($topLevelFeeds, $temp);
-//    }
-//    if ($events->count() != 0) {
-//        $temp = pushToStream($events, $temp);
-//    }
-//
-//    foreach ($temp as $item){
-//        $item->stream()->create([]);
-//    }
+    function pushToStream($collection, $stream)
+    {
+        $collection->map(function ($item) use ($stream) {
+            $stream->push($item);
+        });
+
+        return $stream;
+    }
+
+
+
+    $topLevelFeeds = Feed::whereReplyTo(0)->get();
+    $events = Event::all();
+    $temp = new Collection();
+
+    while ($topLevelFeeds->count() != 0 and $events->count() != 0) {
+        $firstFeed = $topLevelFeeds->first();
+        $firstEvent = $events->first();
+        if ($firstFeed->created_at > $firstEvent->created_at) {
+            $temp->push($topLevelFeeds->first());
+            $topLevelFeeds->shift();
+        } else {
+            $temp->push($events->first());
+            $events->shift();
+        }
+    };
+    if ($topLevelFeeds->count() != 0) {
+        $temp = pushToStream($topLevelFeeds, $temp);
+    }
+    if ($events->count() != 0) {
+        $temp = pushToStream($events, $temp);
+    }
+
+    foreach ($temp as $item){
+        $item->stream()->create([]);
+    }
 
     dd(Stream::orderBy('created_at', 'desc')->with("item")->paginate(5));
     

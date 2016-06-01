@@ -2,8 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\NewEventCreated;
 use App\Events\NewPostCreated;
 use App\Events\NotificationEvent;
+use App\Listeners\AddEventToStream;
+use App\Listeners\AddPostToStream;
+use App\Listeners\CreateNewNotification;
+use App\Listeners\SendNewPostEmailNotification;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -19,10 +24,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         NotificationEvent::class => [
-            'App\Listeners\CreateNewNotification'
+            CreateNewNotification::class
         ],
         NewPostCreated::class => [
-            'App\Listeners\SendNewPostEmailNotification'
+            SendNewPostEmailNotification::class,
+            AddPostToStream::class,
+        ],
+        NewEventCreated::class => [
+            AddEventToStream::class,
         ],
     ];
 

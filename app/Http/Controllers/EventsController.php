@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Events\NewEventCreated;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class EventsController extends Controller
     public function postEvent(Request $request)
     {
         $event = $request->user()->events()->create($request->all());
-
+        event(new NewEventCreated($event));
         return response()->json(["event" => $event]);
     }
 

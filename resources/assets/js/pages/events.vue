@@ -2,10 +2,6 @@
     .eventContainer {
         border: 1px solid grey;
     }
-
-    .row .eventContainer:first-child {
-        margin-left: 15px
-    }
 </style>
 <template>
     <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
