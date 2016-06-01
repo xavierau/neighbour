@@ -3,12 +3,14 @@
 namespace App;
 
 use App\RelationshipTraits\HasMedia;
+use App\RelationshipTraits\InStream;
+use App\RelationshipTraits\IsLikeable;
 use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Feed extends Model
 {
-    use NotificationTrait, HasMedia;
+    use NotificationTrait, HasMedia, IsLikeable, InStream;
     
     protected $fillable = [
         'content','category_id','reply_to'
@@ -45,12 +47,26 @@ class Feed extends Model
                 $q->where("showInPublic", true);
         });
     }
+    public function scopeTopLevelFeeds($query)
+    {
+        return $query->whereHas("category", function($q){
+                $q->where("showInPublic", true);
+        });
+    }
     public function scopeStandardFetchSetting($query)
     {
         return $query->orderBy('created_at',"desc")
-            ->where("reply_to",0)
-            ->with(["sender", "media"])
-            ->take(15);
+            ->with(["sender", "media", "category", "likes"=>function($query){
+                $query->where('user_id', request()->user()->id);
+            }]);
+
+    }
+    public function loadStandardFetchSetting()
+    {
+        return $this->load(["sender", "media", "category", "likes"=>function($query){
+                $query->where('user_id', request()->user()->id);
+            }]);
+
     }
     public function scopeFeedCategory($query, $categoryCode)
     {
@@ -58,4 +74,5 @@ class Feed extends Model
             $q->where("code", $categoryCode);
         });
     }
+
 }

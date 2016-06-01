@@ -39,6 +39,12 @@ Vue.mixin({
         getApi: function (apiName) {
             var uri = "/api/";
             switch (apiName) {
+                case "likeFeed":
+                    uri = uri + "like/Feed"
+                    break;
+                case "unlikeFeed":
+                    uri = uri + "unlike/Feed"
+                    break;
                 case "acknowledgedNotifications":
                     uri = uri + "notifications/acknowledge"
                     break;
@@ -107,7 +113,6 @@ Vue.mixin({
 router.map({
     '/app': {
         component: require('./pages/app.vue'),
-
         subRoutes:{
             "/":{
                 name: 'home',

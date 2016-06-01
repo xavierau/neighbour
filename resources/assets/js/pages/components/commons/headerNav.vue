@@ -1,19 +1,4 @@
-<style>
-    ul.nav li.default {
-        margin-top: 13px;
-    }
-
-    ul.notifications {
-        max-height: 200px;
-        overflow-y: scroll;
-    }
-
-    @media (max-width: 767px){
-        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
-            color: white;
-        }
-    }
-</style>
+<style lang="scss" src="style/headerNav.scss"></style>
 <template>
     <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
         <div class="container">
@@ -24,11 +9,19 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" v-link="{name:'home'}">
-                    Localhood
+                    {{appName}}
                 </a>
+                <ul class="nav nav-pills visible-xs">
+                    <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-comments-o"
+                                                                                 aria-hidden="true"
+                                                                                 style="font-size: 2em"></i></a></li>
+                    <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-search"
+                                                                                 aria-hidden="true"
+                                                                                 style="font-size: 2em"></i></a></li>
+                </ul>
             </div>
-            <div class="navbar-collapse collapse">
 
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="visible-xs" v-for="category in categoryList">
                         <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
@@ -36,9 +29,7 @@
                     <li class="visible-xs">
                         <a href="" v-link="{name:'events'}">Events</a>
                     </li>
-                    <li class="default">
-                        <a v-link="{name:'conversation'}">Direct Message</a>
-                    </li>
+
                     <li class="default" v-show="false">
                         <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
                            aria-haspopup="true" aria-expanded="false"
@@ -66,7 +57,6 @@
                             <li><a @click.prevent="logout">Logout</a></li>
                         </ul>
                     </li>
-
 
 
                 </ul>
@@ -108,6 +98,11 @@
         },
         components: {
             Notifications
+        },
+        computed:{
+            appName(){
+                return document.querySelector("meta[name='appName']").getAttribute("content");
+            }
         },
         methods: {
             getNotifications: function () {

@@ -1,28 +1,4 @@
-<style>
-    div.main.container{
-        position: relative;
-        top:80px;
-    }
-
-    div.left-side-menu {
-        position: fixed;
-        top:80px;
-        min-height: 300px;
-        background: rgba(255, 255, 255, 0.5);
-    }
-
-    div.left-side-menu li{
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    @media (max-width: 767px) {
-        div.stream-container {
-            margin-bottom: 90px;
-        }
-    }
-
-</style>
+<style lang="scss" src="style/mainSection.scss"></style>
 <template>
     <div class="container main">
         <div class=" left-side-menu col-sm-2 col-md-1 fixed hidden-xs">

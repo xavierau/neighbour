@@ -9,7 +9,7 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <title>Neighbour</title>
+    <title>{{$setting->appName}}</title>
     <!-- BOOTSTRAP CORE CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- ION ICONS STYLES -->

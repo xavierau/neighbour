@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\RelationshipTraits\InStream;
 use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    use NotificationTrait;
+    use NotificationTrait, InStream;
 
     protected $fillable=[
       'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic', "description"

@@ -4,16 +4,20 @@
         border: 2px solid magenta
     }
 
+    .event.feed-container{
+        background-color: rgb(255, 255, 157);
+    }
+
     .date {
         display: block;
         width: 100px;
         /*height: 110px;*/
         margin: 5px auto;
         margin-left: 15px;
-        background: #fff;
         text-align: center;
         font-family: 'Helvetica', sans-serif;
         position: relative;
+        background-color: rgb(255, 255, 157);
     }
 
     .date .binds {
@@ -47,6 +51,7 @@
         /*font-size: 48px;*/
         box-shadow: 0 0 3px #ccc;
         position: relative;
+        background-color: white;
     }
 
     .date .day::after {
@@ -81,7 +86,7 @@
     }
 </style>
 <template>
-    <div class="feed-container">
+    <div class="feed-container event">
         <div class="clearfix">
             <div class="feed-owner">
                 <img class="avatar" :src="feed.organiser.avatar" :alt="feed.name">

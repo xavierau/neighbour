@@ -1,0 +1,22 @@
+div.mobile-input {
+  position: relative;
+  top:-7px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+
+  div.mobile-textarea {
+    width: 100%;
+    background-color: white;
+    color: black;
+    padding: 5px;
+  }
+}
+
+#mobileTextAreaInputGroupButton {
+  vertical-align: bottom;
+}
+
+#mobileSendButton {
+  border: none;
+}

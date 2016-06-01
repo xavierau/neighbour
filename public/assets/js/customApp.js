@@ -44,8 +44,8 @@ $(document).ready(function () {
     $.vegas('slideshow', {
         delay: 15000,
         backgrounds: [
-            {src: '/img/DSC00368.jpg', fade: 1000},
-            {src: 'assets/img/2.jpg', fade: 1000}
+            {src: '/img/DSC00368_new.jpg', fade: 1000},
+            {src: 'assets/img/2_new.jpg', fade: 1000}
         ]
     })('overlay', {
         /** SLIDESHOW OVERLAY IMAGE **/

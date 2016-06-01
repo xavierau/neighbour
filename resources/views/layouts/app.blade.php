@@ -17,6 +17,7 @@
     <link href="/css/app.css" rel="stylesheet">
     {{--<link href="{{ elixir('css/app.css') }}" rel="stylesheet">--}}
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/3.0.1/sweetalert2.min.css">
     <style>
         body {
             font-family: 'Lato';
@@ -26,6 +27,8 @@
             margin-right: 6px;
         }
     </style>
+
+    @yield('style')
 </head>
 <body id="app-layout">
 <nav class="navbar navbar-default navbar-static-top">
@@ -73,18 +76,14 @@
         </div>
     </div>
 </nav>
-@if(session()->has('message'))
-    <div class="alert alert-success" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-        </button>
-        {{session('message')}}
-    </div>
-@endif
+@include('partials.messageAlert')
 @yield('content')
 
         <!-- JavaScripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/3.0.1/sweetalert2.min.js"></script>
+
 @yield('script')
 {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

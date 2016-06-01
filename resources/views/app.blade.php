@@ -6,10 +6,11 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <meta name="csrf_token" content="{{csrf_token()}}"/>
+    <meta name="appName" content="{{getSettingValue($settings, 'appName')}}"/>
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <title>Localhood</title>
+    <title>{{getSettingValue($settings, 'appName')}}</title>
     <!-- BOOTSTRAP CORE CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- ION ICONS STYLES -->

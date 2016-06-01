@@ -44,12 +44,12 @@ $(document).ready(function () {
     $.vegas('slideshow', {
         delay:15000,
         backgrounds:[
-            {src: '/img/DSC00368.jpg', fade:1000},
-            {src: '/img/1.jpg', fade:1000},
-            {src: '/img/2.jpg', fade:1000},
-            {src: '/img/3.jpg', fade:1000},
-            {src: '/img/4.jpg', fade:1000},
-            {src: '/img/5.jpg', fade:1000}
+            {src: '/img/DSC00368_new.jpg', fade:1000},
+            {src: '/img/1_new.jpg', fade:1000},
+            {src: '/img/2_new.jpg', fade:1000},
+            {src: '/img/3_new.jpg', fade:1000},
+            {src: '/img/4_new.jpg', fade:1000},
+            {src: '/img/5_new.jpg', fade:1000}
         ]
     })('overlay', {
         src:'/assets/js/vegas/overlays/06.png'

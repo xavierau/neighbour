@@ -40,6 +40,7 @@ var methods = {
         }.bind(this))
     },
     deleteComment: function (comment) {
+        toastr['info']('deleting the comment');
         var uri = this.getApi("feed") + "/" + comment.id,
             data = null,
             headers = this.setRequestHeaders();
@@ -48,6 +49,7 @@ var methods = {
                 if (feed.id == comment.reply_to)  feed.numberOfComment = feed.numberOfComment - 1
             });
             this.$broadcast("commentDeletedEvent", comment.reply_to, comment);
+            toastr['success']('comment deleted');
         }.bind(this))
     },
     newComment: function (feed, comment) {

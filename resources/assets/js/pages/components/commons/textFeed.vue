@@ -1,7 +1,7 @@
-<style>
-</style>
+<style lang="scss" src="style/textFeed.scss"></style>
+
 <template>
-    <div class="feed-container">
+    <div class="feed-container" :style="backgroundColor">
         <div class="clearfix">
             <div class="feed-owner">
                 <img class="avatar" :src="feed.sender.avatar" :alt="feed.sender">
@@ -32,6 +32,17 @@
                 </li>
                 <li>
                     <button class="unstyled"
+                            @click.prevent="toggleLikeButton"
+                    ><i class="fa" :class="{
+                    'like':feed.likes.length>0,
+                    'fa-thumbs-up':feed.likes.length>0,
+                    'fa-thumbs-o-up':feed.likes.length==0,
+                    }" aria-hidden="true"></i>
+                        Like
+                    </button>
+                </li>
+                <li>
+                    <button class="unstyled"
                             @click.prevent="deleteFeed"
                             v-show="feed.sender.id == user.id"
                     ><i class="fa fa-trash" aria-hidden="true"></i>
@@ -41,15 +52,12 @@
             </ul>
         </div>
         <div v-show="wantToCommentFeed">
-            <form @submit.prevent="commentFeed">
                 <div class="input-group">
                     <textarea name="comment" id="comment" rows="1" class="form-control" v-model="comment"></textarea>
-                    <span class="input-group-addon">
-                        <button class="btn btn-default btn-xs">Comment</button>
+                    <span class="input-group-addon" @click="commentFeed">
+                       Send
                     </span>
                 </div>
-
-            </form>
         </div>
         <div class="comment" v-show="showCommentContainer && comments.length>0">
             <comment-container v-for="comment in comments" :user="user" :comment="comment"></comment-container>
@@ -73,7 +81,7 @@
                 required: true
             }
         },
-        data: function () {
+        data () {
             return {
                 comment:"",
                 comments: [],
@@ -82,8 +90,14 @@
             }
         },
         computed:{
-            showNumberOfComments: function(){
+            showNumberOfComments(){
                 return this.feed.numberOfComment>0? this.feed.numberOfComment+" ":"";
+            },
+            backgroundColor(){
+                var backgroundColor = this.feed.category.code == "lostAndFound"? "#B1FFBB":"white";
+                return {
+                    backgroundColor
+                };
             }
         },
         components:{
@@ -91,14 +105,32 @@
             CommentContainer
         },
         methods: {
-            deleteFeed: function () {
+            toggleLikeButton(){
+                var data=null,
+                        headers=this.setRequestHeaders();
+              if(this.feed.likes.length==0){
+                  var uri = this.getApi('likeFeed')+"/"+this.feed.id;
+
+                  this.$http.get(uri, data, headers).then(
+                          ({data})=>this.feed.likes.push(data.like),
+                          response=>conosle.log(response))
+              }else{
+                  var uri = this.getApi('unlikeFeed')+"/"+this.feed.likes[0].id;
+
+                  this.$http.get(uri, data, headers).then(
+                          ({data})=>this.feed.likes=[],
+                          response=>conosle.log(response))
+              }
+
+            },
+            deleteFeed () {
               this.$dispatch('deleteFeed', this.feed);
             },
-            commentFeed:function(){
+            commentFeed(){
                 if(this.comment.trim().length>0)
                     this.$dispatch('commentFeed',this.feed, this.comment);
             },
-            clickShowComment: function () {
+            clickShowComment() {
                 if(!this.showCommentContainer){
                     var uri = this.getApi("getFeedComments"),
                             headers = this.setRequestHeaders(),
@@ -114,34 +146,33 @@
                             })
                 }
                 this.showCommentContainer = !this.showCommentContainer;
-
             },
-            clickComment: function(){
-                this.wantToCommentFeed = true;
+            clickComment(){
+                this.wantToCommentFeed = !this.wantToCommentFeed;
             }
         },
         filters: {
-            parseDateToHuman: function (value) {
+            parseDateToHuman (value) {
                 return moment(value, "YYYY-MM-DD HH:mm:ss").fromNow();
             }
         },
         events: {
-            updateComment:function(feedId, comment){
+            updateComment(feedId, comment){
                 if(feedId == this.feed.id){
                     this.comments.unshift(comment);
                     this.comment="";
+                    this.wantToCommentFeed=false
                 }
                 return true
             },
-            pushCommentsCollections: function (feedId, comments) {
+            pushCommentsCollections (feedId, comments) {
                 if (feedId == this.feed.id) this.comments = comments;
             },
-            commentDeletedEvent: function(feedId, comment){
+            commentDeletedEvent(feedId, comment){
                 if(feedId == this.feed.id)
                     this.comments.$remove(comment);
                 return true;
             }
-
         }
     }
 

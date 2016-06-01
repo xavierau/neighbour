@@ -8,7 +8,7 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <title>Localhood</title>
+    <title>{{getSettingValue($settings,'appName')}}</title>
     <!-- BOOTSTRAP CORE CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- ION ICONS STYLES -->
@@ -43,7 +43,7 @@
             </button>
             <a class="navbar-brand" href="#">
 
-                Localhood
+                {{getSettingValue($settings,'appName')}}
 
             </a>
         </div>
@@ -379,6 +379,7 @@
 <script src="/assets/js/animations.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="/assets/js/custom.js"></script>
+
 </body>
 
 </html>

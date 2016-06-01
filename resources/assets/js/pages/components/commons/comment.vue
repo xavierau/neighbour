@@ -20,6 +20,17 @@
                     Reply
                 </button>
             </li>
+            <li>
+                <button class="unstyled"
+                        @click.prevent="toggleLikeButton"
+                ><i class="fa" :class="{
+                    'like':comment.likes.length>0,
+                    'fa-thumbs-up':comment.likes.length>0,
+                    'fa-thumbs-o-up':comment.likes.length==0,
+                    }" aria-hidden="true"></i>
+                    Like
+                </button>
+            </li>
             <li v-show="comment.sender.id == user.id">
                 <button class="unstyled"
                         @click.prevent="deleteComment"
@@ -72,6 +83,24 @@
             ContentContainer
         },
         methods: {
+            toggleLikeButton(){
+                var data=null,
+                        headers=this.setRequestHeaders();
+                if(this.comment.likes.length==0){
+                    var uri = this.getApi('likeFeed')+"/"+this.comment.id;
+
+                    this.$http.get(uri, data, headers).then(
+                            ({data})=>this.comment.likes.push(data.like),
+                            response=>conosle.log(response))
+                }else{
+                    var uri = this.getApi('unlikeFeed')+"/"+this.comment.likes[0].id;
+
+                    this.$http.get(uri, data, headers).then(
+                            ({data})=>this.comment.likes=[],
+                            response=>conosle.log(response))
+                }
+
+            },
             deleteComment() {
                 this.$dispatch("deleteCommentEvent", this.comment)
             },

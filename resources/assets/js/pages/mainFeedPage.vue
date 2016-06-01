@@ -1,6 +1,11 @@
 <style></style>
 <template>
     <div>
+        <mobile-editor
+                :content.sync="feed.content"
+                :category_id.sync="feed.category_id"
+                :category-list="categoryList"
+        ></mobile-editor>
         <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
             <desktop-editor
                     :content.sync="feed.content"
@@ -19,18 +24,14 @@
         <create-event-modal
                 :new-event.sync="newEvent"
         ></create-event-modal>
-        <mobile-editor
-                :content.sync="feed.content"
-                :category_id.sync="feed.category_id"
-                :category-list="categoryList"
-        ></mobile-editor>
+
         <image-carousel-modal
                 :images="carouselImages"
                 :active-item-index="activeItemIndex"
         ></image-carousel-modal>
         <mobile-photo-upload
-            :content.sync="feed.content"
-            :photos="feed.photos"
+                :content.sync="feed.content"
+                :photos="feed.photos"
         ></mobile-photo-upload>
     </div>
 </template>
@@ -50,14 +51,44 @@
             data: function (transition) {
                 var uri = this.getApi("getPublicShownFeeds"),
                         headers = this.setRequestHeaders();
-                this.$http.get(uri, "", headers).then(function (response) {
+                this.$http.get(uri, "", headers).then(function ({data}) {
                     transition.next({
-                        stream: response.data
+                        stream: data.items,
+                        currentPage: data.currentPage,
+                        previousPageUrl: data.previousPageUrl,
+                        nextPageUrl: data.nextPageUrl,
+                        hasMorePages: data.hasMorePages
                     })
                 }, function () {
                     transition.abort("cannot fetch category list.");
                 })
             }
+        },
+        ready(){
+            window.addEventListener('scroll', (ev) => {
+                if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    if(this.hasMorePages && !this.calling) {
+                        this.calling = true;
+                        var uri = this.nextPageUrl,
+                                headers = this.setRequestHeaders();
+                        this.$http.get(uri, "", headers)
+                                .then(
+                                        ({data}) => {
+                                                        data.items.map(item => this.stream.push(item));
+                                                        this.currentPage = data.currentPage;
+                                                        this.previousPageUrl = data.previousPageUrl;
+                                                        this.nextPageUrl = data.nextPageUrl;
+                                                        this.hasMorePages = data.hasMorePages;
+                                                        this.calling = false
+                                                    },
+                                        response => {
+                                            console.log(response)
+                                            this.calling = false
+                                        }
+                                )
+                    }
+                }
+            });
         },
         props: {
             categoryList: {
@@ -70,11 +101,16 @@
         data: function () {
             return {
                 stream: [],
+                currentPage: "",
+                previousPageUrl: "",
+                nextPageUrl: "",
+                hasMorePages: false,
                 feed: {
                     category_id: 1,
                     content: "",
                     photos: []
                 },
+                calling:false,
                 newEvent: {
                     name: "",
                     location: "",
@@ -92,8 +128,8 @@
                     title: "",
                     description: ""
                 },
-                carouselImages:[],
-                activeItemIndex:0
+                carouselImages: [],
+                activeItemIndex: 0
             }
         },
         watch: {
@@ -114,7 +150,7 @@
         },
         methods,
         events: {
-            showMobilePhotoUpload: function(){
+            showMobilePhotoUpload: function () {
                 $("#mobileImageUploadModal").modal("show");
             },
             removeTemUploadPhoto: function (photo) {
@@ -147,7 +183,7 @@
             deleteFeed: function (feed) {
                 this.deleteFeed(feed)
             },
-            showLargerImage: function(images, selectedImageIndex){
+            showLargerImage: function (images, selectedImageIndex) {
                 this.showLargerImage(images, selectedImageIndex)
             }
         }

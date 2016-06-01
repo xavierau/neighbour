@@ -1,0 +1,26 @@
+ul.nav li.default {
+  margin-top: 13px;
+}
+
+ul.notifications {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.navbar-header ul.nav.nav-pills li a {
+  color: white;
+
+  &:hover, &:focus {
+    background-color: transparent;
+  }
+}
+
+div.navbar-collapse.collapse.in{
+  max-height:370px
+}
+
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: white;
+  }
+}

@@ -1,12 +1,5 @@
-<style>
-    #mobileTextAreaInputGroupButton {
-        vertical-align: bottom;
-    }
+<style lang="scss" src="style/mobileEditor.scss"> </style>
 
-    #mobileSendButton {
-        border: none;
-    }
-</style>
 <template>
     <div class="mobile-input visible-xs" id="mobileEditor">
         <div class="input-group" style="background-color: white">
@@ -16,7 +9,7 @@
             <i class="fa fa-camera" aria-hidden="true"></i>
         </span>
              <textarea class="form-control"
-                       rows="1"
+                       rows="2"
                        id="mobileTextArea"
                        v-model="content"
              ></textarea>

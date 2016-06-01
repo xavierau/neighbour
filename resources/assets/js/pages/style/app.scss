@@ -1,0 +1,45 @@
+div.inputContainer {
+  background: white;
+  padding: 10px;
+
+  select {
+    border-radius: 0;
+  }
+  textarea {
+    border: none;
+    box-shadow: none;
+  }
+  textarea:focus {
+    box-shadow: none;
+  }
+  input[type='submit'] {
+    border-radius: 0;
+  }
+}
+
+
+ul.unstyled.list-group {
+  border: none;
+  color: black;
+
+  li.list-group-item {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+
+    a {
+      color: black;
+    }
+  }
+
+}
+
+div.main-actions {
+  background-color: white;
+  color: grey;
+
+  div.active {
+    color: black;
+  }
+
+}

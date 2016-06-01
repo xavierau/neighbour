@@ -10,6 +10,7 @@ use App\Events\NotificationEvent;
 use App\Feed;
 use App\Http\Requests;
 use App\Services\MediaServices;
+use App\Stream;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -53,31 +54,59 @@ class FeedsController extends Controller
     public function getFeeds(Request $request, $feedOption)
     {
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
-            $feeds = Feed::publicShown()
-                ->standardFetchSetting()
-                ->get();
-            $events = Event::where('isPublic', 1)->orderBy('created_at', 'desc')->with('organiser')->take(5)->get();
 
-            $stream = new Collection();
-            while ($feeds->count() != 0 and $events->count() != 0) {
-                $firstFeed = $feeds->first();
-                $firstEvent = $events->first();
-                if ($firstFeed->created_at > $firstEvent->created_at) {
-                    $stream->push($feeds->first());
-                    $feeds->shift();
-                } else {
-                    $stream->push($events->first());
-                    $events->shift();
-                }
-            };
-            if ($feeds->count() != 0) {
-                $stream = $this->pushToStream($feeds, $stream);
+            $stream = Stream::orderBy('created_at', "desc")->with('item')->paginate(5);
+            $items =new Collection();
+            foreach($stream as $item ){
+                if($item->item instanceof Feed)
+                    $item->item = $item->item->loadStandardFetchSetting();
+                if($item->item instanceof Event)
+                    $item->item = $item->item->load('organiser');
+                $items->push($item->item);
             }
-            if ($events->count() != 0) {
-                $stream = $this->pushToStream($events, $stream);
-            }
+            #total: 11
+            #lastPage: 3
+            #items: Collection {#252 ▶}
+            #perPage: 5
+            #currentPage: 1
+            #path: "http://neighbour.dev/api/feeds/showPublicfrontPage"
+            #query: []
+            #fragment: null
+            #pageName: "page"
+            $nextPageUrl = $stream->nextPageUrl();
+            $currentPage = $stream->currentPage();
+            $hasMorePages = $stream->hasMorePages();
+            $previousPageUrl = $stream->previousPageUrl();
 
-            return response()->json($stream);
+
+//            $feeds = Feed::publicShown()
+//                ->topLevelFeeds()
+//                ->standardFetchSetting()
+//                ->paginate(5);
+//            $events = Event::where('isPublic', 1)->orderBy('created_at', 'desc')->with('organiser')->take(5)->get();
+//
+//            $stream = new Collection();
+//            while ($feeds->count() != 0 and $events->count() != 0) {
+//                $firstFeed = $feeds->first();
+//                $firstEvent = $events->first();
+//                if ($firstFeed->created_at > $firstEvent->created_at) {
+//                    $stream->push($feeds->first());
+//                    $feeds->shift();
+//                } else {
+//                    $stream->push($events->first());
+//                    $events->shift();
+//                }
+//            };
+//            if ($feeds->count() != 0) {
+//                $stream = $this->pushToStream($feeds, $stream);
+//            }
+//            if ($events->count() != 0) {
+//                $stream = $this->pushToStream($events, $stream);
+//            }
+
+            return response()->json(compact(
+                'items', 'nextPageUrl' ,'currentPage', 'hasMorePages', 'previousPageUrl'
+            ));
         } elseif (in_array($feedOption, $categoryList = Category::lists('code', "id")->toArray())) {
             $feeds = Feed::feedCategory($feedOption)
                 ->standardFetchSetting()
@@ -115,7 +144,7 @@ class FeedsController extends Controller
     {
         $comments = Feed::orderBy('created_at', 'desc')
             ->where("reply_to", $request->get('feedId'))
-            ->with('sender')
+            ->standardFetchSetting()
             ->get();
 
         return response()->json(compact("comments"));
@@ -133,6 +162,8 @@ class FeedsController extends Controller
     public function deleteFeed(Request $request, $feedId)
     {
         $feed = $request->user()->feeds()->find($feedId);
+        if($feed->reply_to == 0)
+            $feed->stream->delete();
         $feed->delete();
         return response()->json('completed');
     }

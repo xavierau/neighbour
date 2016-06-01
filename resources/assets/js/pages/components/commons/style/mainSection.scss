@@ -1,0 +1,29 @@
+$topOffsetSm: 60;
+$topOffsetMd: 80;
+
+div.main.container{
+  position: relative;
+  top:$topOffsetMd+px;
+}
+
+div.left-side-menu {
+  position: fixed;
+  top:$topOffsetMd+px;
+  min-height: 300px;
+  background: rgba(255, 255, 255, 0.5);
+  li{
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (max-width: 767px) {
+
+  div.stream-container {
+    margin-bottom: 90px;
+  }
+
+  div.main.container, div.left-side-menu{
+    top:$topOffsetSm+px;
+  }
+
+}
