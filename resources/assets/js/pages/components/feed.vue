@@ -1,7 +1,7 @@
 <style lang="scss" src="style/feed.scss">
 </style>
 <template>
-    <component :is="isEvent" :feed="feed" :user="user"></component>
+        <component :is="isEvent" :feed="feed" :user="user"></component>
 </template>
 
 <script>

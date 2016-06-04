@@ -1,0 +1,22 @@
+div.calendarDate{
+  margin-left: 15px;
+  border: 2px solid magenta
+}
+.date-container{
+  position: absolute;
+  top:0;
+  color: white;
+  text-shadow: #3d3d3d 2px 2px 2px;
+}
+
+.event.feed-container{
+  background-color: rgb(255, 255, 157);
+}
+
+p.eventName{
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+p.eventLocation{
+  margin-bottom: 5px;
+}

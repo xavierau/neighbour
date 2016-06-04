@@ -7,7 +7,7 @@ var methods = {
         this.resetFeed();
         if (response.data.hasOwnProperty('feed'))
             this.stream.unshift(response.data.feed);
-        this.$broadcast('updateFeedCompleted')
+        this.$broadcast('updateFeedCompleted');
     },
     unableToCreatePost: function (response) {
     },
@@ -29,7 +29,7 @@ var methods = {
             url: "",
             title: "",
             description: ""
-        }
+        };
     },
     deleteFeed: function (feed) {
         var uri = this.getApi("feed") + "/" + feed.id,
@@ -70,7 +70,7 @@ var methods = {
                 conole.log(response);
             })
     },
-    joinEvent: function () {
+    joinEvent: function (event) {
         var uri = this.getApi("joinEvent"),
             headers = this.setRequestHeaders(),
             data = {eventId: event.id};
@@ -137,8 +137,8 @@ var methods = {
 
     },
     showLargerImage: function (images, selectedImageIndex) {
-        this.$set("carouselImages",images);
-        this.$set("activeItemIndex",selectedImageIndex);
+        this.$set("carouselImages", images);
+        this.$set("activeItemIndex", selectedImageIndex);
         $('#imageCarouselModal').modal('show');
     }
 };

@@ -106,7 +106,11 @@ Route::group(['middleware' => 'auth'], function () {
         return view('app', compact("settings"));
     });
     Route::get('/app/events/{events?}', function () {
-        return view('app');
+        $settings = Cache::rememberForever('settings', function(){
+            return Setting::all();
+        });
+
+        return view('app', compact("settings"));
     });
 
 
@@ -152,6 +156,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get("profile", "UsersController@getProfile");
         Route::post("profile", "UsersController@updateProfile");
+        Route::get("feed/{id}", "FeedsController@getFeed");
         Route::post("feed", "FeedsController@postFeed");
         Route::delete("feed/{id}", "FeedsController@deleteFeed");
         Route::delete("feeds/{id}/comments/{commentId}", "FeedsController@deleteComment");
@@ -204,6 +209,12 @@ Route::group(['middleware' => 'auth'], function () {
             return $promise->wait();
 
         });
+    });
+    Route::get("/app/{segment1?}/{segment2?}/{segment3?}", function(){
+        $settings = Cache::rememberForever('settings', function(){
+            return Setting::all();
+        });
+        return view("app", compact('settings'));
     });
 });
 

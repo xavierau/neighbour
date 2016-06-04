@@ -32,7 +32,7 @@ class FeedsController extends Controller
                 $mediaService = new MediaServices();
                 foreach ($files as $file){
                     $link = $mediaService->storeFeedPhoto($file);
-                    $data =[
+                       $data =[
                         'link'=>$link,
                         'type'=>'image'
                     ];
@@ -51,6 +51,12 @@ class FeedsController extends Controller
         }
     }
 
+    public function getFeed($id)
+    {
+        $feed = Feed::find($id);
+        return response()->json("feed");
+    }
+
     public function getFeeds(Request $request, $feedOption)
     {
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
@@ -61,48 +67,14 @@ class FeedsController extends Controller
                 if($item->item instanceof Feed)
                     $item->item = $item->item->loadStandardFetchSetting();
                 if($item->item instanceof Event)
-                    $item->item = $item->item->load('organiser');
+                    $item->item = $item->item->loadStandardFetchSetting();
                 $items->push($item->item);
             }
-            #total: 11
-            #lastPage: 3
-            #items: Collection {#252 ▶}
-            #perPage: 5
-            #currentPage: 1
-            #path: "http://neighbour.dev/api/feeds/showPublicfrontPage"
-            #query: []
-            #fragment: null
-            #pageName: "page"
+
             $nextPageUrl = $stream->nextPageUrl();
             $currentPage = $stream->currentPage();
             $hasMorePages = $stream->hasMorePages();
             $previousPageUrl = $stream->previousPageUrl();
-
-
-//            $feeds = Feed::publicShown()
-//                ->topLevelFeeds()
-//                ->standardFetchSetting()
-//                ->paginate(5);
-//            $events = Event::where('isPublic', 1)->orderBy('created_at', 'desc')->with('organiser')->take(5)->get();
-//
-//            $stream = new Collection();
-//            while ($feeds->count() != 0 and $events->count() != 0) {
-//                $firstFeed = $feeds->first();
-//                $firstEvent = $events->first();
-//                if ($firstFeed->created_at > $firstEvent->created_at) {
-//                    $stream->push($feeds->first());
-//                    $feeds->shift();
-//                } else {
-//                    $stream->push($events->first());
-//                    $events->shift();
-//                }
-//            };
-//            if ($feeds->count() != 0) {
-//                $stream = $this->pushToStream($feeds, $stream);
-//            }
-//            if ($events->count() != 0) {
-//                $stream = $this->pushToStream($events, $stream);
-//            }
 
             return response()->json(compact(
                 'items', 'nextPageUrl' ,'currentPage', 'hasMorePages', 'previousPageUrl'

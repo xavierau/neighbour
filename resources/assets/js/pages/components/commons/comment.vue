@@ -4,7 +4,7 @@
     }
 </style>
 <template>
-    <div class=" comment-row">
+    <div class="comment-row">
         <img class="avatar pull-left" :src="comment.sender.avatar" alt="">
         <content-container
                 class="comment-container"

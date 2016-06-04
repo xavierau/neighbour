@@ -1,0 +1,63 @@
+<div class="feed-container" :style="backgroundColor">
+    <div class="clearfix">
+        <div class="feed-owner">
+            <img class="avatar" :src="feed.sender.avatar" :alt="feed.sender">
+            <p class="name">{{feed.sender.name}}</p>
+            <p class="time">
+                <small>{{feed.created_at | parseDateToHuman}}</small>
+            </p>
+        </div>
+        <content-container :content="feed.content" :media="feed.media"></content-container>
+        <button
+                class="pull-right unstyled"
+                v-show="feed.numberOfComment>0"
+                @click.prevent="clickShowComment">{{feed.numberOfComment}} comments
+        </button>
+    </div>
+    <hr>
+    <div class="actions">
+        <ul class="list-inline">
+            <li>
+                <button class="unstyled" @click.prevent="clickComment"><i class="fa fa-comment-o"
+                                                                          aria-hidden="true"></i>
+                    Comment
+                </button>
+            </li>
+            <li>
+                <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
+                    Share
+                </button>
+            </li>
+            <li>
+                <button class="unstyled"
+                        @click.prevent="toggleLikeButton"
+                ><i class="fa" :class="{
+                    'like':feed.likes.length>0,
+                    'fa-thumbs-up':feed.likes.length>0,
+                    'fa-thumbs-o-up':feed.likes.length==0,
+                    }" aria-hidden="true"></i>
+                    Like
+                </button>
+            </li>
+            <li>
+                <button class="unstyled"
+                        @click.prevent="deleteFeed"
+                        v-show="feed.sender.id == user.id"
+                ><i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div v-show="wantToCommentFeed">
+        <div class="input-group">
+            <textarea name="comment" id="comment" rows="1" class="form-control" v-model="comment"></textarea>
+                    <span class="input-group-addon" @click="commentFeed">
+                       Send
+                    </span>
+        </div>
+    </div>
+    <div class="comment" v-show="showCommentContainer && comments.length>0">
+        <comment-container v-for="comment in comments" :user="user" :comment="comment"></comment-container>
+    </div>
+</div>

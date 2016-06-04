@@ -1,0 +1,50 @@
+<div class="feed-container event">
+    <div class="clearfix">
+        <div class="feed-owner">
+            <img class="avatar" :src="feed.organiser.avatar" :alt="feed.name">
+            <p class="name">{{feed.organiser.name}}</p>
+            <p class="time">
+                <small>{{feed.created_at | parseDateToHuman}}</small>
+            </p>
+        </div>
+        <div class="row clearfix">
+            <div class="col-xs-7 col-sm-8 date">
+                <img :src="getImage" alt="" class="img-responsive" v-show="feed.media.length>0">
+                <div class="date-container">
+                    <h2>{{feed.startDateTime | parseMonth}}  {{feed.startDateTime | parseDay}}</h2>
+                </div>
+
+            </div>
+            <div class="col-xs-5 col-sm-4 pull-right">
+                <p class="eventName">{{feed.name}}</p>
+                <p class="eventLocation"><small>{{feed.location}}</small></p>
+                <content-container
+                        :content="feed.description"
+                        :max-char="150"
+                ></content-container>
+            </div>
+        </div>
+        <button
+                class="pull-right unstyled"
+                v-show="feed.numberOfComments>0"
+                @click.prevent="">
+        </button>
+    </div>
+    <hr>
+    <div class="actions">
+        <ul class="list-inline">
+            <li>
+                <button class="unstyled"
+                        :class="{'btn btn-primary':joinEvent}"
+                        @click.prevent="clickJoinEvent"><i class="fa fa-calendar-o"></i>
+                    Join
+                </button>
+            </li>
+            <li>
+                <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
+                    Share
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>

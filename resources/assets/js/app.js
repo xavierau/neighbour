@@ -118,6 +118,10 @@ router.map({
                 name: 'home',
                 component: require('./pages/mainFeedPage.vue')
             },
+            "/feed/:feedId":{
+                name: 'feed',
+                component: require('./pages/singleFeed.vue')
+            },
             "/inbox":{
                 name: 'conversation',
                 component: require('./pages/conversation.vue')
@@ -144,7 +148,9 @@ router.map({
             "/:category":{
                 name: 'category',
                 component: require('./pages/categories.vue')
-            }
+            },
+
+
         }
     }
 }).redirect({

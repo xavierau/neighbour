@@ -1,25 +1,5 @@
-<style>
-    .eventContainer {
-        border: 1px solid grey;
-    }
-</style>
-<template>
-    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
-        <h2>My Events</h2>
-        <div class="row">
-            <event-container v-for="event in myEvents" :event="event"></event-container>
-        </div>
-
-        <h2>Public Events</h2>
-        <div class="row">
-            <div v-for="event in publicEvents" class="col-xs-6 col-sm-4 col-md-3">
-                <h4>{{event.name}}</h4>
-                <p>{{event.description}}</p>
-            </div>
-        </div>
-
-    </div>
-</template>
+<style lang="scss" src="style/events.scss"></style>
+<template lang="html" src="html/events.html"></template>
 
 <script>
     import EventContainer from './components/commons/eventContainer.vue'
@@ -49,5 +29,4 @@
             }
         }
     }
-
 </script>
