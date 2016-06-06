@@ -17,7 +17,7 @@ class Feed extends Model
     ];
 
     protected $appends = [
-        "numberOfComment"
+        "numberOfComment", "numberOfLikes"
     ];
 
 
@@ -73,6 +73,11 @@ class Feed extends Model
         return $query->whereHas("category", function($q)use($categoryCode){
             $q->where("code", $categoryCode);
         });
+    }
+
+    public function getNumberOfLikesAttribute()
+    {
+        return $this->likes()->count();
     }
 
 }

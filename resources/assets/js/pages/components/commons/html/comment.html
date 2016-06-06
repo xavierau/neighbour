@@ -1,0 +1,53 @@
+
+<div class="comment-row">
+    <img class="avatar pull-left" :src="comment.sender.avatar" alt="">
+    <content-container
+            class="comment-container"
+            :sender="comment.sender.name"
+            :sender-link="comment.avatarSrc"
+            :content="comment.content"
+    ></content-container>
+    <ul class="list-inline">
+        <li>
+            <button class="unstyled"
+                    @click.prevent="clickReplyComment"
+            ><i class="fa fa-comment-o" aria-hidden="true"></i>
+                Reply
+            </button>
+        </li>
+        <li>
+            <button class="unstyled"
+                    @click.prevent="toggleLikeButton"
+            ><i class="fa" :class="{
+                    'like':comment.likes.length>0,
+                    'fa-thumbs-up':comment.likes.length>0,
+                    'fa-thumbs-o-up':comment.likes.length==0,
+                    }" aria-hidden="true"></i>
+                Like
+            </button>
+        </li>
+        <li v-show="comment.sender.id == user.id">
+            <button class="unstyled"
+                    @click.prevent="deleteComment"
+            ><i class="fa fa-trash" aria-hidden="true"></i>
+                Delete
+            </button>
+        </li>
+        <li v-show="comment.numberOfComment>0">
+            <button class="unstyled"
+                    @click.prevent="clickShowCommentReplay"
+            >
+                {{comment.numberOfComment}} comments
+            </button>
+        </li>
+    </ul>
+    <div class="input-group" v-show="showReplyComment">
+        <input type="text" class="form-control" v-model="replyCommentContent" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="button" @click.prevent="replyComment">Send!</button>
+              </span>
+    </div>
+    <div class="comment" v-show="showCommentReply && comments.length>0">
+        <comment v-for="commentItem in comments" :user="user" :comment="commentItem"></comment>
+    </div>
+</div>

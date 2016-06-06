@@ -1,0 +1,20 @@
+<div>
+    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
+        <desktop-editor
+                :content.sync="feed.content"
+                :category_id.sync="feed.category_id"
+                :category-list="categoryList"
+        ></desktop-editor>
+        <mobile-editor
+                :content.sync="feed.content"
+                :category_id.sync="feed.category_id"
+                :category-list="categoryList"
+        ></mobile-editor>
+        <feed v-for="feed in stream"
+              :feed="feed"></feed>
+
+    </div>
+    <create-event-modal
+            :new-event.sync="newEvent"
+    ></create-event-modal>
+</div>

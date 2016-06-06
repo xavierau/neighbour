@@ -11,6 +11,7 @@
 |
 */
 
+use App\Category;
 use App\Event;
 use App\Feed;
 use App\Setting;
@@ -148,6 +149,24 @@ Route::group(['middleware' => 'auth'], function () {
             ];
 
             return response()->json(compact("metrics", "shownMetrics"));
+        });
+
+        Route::get('marquee', function(){
+           $events = Event::where("startDateTime", ">", new DateTime())->get();
+
+            $categories = Cache::remember('categories', 10, function(){
+               return Category::all();
+            });
+            $hotDealCategory =  $categories->first(function($index, $category){
+                return $category->code == "hotDeals";
+            });
+            $feeds = Feed::whereCategoryId($hotDealCategory->id)
+                ->orderBy("created_at", "desc")
+                ->get();
+
+            $collection = $events->merge($feeds);
+            
+            return response()->json(compact("collection"));
         });
 
         Route::get('like/{object}/{objectId}', "LikesController@like");

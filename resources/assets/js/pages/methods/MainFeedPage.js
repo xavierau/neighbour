@@ -83,19 +83,47 @@ var methods = {
                 conole.log(response);
             })
     },
+    joinEventMaybe: function (event) {
+        var uri = this.getApi("joinEvent")+"?option=maybe",
+            headers = this.setRequestHeaders(),
+            data = {eventId: event.id};
+        this.$http.post(uri, data, headers).then(
+            function (response) {
+                console.log(response);
+                this.$broadcast('jointedEventMaybe', response.data.eventId)
+            },
+            function (response) {
+                conole.log(response);
+            })
+    },
+    joinEventNo: function (event) {
+        var uri = this.getApi("joinEvent")+"?option=no",
+            headers = this.setRequestHeaders(),
+            data = {eventId: event.id};
+        this.$http.post(uri, data, headers).then(
+            function (response) {
+                console.log(response);
+                this.$broadcast('jointedEventNo', response.data.eventId)
+            },
+            function (response) {
+                conole.log(response);
+            })
+    },
     createNewEvent: function (data) {
         var uri = this.getApi("createEvent"),
             headers = this.setRequestHeaders();
         this.$http.post(uri, data, headers).then(function (response) {
             $("#myModal").modal('hide');
             toastr.success("Event Created!");
-            console.log(response)
+            this.$emit('eventCreated', response.data.event)
         }, function (response) {
             console.log(response)
         });
         console.log("create new Event with newEvent Object store here")
     },
-    updateFeed: function () {
+    updateFeed() {
+        console.log(this.feed.content);
+        console.log(this.feed.photos);
         if (this.feed.content.trim().length > 0) {
             var formData = new FormData();
             formData.append('category_id', this.feed.category_id);

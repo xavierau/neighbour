@@ -7,13 +7,19 @@ use App\RelationshipTraits\InStream;
 use App\RelationshipTraits\IsLikeable;
 use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Event extends Model
 {
     use NotificationTrait, InStream, HasMedia, IsLikeable;
 
     protected $fillable=[
-      'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic', "description"
+      'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic', "description", "status"
+    ];
+
+    protected $appends =[
+      "eventStatus"
     ];
 
     public function organiser()
@@ -23,7 +29,7 @@ class Event extends Model
 
     public function participants()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('status')->withTimestamps();
     }
 
     public function numberOfParticipants()
@@ -31,12 +37,19 @@ class Event extends Model
         return $this->participants()->count();
     }
 
+    public function getEventStatusAttribute()
+    {
+        $user = $this->participants()->whereUserId(Auth::user()->id)->first();
+        if($user)
+            return $user->pivot->status;
+            else
+                return null;
+    }
+
     public function loadStandardFetchSetting()
     {
         return $this->load(["organiser", "media", "likes"=>function($query){
             $query->where('user_id', request()->user()->id);
-        },"participants"=>function($query){
-            $query->lists('user_id')->toArray();
         }]);
 
     }

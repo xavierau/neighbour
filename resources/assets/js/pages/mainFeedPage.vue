@@ -169,6 +169,12 @@
             joinEvent: function (event) {
                 this.joinEvent(event)
             },
+            joinEventMaybe: function (event) {
+                this.joinEventMaybe(event)
+            },
+            joinEventNo: function (event) {
+                this.joinEventNo(event)
+            },
             showCreateEventModalEvent: function () {
                 this.showModal();
             },
@@ -185,6 +191,9 @@
             },
             showLargerImage: function (images, selectedImageIndex) {
                 this.showLargerImage(images, selectedImageIndex)
+            },
+            eventCreated(event){
+                this.stream.unshift(event)
             }
         }
     }

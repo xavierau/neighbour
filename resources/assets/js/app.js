@@ -42,6 +42,9 @@ Vue.mixin({
                 case "likeFeed":
                     uri = uri + "like/Feed"
                     break;
+                case "getMarqueeContent":
+                    uri = uri + "marquee"
+                    break;
                 case "unlikeFeed":
                     uri = uri + "unlike/Feed"
                     break;

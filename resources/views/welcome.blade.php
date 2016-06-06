@@ -92,27 +92,30 @@
                     <div class="carousel-inner">
                         <div class="item active">
                             <h3>
-                                This is the main landing page.
+                                IC Community, because Neighbors care
                             </h3>
-                            <p>
-                                You have to put something here for your potential customer.
-                                Lorem ipsumdolor sitamet, consect adipiscing elit
-                                Lorem ipsumdolor sitamet, consect adipiscing elit.
-                                Lorem ipsumdolor sitamet, consect adipiscing elit
-                                Lorem ipsumdolor sitamet, consect adipiscing elit.
-                            </p>
+                            <br>
+                            <br>
+                            <br>
+                            {{--<p>--}}
+                                {{--You have to put something here for your potential customer.--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
+                            {{--</p>--}}
                         </div>
-                        <div class="item">
-                            <h3>
-                                Lorem ipsumdolor sitamet, consect adipiscing elit
-                            </h3>
-                            <p>
-                                Lorem ipsumdolor sitamet, consect adipiscing elit
-                                Lorem ipsumdolor sitamet, consect adipiscing elit.
-                                Lorem ipsumdolor sitamet, consect adipiscing elit
-                                Lorem ipsumdolor sitamet, consect adipiscing elit.
-                            </p>
-                        </div>
+                        {{--<div class="item">--}}
+                            {{--<h3>--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
+                            {{--</h3>--}}
+                            {{--<p>--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
+                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
 
                     </div>
 

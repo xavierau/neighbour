@@ -1,0 +1,18 @@
+
+<div class="container main">
+    <div class=" left-side-menu col-sm-2 col-md-1 fixed hidden-xs">
+        <ul class="list-group unstyled">
+            <li class="list-group-item">
+                <a href="" v-link="{name:'events'}">Events</a>
+            </li>
+            <li class="list-group-item" v-for="category in categoryList">
+                <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
+            </li>
+        </ul>
+    </div>
+    <slot>
+        This will only be displayed if there is no content
+        to be distributed.
+    </slot>
+    <div  class="marquee">this is marquee</div>
+</div>

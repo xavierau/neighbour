@@ -13,6 +13,11 @@
                 v-show="feed.numberOfComment>0"
                 @click.prevent="clickShowComment">{{feed.numberOfComment}} comments
         </button>
+        <span
+                class="pull-right"
+                v-show="feed.numberOfLikes>0"
+                style="margin-top:2px">{{feed.numberOfLikes}} Likes
+        </span>
     </div>
     <hr>
     <div class="actions">

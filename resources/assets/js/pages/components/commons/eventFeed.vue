@@ -28,22 +28,50 @@
             },
             parseDay: function (value) {
                 return moment(value, "YYYY-MM-DD HH:mm:ss").format("D");
-            }
+            },
+            parseDefaultDateTimeFormat(value){
+                return moment(value, "YYYY-MM-DD HH:mm:ss").format('MMMM Do YYYY, h:mm a');
+            },
         },
         components:{
             ContentContainer
         },
         methods:{
             clickJoinEvent: function(){
-                if(!this.joinEvent)
+                if(!this.feed.eventStatus != "yes")
                     this.$dispatch("joinEvent", this.feed)
-            }
+            },
+            clickJoinEventMaybe: function(){
+                if(!this.feed.eventStatus != "maybe")
+                    this.$dispatch("joinEventMaybe", this.feed)
+            },
+            clickJoinEventNo: function(){
+                if(!this.feed.eventStatus != "no")
+                    this.$dispatch("joinEventNo", this.feed)
+            },
         },
         events:{
             jointedEvent: function (eventId) {
-                if(this.feed.id == eventId)
-                        this.joinEvent = true;
-            }
+                if(this.feed.id == eventId){
+                    toastr['success']('You just join the event');
+                    this.feed.eventStatus = 'yes';
+                }
+
+            },
+            jointedEventMaybe: function (eventId) {
+                if(this.feed.id == eventId){
+                    toastr['success']('You may join the event');
+                    this.feed.eventStatus = 'maybe';
+                }
+
+            },
+            jointedEventNo: function (eventId) {
+                if(this.feed.id == eventId){
+                    toastr['success']('You won\'t jon the event');
+                    this.feed.eventStatus = 'no';
+                }
+
+            },
         }
     }
 </script>

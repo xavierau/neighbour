@@ -13,11 +13,10 @@
                 <div class="date-container">
                     <h2>{{feed.startDateTime | parseMonth}}  {{feed.startDateTime | parseDay}}</h2>
                 </div>
-
             </div>
             <div class="col-xs-5 col-sm-4 pull-right">
                 <p class="eventName">{{feed.name}}</p>
-                <p class="eventLocation"><small>{{feed.location}}</small></p>
+                <p class="eventLocation"><small>{{feed.startDateTime | parseDefaultDateTimeFormat}}</small></p>
                 <content-container
                         :content="feed.description"
                         :max-char="150"
@@ -34,10 +33,21 @@
     <div class="actions">
         <ul class="list-inline">
             <li>
-                <button class="unstyled"
-                        :class="{'btn btn-primary':joinEvent}"
+                <button :class="{'btn btn-primary': feed.eventStatus=='yes', 'unstyled':feed.eventStatus != 'yes'}"
                         @click.prevent="clickJoinEvent"><i class="fa fa-calendar-o"></i>
-                    Join
+                    Yes
+                </button>
+            </li>
+            <li>
+                <button :class="{'btn btn-primary':feed.eventStatus=='maybe', 'unstyled':feed.eventStatus != 'maybe'}"
+                        @click.prevent="clickJoinEventMaybe"><i class="fa fa-calendar-o"></i>
+                    Maybe
+                </button>
+            </li>
+            <li>
+                <button :class="{'btn btn-primary':feed.eventStatus=='no', 'unstyled':feed.eventStatus != 'no'}"
+                        @click.prevent="clickJoinEventNo"><i class="fa fa-calendar-o"></i>
+                    No
                 </button>
             </li>
             <li>

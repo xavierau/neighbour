@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class FeedsController extends Controller
 {
@@ -131,11 +132,21 @@ class FeedsController extends Controller
         return $stream;
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param                          $feedId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteFeed(Request $request, $feedId)
     {
         $feed = $request->user()->feeds()->find($feedId);
-        if($feed->reply_to == 0)
-            $feed->stream->delete();
+        if($feed->reply_to == 0){
+            $class = get_class($feed);
+            $stream = Stream::whereItemType($class)
+                ->whereItemId($feed->id)
+                ->first();
+            $stream->delete();
+        }
         $feed->delete();
         return response()->json('completed');
     }

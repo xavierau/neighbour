@@ -47,13 +47,18 @@ export default {
             if (this.feed.likes.length == 0) {
                 uri = this.getApi('likeFeed') + "/" + this.feed.id;
                 this.$http.get(uri, data, headers).then(
-                    ({data})=>this.feed.likes.push(data.like),
+                    ({data})=>{
+                        this.feed.likes.push(data.like);
+                        this.feed.numberOfLikes += 1
+                    },
                     response=>conosle.log(response))
             } else {
                 uri = this.getApi('unlikeFeed') + "/" + this.feed.likes[0].id;
                 this.$http.get(uri, data, headers).then(
-                    ({data})=>this.feed.likes = [],
-                    response=>conosle.log(response))
+                    ({data})=>{
+                        this.feed.likes = []
+                        this.feed.numberOfLikes -= 1
+                    },response=>conosle.log(response))
             }
 
         },
