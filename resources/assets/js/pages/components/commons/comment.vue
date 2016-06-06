@@ -37,13 +37,19 @@
                     var uri = this.getApi('likeFeed')+"/"+this.comment.id;
 
                     this.$http.get(uri, data, headers).then(
-                            ({data})=>this.comment.likes.push(data.like),
+                            ({data})=>{
+                                this.comment.likes.push(data.like);
+                                this.comment.numberOfLikes += 1;
+                            },
                             response=>conosle.log(response))
                 }else{
                     var uri = this.getApi('unlikeFeed')+"/"+this.comment.likes[0].id;
 
                     this.$http.get(uri, data, headers).then(
-                            ({data})=>this.comment.likes=[],
+                            ({data})=>{
+                                this.comment.likes=[];
+                                this.comment.numberOfLikes -= 1;
+                            },
                             response=>conosle.log(response))
                 }
 

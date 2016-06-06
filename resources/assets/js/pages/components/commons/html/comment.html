@@ -40,6 +40,13 @@
                 {{comment.numberOfComment}} comments
             </button>
         </li>
+        <li v-show="comment.numberOfLikes>0">
+            <button class="unstyled"
+                    @click.prevent="return false"
+            >
+                {{comment.numberOfLikes}} likes
+            </button>
+        </li>
     </ul>
     <div class="input-group" v-show="showReplyComment">
         <input type="text" class="form-control" v-model="replyCommentContent" placeholder="Search for...">
