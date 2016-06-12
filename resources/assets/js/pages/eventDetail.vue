@@ -1,41 +1,8 @@
 <style></style>
-<template>
-    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
-        <h1>{{event.name}}</h1>
-        <table>
-            <tbody>
-            <tr>
-                <td>Location: </td>
-                <td>{{event.location}}</td>
-            </tr>
-            <tr>
-                <td>Start Date: </td>
-                <td>{{event.startDataTime}}</td>
-            </tr>
-            <tr>
-                <td>End Date: </td>
-                <td>{{event.startDataTime}}</td>
-            </tr>
-            <tr>
-                <td>Description: </td>
-                <td>{{event.description}}</td>
-            </tr>
-            <tr>
-                <td>Picture: </td>
-                <td>{{event.pic}}</td>
-            </tr>
-            <tr>
-                <td>How many Join: </td>
-                <td>{{numberOfParticipants}}</td>
-            </tr>
-            </tbody>
-        </table>
-        <button class="btn btn-info">Edit</button>
-        <button class="btn btn-info">Invite Others</button>
-    </div>
-</template>
+<template lant="html" src="html/eventDetail.html"></template>
 
 <script>
+    import UpdateEvent from './components/commons/updateEvent.vue';
     export default{
         route: {
             data: function (transition) {
@@ -52,10 +19,39 @@
                 })
             }
         },
+        components:{
+            UpdateEvent
+        },
         data: function () {
             return {
                 event: {},
                 numberOfParticipants:0
+            }
+        },
+        methods:{
+          showModal(){
+              var target = $("#myModal");
+              target.modal('show');
+          },
+            createNewEvent(data) {
+                var uri = this.getApi("createEvent"),
+                    headers = this.setRequestHeaders();
+                this.$http.post(uri, data, headers).then(function (response) {
+                    $("#myModal").modal('hide');
+                    toastr.success("Event Created!");
+                    this.$emit('eventCreated', response.data.event)
+                }, function (response) {
+                    console.log(response)
+                });
+                console.log("create new Event with newEvent Object store here")
+            }
+        },
+        filters:{
+            dateParser(date){
+                console.log(date)
+                if(date == "0000-00-00 00:00:00")
+                    return ""
+                return moment(date).format("LLL")
             }
         }
     }

@@ -13,7 +13,7 @@ class Feed extends Model
     use NotificationTrait, HasMedia, IsLikeable, InStream;
     
     protected $fillable = [
-        'content','category_id','reply_to'
+        'content','category_id','reply_to', 'created_at'
     ];
 
     protected $appends = [

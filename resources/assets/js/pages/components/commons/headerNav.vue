@@ -15,7 +15,7 @@
                     <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-comments-o"
                                                                                  aria-hidden="true"
                                                                                  style="font-size: 2em"></i></a></li>
-                    <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-search"
+                    <li role="presentation"><a v-link="{name:'search'}"><i class="fa fa-search"
                                                                                  aria-hidden="true"
                                                                                  style="font-size: 2em"></i></a></li>
                 </ul>

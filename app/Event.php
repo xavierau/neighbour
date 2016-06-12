@@ -18,6 +18,10 @@ class Event extends Model
       'name', 'location', 'startDateTime', 'endDateTime', 'pic', 'isPublic', "description", "status"
     ];
 
+    protected $dates = [
+      "created_at", "updated_at", "startDateTime", "endDateTIme"
+    ];
+
     protected $appends =[
       "eventStatus"
     ];
@@ -52,5 +56,10 @@ class Event extends Model
             $query->where('user_id', request()->user()->id);
         }]);
 
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(EventInvitation::class);
     }
 }

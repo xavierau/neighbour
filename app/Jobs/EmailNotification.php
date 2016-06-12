@@ -3,12 +3,11 @@
 namespace App\Jobs;
 
 use App\Feed;
-use App\Jobs\Job;
 use App\User;
 use Illuminate\Contracts\Mail\Mailer;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class EmailNotification extends Job implements ShouldQueue
 {
@@ -49,7 +48,7 @@ class EmailNotification extends Job implements ShouldQueue
     public function handle(Mailer $mailer)
     {
         $data = [
-            "feed"=>$this->feed->load(['sender','media'])
+            "feed" => $this->feed->load(['sender', 'media'])
         ];
 
         $mailer->send('emails.NewPostNotification', $data, function ($m) {
@@ -57,5 +56,5 @@ class EmailNotification extends Job implements ShouldQueue
                 ->from('no-reply@neighbour.app', 'Neighbour App')
                 ->subject('New Post!');
         });
-     }
+    }
 }

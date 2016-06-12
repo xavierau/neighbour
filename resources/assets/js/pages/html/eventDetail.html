@@ -1,0 +1,36 @@
+<div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
+    <h1>{{event.name}}</h1>
+    <table>
+        <tbody>
+        <tr>
+            <td>Location: </td>
+            <td>{{event.location}}</td>
+        </tr>
+        <tr>
+            <td>Start Date: </td>
+            <td>{{event.startDateTime | dateParser}}</td>
+        </tr>
+        <tr>
+            <td>End Date: </td>
+            <td>{{event.endDateTime | dateParser}}</td>
+        </tr>
+        <tr>
+            <td>Description: </td>
+            <td>{{event.description}}</td>
+        </tr>
+        <tr v-show="event.media.length>0">
+            <td>{{event.media[0].link}}</td>
+        </tr>
+        <tr>
+            <td>How many Join: </td>
+            <td>{{numberOfParticipants}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-info" @click="showModal">Edit</button>
+    <button class="btn btn-info">Invite Others</button>
+
+    <update-event
+            :event="event"
+    ></update-event>
+</div>

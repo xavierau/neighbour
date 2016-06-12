@@ -13,12 +13,14 @@ class EventsController extends Controller
 {
     public function getEvents(Request $request)
     {
-        $myEvents = Event::whereUserId($request->user()->id)->with('media')->orderBy('created_at', 'desc')->get();
+        $myEvents = Event::whereUserId($request->user()->id)
+            ->with(['media', "invitations"])->orderBy('created_at', 'desc')->get();
         $publicEvents = Event::where('isPublic', 1)
             ->where('user_id', "<>", $request->user()->id)
             ->with('media')
             ->orderBy('created_at', 'desc')
             ->get();
+        
 
         return response()->json(["myEvents" => $myEvents, 'publicEvents' => $publicEvents]);
     }

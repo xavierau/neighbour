@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Cache;
 
 Route::get('/', function () {
     if (Auth::guest()) {
-        $settings = Cache::rememberForever('settings', function(){
+        $settings = Cache::remember('settings', 10, function(){
             return Setting::all();
         });
 
@@ -32,6 +32,11 @@ Route::get('/', function () {
 
     return redirect("/app");
 });
+
+Route::get("invitation/replay/{invitationId}/{status}",[
+    "as"=> "replyInvitation",
+    "uses"=>"InvitationsController@replyEventInvitation"]);
+
 
 
 Route::get('/sampling', function () {
@@ -74,11 +79,11 @@ Route::get('/sampling', function () {
     }
 
     dd(Stream::orderBy('created_at', 'desc')->with("item")->paginate(5));
-    
+
 });
 
 Route::group(['middleware'=>['auth','hasPermission:one']], function (){
-   Route::get('permissionTesting');
+    Route::get('permissionTesting');
 });
 
 Route::get("permissions", "PermissionsController@index");
@@ -100,10 +105,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::get('/app', function () {
-        $settings = Cache::rememberForever('settings', function(){
-            return Setting::all();
+        $settings = Cache::remember('settings', 10, function(){
+           return Setting::all();
         });
-        
+
         return view('app', compact("settings"));
     });
     Route::get('/app/events/{events?}', function () {
@@ -152,21 +157,21 @@ Route::group(['middleware' => 'auth'], function () {
         });
 
         Route::get('marquee', function(){
-           $events = Event::where("startDateTime", ">", new DateTime())->get();
-
-            $categories = Cache::remember('categories', 10, function(){
-               return Category::all();
-            });
-            $hotDealCategory =  $categories->first(function($index, $category){
-                return $category->code == "hotDeals";
-            });
-            $feeds = Feed::whereCategoryId($hotDealCategory->id)
-                ->orderBy("created_at", "desc")
-                ->get();
-
-            $collection = $events->merge($feeds);
-            
-            return response()->json(compact("collection"));
+//            $events = Event::where("startDateTime", ">", new DateTime())->get();
+//
+//            $categories = Cache::remember('categories', 10, function(){
+//                return Category::all();
+//            });
+//            $hotDealCategory =  $categories->first(function($index, $category){
+//                return $category->code == "hotDeals";
+//            });
+//            $feeds = Feed::whereCategoryId($hotDealCategory->id)
+//                ->orderBy("created_at", "desc")
+//                ->get();
+//
+//            $collection = $events->merge($feeds);
+//
+//            return response()->json(compact("collection"));
         });
 
         Route::get('like/{object}/{objectId}', "LikesController@like");
@@ -194,6 +199,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('events/{eventId}', "EventsController@getEvent");
         Route::post('joinEvent', "EventsController@joinEvent");
 
+        Route::get("invitation/event/{eventId}/user/{userId}", "InvitationsController@sendEventInvitation");
 
         Route::get('conversations', 'ConversationsController@getAllConversations');
         Route::get('conversation', 'ConversationsController@getConversation');
@@ -236,10 +242,14 @@ Route::group(['middleware' => 'auth'], function () {
         return view("app", compact('settings'));
     });
 });
+Route::group(['prefix'=>'facebook'], function(){
+    Route::get("register", "Auth\\AuthController@facebookSignUp");
+    Route::get("login", "Auth\\AuthController@facebookLogin");
+    Route::get("register/callback", "Auth\\AuthController@handleFacebookSignUpCallback");
+    Route::get("/", "FacebookFeedsController@create");
 
-Route::get("facebook/register", "Auth\\AuthController@facebookSignUp");
-Route::get("facebook/login", "Auth\\AuthController@facebookLogin");
-Route::get("facebook/register/callback", "Auth\\AuthController@handleFacebookSignUpCallback");
+});
+
 
 Route::auth();
 

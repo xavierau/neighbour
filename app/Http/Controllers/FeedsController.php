@@ -11,40 +11,42 @@ use App\Feed;
 use App\Http\Requests;
 use App\Services\MediaServices;
 use App\Stream;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request as GR;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class FeedsController extends Controller
 {
     public function postFeed(Request $request)
     {
-        $files = array_filter($request->all(), function($entry){
+        $files = array_filter($request->all(), function ($entry) {
             return $entry instanceof UploadedFile;
         });
         if ($request->ajax()) {
             $feedData = $request->all();
             $feedData["reply_to"] = 0;
             $feed = Auth::user()->feeds()->create($feedData);
-            
-            if(count($files)>0){
+
+            if (count($files) > 0) {
                 $mediaService = new MediaServices();
-                foreach ($files as $file){
+                foreach ($files as $file) {
                     $link = $mediaService->storeFeedPhoto($file);
-                       $data =[
-                        'link'=>$link,
-                        'type'=>'image'
+                    $data = [
+                        'link' => $link,
+                        'type' => 'image'
                     ];
                     $feed->media()->create([])->update($data);
                 }
             }
-            
+
             event(new NewPostCreated($feed));
 
             if ($feed->category->showInPublic) {
-                $feed->load(["sender","media"]);
+                $feed->load(["sender", "media"]);
+
                 return response()->json(['status' => "okay", 'feed' => $feed]);
             }
 
@@ -54,8 +56,10 @@ class FeedsController extends Controller
 
     public function getFeed($id)
     {
+        logger('feed test');
         $feed = Feed::find($id);
-        return response()->json("feed");
+
+        return response()->json(compact("feed"));
     }
 
     public function getFeeds(Request $request, $feedOption)
@@ -63,12 +67,14 @@ class FeedsController extends Controller
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
 
             $stream = Stream::orderBy('created_at', "desc")->with('item')->paginate(5);
-            $items =new Collection();
-            foreach($stream as $item ){
-                if($item->item instanceof Feed)
+            $items = new Collection();
+            foreach ($stream as $item) {
+                if ($item->item instanceof Feed) {
                     $item->item = $item->item->loadStandardFetchSetting();
-                if($item->item instanceof Event)
+                }
+                if ($item->item instanceof Event) {
                     $item->item = $item->item->loadStandardFetchSetting();
+                }
                 $items->push($item->item);
             }
 
@@ -78,16 +84,17 @@ class FeedsController extends Controller
             $previousPageUrl = $stream->previousPageUrl();
 
             return response()->json(compact(
-                'items', 'nextPageUrl' ,'currentPage', 'hasMorePages', 'previousPageUrl'
+                'items', 'nextPageUrl', 'currentPage', 'hasMorePages', 'previousPageUrl'
             ));
         } elseif (in_array($feedOption, $categoryList = Category::lists('code', "id")->toArray())) {
             $feeds = Feed::feedCategory($feedOption)
                 ->standardFetchSetting()
                 ->get();
-            $category_id=0;
-            foreach ($categoryList as $id=>$categoryCode){
-                if($feedOption == $categoryCode)
-                    $category_id=$id;
+            $category_id = 0;
+            foreach ($categoryList as $id => $categoryCode) {
+                if ($feedOption == $categoryCode) {
+                    $category_id = $id;
+                }
             }
 
             return response()->json(compact("feeds", "category_id"));
@@ -105,8 +112,8 @@ class FeedsController extends Controller
             "category_id" => $feed->category->id
         ]);
         $replay->load('sender');
-        if($feed->sender->id != $request->user()->id){
-            event(new NotificationEvent($feed,$feed->sender->id, $request->user()->id));
+        if ($feed->sender->id != $request->user()->id) {
+            event(new NotificationEvent($feed, $feed->sender->id, $request->user()->id));
             event(new Notification($feed->sender));
         }
 
@@ -123,15 +130,6 @@ class FeedsController extends Controller
         return response()->json(compact("comments"));
     }
 
-    private function pushToStream($collection, $stream)
-    {
-        $collection->map(function ($item) use ($stream) {
-            $stream->push($item);
-        });
-
-        return $stream;
-    }
-
     /**
      * @param \Illuminate\Http\Request $request
      * @param                          $feedId
@@ -140,7 +138,7 @@ class FeedsController extends Controller
     public function deleteFeed(Request $request, $feedId)
     {
         $feed = $request->user()->feeds()->find($feedId);
-        if($feed->reply_to == 0){
+        if ($feed->reply_to == 0) {
             $class = get_class($feed);
             $stream = Stream::whereItemType($class)
                 ->whereItemId($feed->id)
@@ -148,13 +146,67 @@ class FeedsController extends Controller
             $stream->delete();
         }
         $feed->delete();
+
         return response()->json('completed');
     }
 
     public function deleteComment(Request $request, $postId, $commentId)
     {
         $feed = $request->user()->feeds()->whereReplyTo($postId)->whereId($commentId)->first();
-        if($feed) $feed->delete();
+        if ($feed) {
+            $feed->delete();
+        }
+
         return response()->json('completed');
     }
+
+    public function urlPreview(Request $request)
+    {
+        $uri = $request->get('uri');
+        $client = new Client();
+        $httpRequest = new GR('GET', $uri);
+        $content = "";
+        $promise = $client->sendAsync($httpRequest)->then(function ($response) use ($content) {
+            $stream = $response->getBody();
+            while (!$stream->eof()) {
+                $content = $content . $stream->read(1024);
+            }
+
+            if (preg_match('/(?:<head[^>]*>)(.*)<\/head>/isU', $content, $matches)) {
+                $content = $matches[1];
+            }
+
+            return $this->getMetaTags($content);
+        });
+
+        return $promise->wait();
+    }
+
+    private function getMetaTags($str)
+    {
+        $pattern = '
+          ~<\s*meta\s
+        
+          # using lookahead to capture type to $1
+            (?=[^>]*?
+            \b(?:name|property|http-equiv)\s*=\s*
+            (?|"\s*([^"]*?)\s*"|\'\s*([^\']*?)\s*\'|
+            ([^"\'>]*?)(?=\s*/?\s*>|\s\w+\s*=))
+          )
+        
+          # capture content to $2
+          [^>]*?\bcontent\s*=\s*
+            (?|"\s*([^"]*?)\s*"|\'\s*([^\']*?)\s*\'|
+            ([^"\'>]*?)(?=\s*/?\s*>|\s\w+\s*=))
+          [^>]*>
+        
+          ~ix';
+
+        if (preg_match_all($pattern, $str, $out)) {
+            return array_combine($out[1], $out[2]);
+        }
+
+        return array();
+    }
+
 }

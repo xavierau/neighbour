@@ -3,14 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use ReflectionClass;
 
-class Setting extends Model
+class FacebookFeed extends Model
 {
     protected $fillable = [
-        'label', 'code', 'type', 'value'
+        "message", "message_id", "author_id", "reply_to"
     ];
 
 }
-
-

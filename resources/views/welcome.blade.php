@@ -8,7 +8,6 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <title>{{getSettingValue($settings,'appName')}}</title>
     <!-- BOOTSTRAP CORE CSS -->
     <link href="/assets/css/bootstrap.css" rel="stylesheet"/>
     <!-- ION ICONS STYLES -->
@@ -43,7 +42,7 @@
             </button>
             <a class="navbar-brand" href="#">
 
-                {{getSettingValue($settings,'appName')}}
+
 
             </a>
         </div>
