@@ -19,7 +19,7 @@ class FacebookFeedsController extends Controller
             'app_secret'            => env("FACEBOOK_APP_SECRET"),
             'default_graph_version' => 'v2.6',
         ]);
-        $token = DB::table("facebook_users")->first()->token;
+        $token = DB::table("facebook_users")->whereId(env("FACEBOOK_PAGE_ADMIN_ID"))->first()->token;
         $fields = [
             'limit'        => 5,
             'format'       => 'json',
