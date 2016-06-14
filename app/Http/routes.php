@@ -43,42 +43,42 @@ Route::get("fbFeedConversation", function(){
         }
     }
     // get top level fb feed and convert to feed and add to stream
-    $topLevelFbFeeds = \App\FacebookFeed::whereReplyTo(0)->get();
-    foreach ($topLevelFbFeeds as $fbFeed){
-        $fbUser = \App\FacebookUser::whereId($fbFeed->author_id)->first();
-        $user = $fbUser->user;
-        $data = [
-            'content'     => $fbFeed->message,
-            'reply_to'    => 0,
-            'category_id' => 1,
-            'created_at' => $fbFeed->created_at
-        ];
-        $feed = $user->feeds()->create($data);
-        $fbFeed->feed_id = $feed->id;
-        $fbFeed->save();
-
-        if (isset($fbFeed->media)) {
-            foreach ($fbFeed->media as $media) {
-                $data = [
-                    'link' => $media->picture,
-                    'type' => $media->type
-                ];
-                $feed->media()->create([])->update($data);
-            }
-        }
-
-        // add to stream
-        $stream = $feed->stream()->create([]);
-        $stream->item_id = $feed->id;
-        $stream->created_at = $feed->created_at;
-        $stream->save();
-
-    }
+//    $topLevelFbFeeds = \App\FacebookFeed::whereReplyTo(0)->get();
+//    foreach ($topLevelFbFeeds as $fbFeed){
+//        $fbUser = \App\FacebookUser::whereId($fbFeed->author_id)->first();
+//        $user = $fbUser->user;
+//        $data = [
+//            'content'     => $fbFeed->message,
+//            'reply_to'    => 0,
+//            'category_id' => 1,
+//            'created_at' => $fbFeed->created_at
+//        ];
+//        $feed = $user->feeds()->create($data);
+//        $fbFeed->feed_id = $feed->id;
+//        $fbFeed->save();
+//
+//        if (isset($fbFeed->media)) {
+//            foreach ($fbFeed->media as $media) {
+//                $data = [
+//                    'link' => $media->picture,
+//                    'type' => $media->type
+//                ];
+//                $feed->media()->create([])->update($data);
+//            }
+//        }
+//
+//        // add to stream
+//        $stream = $feed->stream()->create([]);
+//        $stream->item_id = $feed->id;
+//        $stream->created_at = $feed->created_at;
+//        $stream->save();
+//
+//    }
 
     // get other level fb feeds and convert to feed
     $fbFeeds = \App\FacebookFeed::where('reply_to',"<>",0)->get();
     foreach ($fbFeeds as $fbFeed){
-        $fbUser = \App\FacebookUser::whereId($feed->author_id)->first();
+        $fbUser = \App\FacebookUser::whereId($fbFeed->author_id)->first();
         $user = $fbUser->user;
         $data = [
             'content'     => $fbFeed->message,
