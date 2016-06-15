@@ -14,7 +14,7 @@ class CreateFeedsTable extends Migration
     {
         Schema::create('feeds', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
+            $table->text('content');
             $table->integer('reply_to')->unsigned();
             $table->integer('user_id');
             $table->integer('category_id')->unsinged();
