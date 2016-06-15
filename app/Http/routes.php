@@ -22,26 +22,26 @@ use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
-Route::get("fbFeedConversation", function(){
-
-    // get all fb users, create user if they don't exist
-    $fbUsers = \App\FacebookUser::all();
-    foreach ($fbUsers as $fbUser){
-        if(!$fbUser->email){
-            $fbUser->update(["email"=>$fbUser->id."@dummy.com"]);
-        }
-        $user = User::whereEmail($fbUser->email)->first();
-        if(!$user){
-            $user = User::create([
-                'name'     => $fbUser->name,
-                'email'    => $fbUser->email,
-                'avatar'    => $fbUser->avatar,
-                'password' => bcrypt(env("DUMMY_PASSWORD"))
-            ]);
-            $theFbUser =  \App\FacebookUser::whereEmail($user->email)->first();
-            $theFbUser->update(["user_id"=>$user->id]);
-        }
-    }
+//Route::get("fbFeedConversation", function(){
+//
+//    // get all fb users, create user if they don't exist
+//    $fbUsers = \App\FacebookUser::all();
+//    foreach ($fbUsers as $fbUser){
+//        if(!$fbUser->email){
+//            $fbUser->update(["email"=>$fbUser->id."@dummy.com"]);
+//        }
+//        $user = User::whereEmail($fbUser->email)->first();
+//        if(!$user){
+//            $user = User::create([
+//                'name'     => $fbUser->name,
+//                'email'    => $fbUser->email,
+//                'avatar'    => $fbUser->avatar,
+//                'password' => bcrypt(env("DUMMY_PASSWORD"))
+//            ]);
+//            $theFbUser =  \App\FacebookUser::whereEmail($user->email)->first();
+//            $theFbUser->update(["user_id"=>$user->id]);
+//        }
+//    }
     // get top level fb feed and convert to feed and add to stream
 //    $topLevelFbFeeds = \App\FacebookFeed::whereReplyTo(0)->get();
 //    foreach ($topLevelFbFeeds as $fbFeed){
@@ -76,33 +76,33 @@ Route::get("fbFeedConversation", function(){
 //    }
 
     // get other level fb feeds and convert to feed
-    $fbFeeds = \App\FacebookFeed::where('reply_to',"<>",0)->get();
-    foreach ($fbFeeds as $fbFeed){
-        $fbUser = \App\FacebookUser::whereId($fbFeed->author_id)->first();
-        $user = $fbUser->user;
-        $data = [
-            'content'     => $fbFeed->message,
-            'reply_to'    => $fbFeed->reply_to,
-            'category_id' => 1,
-            'created_at' => $fbFeed->created_at
-        ];
-        $feed = $user->feeds()->create($data);
-        $fbFeed->feed_id = $feed->id;
-        $fbFeed->save();
-
-        if (isset($fbFeed->media)) {
-            foreach ($fbFeed->media as $media) {
-                $data = [
-                    'link' => $media->picture,
-                    'type' => $media->type
-                ];
-                $feed->media()->create([])->update($data);
-            }
-        }
-    }
+//    $fbFeeds = \App\FacebookFeed::where('reply_to',"<>",0)->get();
+//    foreach ($fbFeeds as $fbFeed){
+//        $fbUser = \App\FacebookUser::whereId($fbFeed->author_id)->first();
+//        $user = $fbUser->user;
+//        $data = [
+//            'content'     => $fbFeed->message,
+//            'reply_to'    => $fbFeed->reply_to,
+//            'category_id' => 1,
+//            'created_at' => $fbFeed->created_at
+//        ];
+//        $feed = $user->feeds()->create($data);
+//        $fbFeed->feed_id = $feed->id;
+//        $fbFeed->save();
+//
+//        if (isset($fbFeed->media)) {
+//            foreach ($fbFeed->media as $media) {
+//                $data = [
+//                    'link' => $media->picture,
+//                    'type' => $media->type
+//                ];
+//                $feed->media()->create([])->update($data);
+//            }
+//        }
+//    }
 
     // add feed to stream
-});
+//});
 
 
 Route::get('/', function () {
@@ -123,48 +123,48 @@ Route::get("invitation/replay/{invitationId}/{status}",[
 
 
 
-Route::get('/sampling', function () {
-
-    function pushToStream($collection, $stream)
-    {
-        $collection->map(function ($item) use ($stream) {
-            $stream->push($item);
-        });
-
-        return $stream;
-    }
-
-
-
-    $topLevelFeeds = Feed::whereReplyTo(0)->get();
-    $events = Event::all();
-    $temp = new Collection();
-
-    while ($topLevelFeeds->count() != 0 and $events->count() != 0) {
-        $firstFeed = $topLevelFeeds->first();
-        $firstEvent = $events->first();
-        if ($firstFeed->created_at > $firstEvent->created_at) {
-            $temp->push($topLevelFeeds->first());
-            $topLevelFeeds->shift();
-        } else {
-            $temp->push($events->first());
-            $events->shift();
-        }
-    };
-    if ($topLevelFeeds->count() != 0) {
-        $temp = pushToStream($topLevelFeeds, $temp);
-    }
-    if ($events->count() != 0) {
-        $temp = pushToStream($events, $temp);
-    }
-
-    foreach ($temp as $item){
-        $item->stream()->create([]);
-    }
-
-    dd(Stream::orderBy('created_at', 'desc')->with("item")->paginate(5));
-
-});
+//Route::get('/sampling', function () {
+//
+//    function pushToStream($collection, $stream)
+//    {
+//        $collection->map(function ($item) use ($stream) {
+//            $stream->push($item);
+//        });
+//
+//        return $stream;
+//    }
+//
+//
+//
+//    $topLevelFeeds = Feed::whereReplyTo(0)->get();
+//    $events = Event::all();
+//    $temp = new Collection();
+//
+//    while ($topLevelFeeds->count() != 0 and $events->count() != 0) {
+//        $firstFeed = $topLevelFeeds->first();
+//        $firstEvent = $events->first();
+//        if ($firstFeed->created_at > $firstEvent->created_at) {
+//            $temp->push($topLevelFeeds->first());
+//            $topLevelFeeds->shift();
+//        } else {
+//            $temp->push($events->first());
+//            $events->shift();
+//        }
+//    };
+//    if ($topLevelFeeds->count() != 0) {
+//        $temp = pushToStream($topLevelFeeds, $temp);
+//    }
+//    if ($events->count() != 0) {
+//        $temp = pushToStream($events, $temp);
+//    }
+//
+//    foreach ($temp as $item){
+//        $item->stream()->create([]);
+//    }
+//
+//    dd(Stream::orderBy('created_at', 'desc')->with("item")->paginate(5));
+//
+//});
 
 Route::group(['middleware'=>['auth','hasPermission:one']], function (){
     Route::get('permissionTesting');

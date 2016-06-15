@@ -51,10 +51,22 @@ class EmailNotification extends Job implements ShouldQueue
             "feed" => $this->feed->load(['sender', 'media'])
         ];
 
-        $mailer->send('emails.NewPostNotification', $data, function ($m) {
-            $m->to($this->recipient->email, $this->recipient->name)
-                ->from('no-reply@neighbour.app', 'Neighbour App')
-                ->subject('New Post!');
-        });
+        $email = $this->recipient->email;
+        $emailDomain = substr(strrchr($email, "@"), 1);
+
+        $dummyEmailDomains = ["dummy.com", "abc.com", "admin.com"];
+
+        if (!in_array($emailDomain, $dummyEmailDomains)) {
+            $mailer->send('emails.NewPostNotification', $data, function ($m) {
+
+                $fromAddress = env("MAIL_NOTIFICATION_ADDRESS");
+                $subject = env("MAIL_NOTIFICATION_SUBJECT");
+                $sender = env("MAIL_NOTIFICATION_SENDER");
+
+                $m->to($this->recipient->email, $this->recipient->name)
+                    ->from($fromAddress, $sender)
+                    ->subject($subject);
+            });
+        }
     }
 }
