@@ -204,7 +204,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
 
-    Route::group(['middleware' => "isAdmin"], function () {
+    Route::group(['middleware' => "isAdmin", "prefix"=>"admin"], function () {
         Route::get('dashboard', function () {
             return view('dashboard');
         });
@@ -214,6 +214,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("categories/{id}/edit", "CategoriesController@edit");
         Route::put("categories/{id}", "CategoriesController@update");
         Route::delete("categories/{id}/delete", "CategoriesController@delete");
+
+        Route::resource('roles', "RolesController");
+        Route::resource('clans', "ClansController");
+
+        
+        
+        
+        
     });
 
     Route::group(["prefix" => "api"], function () {

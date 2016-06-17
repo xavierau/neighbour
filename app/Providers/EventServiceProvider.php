@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\RequireNewFacebookFeeds;
 use App\Events\NewEventCreated;
 use App\Events\NewPostCreated;
 use App\Events\NotificationEvent;
@@ -20,18 +21,21 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
+        'App\Events\SomeEvent'         => [
             'App\Listeners\EventListener',
         ],
-        NotificationEvent::class => [
+        NotificationEvent::class       => [
             CreateNewNotification::class
         ],
-        NewPostCreated::class => [
+        NewPostCreated::class          => [
             SendNewPostEmailNotification::class,
             AddPostToStream::class,
         ],
-        NewEventCreated::class => [
+        NewEventCreated::class         => [
             AddEventToStream::class,
+        ],
+        RequireNewFacebookFeeds::class => [
+            "App\Listeners\FetchFacebookFeeds",
         ],
     ];
 

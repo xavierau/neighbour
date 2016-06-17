@@ -91,7 +91,7 @@
                     <div class="carousel-inner">
                         <div class="item active">
                             <h3>
-                                IC Community, because Neighbors care
+                                IC Community, because Neighbors <span class="also">also</span> care
                             </h3>
                             <br>
                             <br>
@@ -349,6 +349,8 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                     @endif
+                    <input type="checkbox" name="rememberme" class="form-control" placeholder="Password" required>
+
 
 
                 </div>
