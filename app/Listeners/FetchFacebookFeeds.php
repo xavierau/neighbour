@@ -110,7 +110,7 @@ class FetchFacebookFeeds
     {
         if (!$this->alreadyExist($fbFeed)) {
             $data = [
-                'message'    => $fbFeed->message,
+                'message'    => $fbFeed->message??"",
                 "message_id" => $fbFeed->id,
                 "reply_to"   => $replyFeed ? $replyFeed->id : 0,
                 "author_id"  => $fbFeed->from->id,
