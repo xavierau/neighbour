@@ -27,6 +27,31 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <style>
+        h3#tagline{
+            line-height: 80px;
+        }
+        h3#tagline span.also{
+            position: relative;
+            top: -51px;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        h3#tagline span.also:after{
+            content: "";
+            display: inline-block;
+            position: absolute;
+            background-image: url("http://www.clker.com/cliparts/s/1/v/q/p/N/black-check-mark-md.png");
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            color: white;
+            left: -2px;
+            top: 15px;
+        }
+
+    </style>
+
 
 
 </head>
@@ -90,7 +115,7 @@
 
                     <div class="carousel-inner">
                         <div class="item active">
-                            <h3>
+                            <h3 id="tagline">
                                 IC Community, because Neighbors <span class="also">also</span> care
                             </h3>
                             <br>
@@ -130,90 +155,90 @@
 </div>
 <!--HOME SECTION END-->
 <!--SERVICE SECTION START-->
-<section id="services">
-    <div class="container">
-        <div class="row text-center header">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-in" data-anim-type="fade-in-up">
-                <h3>Our Services</h3>
-                <hr/>
-            </div>
-        </div>
-        <div class="row animate-in" data-anim-type="fade-in-up">
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-document"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-scissors"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-clipboard"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-calendar"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-erlenmeyer-flask"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-monitor"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-pinpoint"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-tshirt-outline"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="services-wrapper">
-                    <i class="ion-speedometer"></i>
-                    <h3>Consectetur tellus nec</h3>
-                    Morbi mollis lectus et ipsum sollicitudin varius.
-                    Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{{--<section id="services">--}}
+    {{--<div class="container">--}}
+        {{--<div class="row text-center header">--}}
+            {{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-in" data-anim-type="fade-in-up">--}}
+                {{--<h3>Our Services</h3>--}}
+                {{--<hr/>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="row animate-in" data-anim-type="fade-in-up">--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-document"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-scissors"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-clipboard"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-calendar"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-erlenmeyer-flask"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-monitor"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-pinpoint"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-tshirt-outline"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+                {{--<div class="services-wrapper">--}}
+                    {{--<i class="ion-speedometer"></i>--}}
+                    {{--<h3>Consectetur tellus nec</h3>--}}
+                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
+                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</section>--}}
 <!--SERVICE SECTION END-->
 <!--CONTACT SECTION START-->
 <section id="contact">

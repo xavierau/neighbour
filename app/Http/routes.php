@@ -21,6 +21,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 //Route::get("fbFeedConversation", function(){
 //
@@ -120,6 +121,8 @@ Route::get('/', function () {
 Route::get("invitation/replay/{invitationId}/{status}",[
     "as"=> "replyInvitation",
     "uses"=>"InvitationsController@replyEventInvitation"]);
+
+
 
 
 
@@ -265,6 +268,8 @@ Route::group(['middleware' => 'auth'], function () {
 //
 //            return response()->json(compact("collection"));
         });
+
+        Route::get("search", "SearchController@search");
 
         Route::get('like/{object}/{objectId}', "LikesController@like");
         Route::get('unlike/{object}/{likeId}', "LikesController@unlike");
