@@ -109,6 +109,7 @@ var methods = {
     createNewEvent: function (data) {
         var uri = this.getApi("createEvent"),
             headers = this.setRequestHeaders();
+        toastr.info("Event Uploading!");
         this.$http.post(uri, data, headers).then(function (response) {
             $("#myModal").modal('hide');
             toastr.success("Event Created!");
