@@ -91,23 +91,37 @@ class EventsController extends Controller
     private function prepareDateForEventCreation(Request $request)
     {
         $data = $request->all();
-        if ($data['startHour']) {
-            if ($data['startMin']) {
-                $time = ($data['startHour'] . ":" . $data['startMin'].":00");
+
+        $startHour = $data['startHour'];
+        $startMin = $data['startMin'];
+        if ($startHour) {
+            $startHour = str_pad($startHour, 2, "0", STR_PAD_LEFT);
+            if ($startMin) {
+                $startMin = str_pad($startMin, 2, "0", STR_PAD_LEFT);
+                $time = ($startHour . ":" . $startMin.":00");
             } else {
-                $time = ($data['startHour'] . ":00:00");
+                $time = ($startHour . ":00:00");
             }
         } else {
             $time = "00:00:00";
         }
         $data["startDateTime"] = $data['startDate'] . " " . $time;
 
+
+
+
         if(!empty($data['endDate'])){
-            if ($data['endHour']) {
-                if ($data['endMin']) {
-                    $time = ($data['endHour'] . ":" . $data['endMin'].":00");
+            $endHour = $data['endHour'];
+            $endMin = $data['endMin'];
+
+            if ($endHour) {
+                $endHour = str_pad($endHour, 2, "0", STR_PAD_LEFT);
+                if ($endMin) {
+                    $endMin = str_pad($endMin, 2, "0", STR_PAD_LEFT);
+
+                    $time = ($endHour . ":" . $endMin.":00");
                 } else {
-                    $time = ($data['endHour'] . ":00:00");
+                    $time = ($endHour . ":00:00");
                 }
             } else {
                 $time = "00:00:00";
