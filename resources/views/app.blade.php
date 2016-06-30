@@ -43,6 +43,9 @@
             color: #fff;
             background-color: transparent;
         }
+        .modal{
+            -webkit-overflow-scrolling: auto
+        }
     </style>
 
     <script>
