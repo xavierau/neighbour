@@ -12,7 +12,7 @@
         <div class="panel">
             <div class="panel-heading">
                 <h1 class="permission-header">Settings
-                    <a href="/settings/create" class="btn btn-sm btn-success pull-right"><i class="fa fa-plus"></i>
+                    <a href="/admin/settings/create" class="btn btn-sm btn-success pull-right"><i class="fa fa-plus"></i>
                         Create New Setting</a></h1>
             </div>
             <div class="panel-body">
@@ -36,7 +36,7 @@
                                     {{csrf_field()}}
                                     <button class="btn btn-danger pull-right delete">Delete</button>
                                 </form>
-                                <a href="/settings/{{$setting->id}}/edit" class="btn btn-info pull-right">Edit</a>
+                                <a href="/admin/settings/{{$setting->id}}/edit" class="btn btn-info pull-right">Edit</a>
                             </td>
                         </tr>
                     @endforeach

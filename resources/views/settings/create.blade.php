@@ -7,7 +7,7 @@
                 <h1 class="panel-header">New Setting</h1>
             </div>
             <div class="panel-body">
-                <form action="/settings" method="POST" class="form">
+                <form action="/admin/settings" method="POST" class="form">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="label">Label: </label>
@@ -49,7 +49,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <a href="/settings" class="btn btn-default">Back</a>
+                        <a href="/admin/settings" class="btn btn-default">Back</a>
                         <button class="btn btn-success">Create</button>
                     </div>
                 </form>

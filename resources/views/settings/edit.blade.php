@@ -7,7 +7,7 @@
                 <h1 class="panel-header">New Setting</h1>
             </div>
             <div class="panel-body">
-                <form action="/settings/{{$setting->id}}" method="POST" class="form">
+                <form action="/admin/settings/{{$setting->id}}" method="POST" class="form">
                     <input type="hidden" name="_method" value="PUT">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -50,7 +50,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <a href="/settings" class="btn btn-default">Back</a>
+                        <a href="/admin/settings" class="btn btn-default">Back</a>
                         <button class="btn btn-success">Update</button>
                     </div>
                 </form>
