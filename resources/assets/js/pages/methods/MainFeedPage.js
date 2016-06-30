@@ -115,6 +115,7 @@ var methods = {
             toastr.success("Event Created!");
             this.$emit('eventCreated', response.data.event)
         }, function (response) {
+            toastr.warning(response);
             console.log(response)
         });
         console.log("create new Event with newEvent Object store here")
