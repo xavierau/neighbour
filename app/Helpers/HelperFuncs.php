@@ -21,7 +21,9 @@ function getSettingValue(Collection $settings, $code){
 
 function refreshForeverCache(String $key, $value){
     Cache::forget($key);
-    Cache::rememberForever($key,$value);
+    Cache::rememberForever($key,function()use($value){
+        return $value;
+    });
 }
 
 

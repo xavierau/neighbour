@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f800e0a4-1662-4575-960c-49ed71a34269" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/settings/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/settings/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/settings/edit.blade.php" afterPath="$PROJECT_DIR$/resources/views/settings/edit.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/settings/index.blade.php" afterPath="$PROJECT_DIR$/resources/views/settings/index.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Helpers/HelperFuncs.php" afterPath="$PROJECT_DIR$/app/Helpers/HelperFuncs.php" />
     </list>
     <ignored path="Neighbour.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,28 +61,31 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="EventsController.php" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/Http/Controllers/EventsController.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="506">
-                  <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#254#761#0#PHP" expanded="false" />
-                    <element signature="e#767#1004#0#PHP" expanded="false" />
-                    <element signature="e#1474#2086#0#PHP" expanded="false" />
-                    <element signature="e#2294#2805#0#PHP" expanded="false" />
-                    <element signature="e#2896#3836#0#PHP" expanded="false" />
-                    <element signature="e#3952#4542#0#PHP" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Event.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Event.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="506">
                   <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AppServiceProvider.php" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="391">
+                  <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="HelperFuncs.php" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/Helpers/HelperFuncs.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="300">
+                  <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
                   <folding />
                 </state>
               </provider>
@@ -111,7 +112,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/assets/js/pages/methods/MainFeedPage.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/dashboard.html" />
         <option value="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/index.js" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
@@ -162,6 +162,7 @@
         <option value="$PROJECT_DIR$/resources/views/settings/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/settings/create.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/settings/edit.blade.php" />
+        <option value="$PROJECT_DIR$/app/Helpers/HelperFuncs.php" />
       </list>
     </option>
   </component>
@@ -397,12 +398,12 @@
       <workItem from="1467220455171" duration="1774000" />
       <workItem from="1467222662714" duration="78000" />
       <workItem from="1467224886340" duration="1538000" />
-      <workItem from="1467266454598" duration="16982000" />
+      <workItem from="1467266454598" duration="17098000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="432795000" />
+    <option name="totallyTimeSpent" value="432911000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -415,7 +416,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36640626" sideWeight="0.49546045" order="0" side_tool="false" content_ui="tabs" />
@@ -461,27 +462,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2016_06_30_011558_add_user_type_id_to_users_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="16" column="55" selection-start-line="16" selection-start-column="55" selection-end-line="16" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Providers/RouteServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-753">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Routes/twitterLogin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="5" column="3" selection-start-line="5" selection-start-column="3" selection-end-line="5" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/clans/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
@@ -829,14 +809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Event.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/html/eventDetail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="103">
@@ -875,16 +847,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/EventsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state relative-caret-position="492">
+          <caret line="66" column="7" selection-start-line="66" selection-start-column="7" selection-end-line="66" selection-end-column="7" />
           <folding>
             <element signature="e#254#761#0#PHP" expanded="false" />
-            <element signature="e#767#1004#0#PHP" expanded="false" />
+            <element signature="e#1010#1468#0#PHP" expanded="false" />
             <element signature="e#1474#2086#0#PHP" expanded="false" />
             <element signature="e#2294#2805#0#PHP" expanded="false" />
             <element signature="e#2896#3836#0#PHP" expanded="false" />
             <element signature="e#3952#4542#0#PHP" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Setting.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Helpers/HelperFuncs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
