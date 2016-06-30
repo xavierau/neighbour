@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Clan;
 use App\FacebookUser;
 use App\Services\FbServices;
 use App\User;
+use App\UserType;
 use Facebook\FacebookRequest;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Validator;
@@ -58,6 +61,7 @@ class AuthController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'clan_id' => 'required|in:'.implode(",", Clan::lists('id')->toArray()),
         ]);
     }
 
@@ -91,13 +95,13 @@ class AuthController extends Controller
         ])->redirect();
     }
 
-
     public function handleFacebookSignUpCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
         $user = User::whereEmail($fbUser->email)->first();
 
         if(!$user){
+            $userTypeId = UserType::whereType(\App\Enums\UserType::FACEBOOK)->firstOrFail();
             $fbService = new FbServices($fbUser->token);
             $avatar = $fbService->getAvatar($fbUser->id);
 
@@ -105,6 +109,7 @@ class AuthController extends Controller
             $user->name = $fbUser->name;
             $user->email = $fbUser->email;
             $user->avatar = $avatar;
+            $user->user_type_id = $userTypeId;
             $user->password = bcrypt(str_random(12));
             $user->save();
 
@@ -121,7 +126,6 @@ class AuthController extends Controller
 
         $service  = new FbServices($fbUser->token);
         $response = $service->get("/1170712616312556/feed");
-
         $bodyObject = json_decode($response->getBody(), true);
         $feeds = $bodyObject['data'];
         $feedDetail = [];
@@ -142,5 +146,67 @@ class AuthController extends Controller
         Auth::login($user);
         return redirect('/app');
     }
-    
+
+    public function twitterSignUp()
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    public function handleTwitterSignUpCallback()
+    {
+        try {
+            $user = Socialite::driver('twitter')->user();
+
+            $client = new Client(['base_uri'=>"https://api.twitter.com"]);
+
+//            $headers = [
+//                "Authorization: OAuth oauth_consumer_key"=>"zmZM6STK5zm7l8v5sXUDYQhLD",
+//                "oauth_nonce"=>"3c50d870bb9eeb549a1abda9860e5b17",
+//                "oauth_signature"=>"vzs9LAB4ibk3ac3YRpOG3qn75QA%3D",
+//                "oauth_signature_method"=>"HMAC-SHA1",
+//                "oauth_timestamp"=>"1467270015",
+//                "oauth_token"=>"18790700-Dv8B3ywccUnUbsVmJmy9aeEFZayGA2P9qtE3bT8ND",
+//                "oauth_version"=>"1.0",
+//            ];
+//            $response = $client->request("GET", "/1.1/account/verify_credentials.json",["headers"=>$headers] );
+//            dd($response);
+        } catch (Exception $e) {
+            dd($e);
+            return redirect('auth/twitter');
+        }
+        
+        $authUser = $this->findOrCreateUser($user);
+
+        Auth::login($authUser, true);
+
+        return redirect()->route('home');
+    }
+
+    private function findOrCreateUser($twitterUser)
+    {
+        $userTypeConst = "TWITTER";
+        $authUser = User::where('twitter_id', $twitterUser->id)->first();
+        if ($authUser){
+            return $authUser;
+        }
+        $type = constant("\App\Enums\UserType::".$userTypeConst);
+        $userType = UserType::whereType($type)->first();
+
+        $data = [
+            'name' => $twitterUser->name,
+            'handle' => $twitterUser->nickname,
+            'twitter_id' => $twitterUser->id,
+            'avatar' => $twitterUser->avatar_original
+        ];
+
+        $userType->users()->create($data);
+
+        return User::create([
+            'name' => $twitterUser->name,
+            'handle' => $twitterUser->nickname,
+            'twitter_id' => $twitterUser->id,
+            'avatar' => $twitterUser->avatar_original
+        ]);
+    }
+
 }

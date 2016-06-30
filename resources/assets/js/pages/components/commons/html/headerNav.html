@@ -1,0 +1,84 @@
+<div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" v-link="{name:'home'}">
+                {{appName}}
+            </a>
+            <ul class="nav nav-pills visible-xs">
+                <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-comments-o"
+                                                                             aria-hidden="true"
+                                                                             style="font-size: 2em"></i></a></li>
+                <li role="presentation"><a v-link="{name:'search'}"><i class="fa fa-search"
+                                                                       aria-hidden="true"
+                                                                       style="font-size: 2em"></i></a></li>
+                <li role="presentation"><a @click.prevent="commenting" ><i class="fa fa-comment-o"
+                                              aria-hidden="true"
+                                              style="font-size: 2em"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="visible-xs" v-for="category in categoryList">
+                    <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
+                </li>
+                <li class="visible-xs">
+                    <a href="" v-link="{name:'events'}">Events</a>
+                </li>
+
+                <li class="default" v-show="false">
+                    <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false"
+                       @click="getNotifications">
+                        Notifications
+                        <span class="badge" v-show="user.has_notification">New</span>
+                    </a>
+
+                    <notifications
+                            my-class="dropdown-menu notifications"
+                            aria-labelledby="notifications"
+                            :notifications="notifications"
+                    ></notifications>
+                </li>
+                <li>
+                    <a id="profile" data-target="#" href="" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <img :src="user.avatar" style="height:50px; width:50px; border-radius: 25px" alt="">
+                        {{ user.name }}
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="profile">
+                        <li><a v-link="{name:'profile'}">My Profile</a></li>
+                        <li><a @click.prevent="logout">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="commenting" tabindex="-1" role="dialog" aria-labelledby="commentingLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="commentingLabel" style="color:black">Tell us your comment</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea id="commentingInput" class="form-control" v-model="comment" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" @click.prevent="sendComment">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -146,8 +146,7 @@ class FeedsController extends Controller
             $stream->delete();
         }
         $feed->delete();
-
-        return response()->json('completed');
+        return response()->json("completed");
     }
 
     public function deleteComment(Request $request, $postId, $commentId)
@@ -156,7 +155,6 @@ class FeedsController extends Controller
         if ($feed) {
             $feed->delete();
         }
-
         return response()->json('completed');
     }
 

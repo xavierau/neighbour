@@ -90,6 +90,9 @@
                 password_confirmation: ""
             }
         },
+        ready(){
+          this.updateGA("user_profile")
+        },
         methods: {
             selectProfilePic: function (event) {
                 var file = event.target.files[0],

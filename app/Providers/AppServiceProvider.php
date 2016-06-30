@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Setting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,13 +15,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        DB::listen(function ($query) {
-//            // $query->sql
-//            // $query->bindings
-//            // $query->time
-//
-//            logger($query->sql);
-//        }); //
+        Setting::saved(function(){
+            $settings = Setting::all();
+            refreshForeverCache("settings",$settings);
+        });
+        Setting::deleted(function(){
+            $settings = Setting::all();
+            refreshForeverCache("settings",$settings);
+        });
     }
 
     /**

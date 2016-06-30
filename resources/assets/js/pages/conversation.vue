@@ -67,6 +67,9 @@
                 })
             }
         },
+        ready(){
+          this.updateGA("conversation")
+        },
         data: function () {
             return {
                 conversations: [],

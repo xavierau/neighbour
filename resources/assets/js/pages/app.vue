@@ -5,6 +5,7 @@
             :user="user"
             :category-list="categoryList"
             :notifications="notifications"
+            keep-alive
     ></header-nav>
 
     <main-section :category-list="categoryList">

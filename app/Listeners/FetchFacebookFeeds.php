@@ -11,6 +11,7 @@ namespace App\Listeners;
 use App\FacebookFeed;
 use App\FacebookUser;
 use App\Feed;
+use App\Http\Controllers\FacebookFeedsController;
 use App\User;
 use Carbon\Carbon;
 use Facebook\Facebook;
@@ -69,12 +70,7 @@ class FetchFacebookFeeds
 
     private function fetchFacebookServerAndCreateFeeds()
     {
-        $query = http_build_query($this->pageFeedQueryFields);
-        $facebookPageId = env("FACEBOOK_PAGE_ID");
-        $uri = "$facebookPageId/feed?$query";
-        $response = $this->fb->get($uri);
-
-        $feedEdge = $response->getGraphEdge();
+        $feedEdge = $this->getFeedEdge();
 
         $this->getFeeds($feedEdge);
     }
@@ -96,32 +92,21 @@ class FetchFacebookFeeds
     {
         $object = json_decode($item);
         if ($object->type == 'status') {
-            $newFbFeed = $this->createFbFeedRecord($object);
+            $newFbFeed = $this->findOrCreateFacebookFeed($object);
 
             if (isset($object->comments)) {
                 foreach ($object->comments as $comment) {
-                    $this->createFbFeedRecord($comment, $newFbFeed);
+                    $this->findOrCreateFacebookFeed($comment, $newFbFeed);
                 }
             }
         }
     }
 
-    private function createFbFeedRecord($fbFeed, FacebookFeed $replyFeed = null)
+    private function findOrCreateFacebookFeed($fbFeed, FacebookFeed $replyFeed = null):FacebookFeed
     {
         if (!$this->alreadyExist($fbFeed)) {
-            $data = [
-                'message'    => $fbFeed->message??"",
-                "message_id" => $fbFeed->id,
-                "reply_to"   => $replyFeed ? $replyFeed->id : 0,
-                "author_id"  => $fbFeed->from->id,
-            ];
 
-            if (isset($fbFeed->created_time)) {
-                $data['created_at'] = is_string($fbFeed->created_time) ?
-                    $this->covertFacebookTimeStamp($fbFeed->created_time) :
-                    $this->covertFacebookTimeStamp($fbFeed->created_time->date);
-            }
-
+            $data = $this->prepareFacebookFeedDataForInsert($fbFeed, $replyFeed);
 
             $newFbFeed = FacebookFeed::create($data);
 
@@ -137,12 +122,14 @@ class FetchFacebookFeeds
 
             $newFeed = $this->createNewFeed($user, $newFbFeed, $replyFeed);
 
-
             if (!$replyFeed) {
                 $this->addToStream($newFeed);
             }
 
             return $newFbFeed;
+        }else{
+            $feed = FacebookFeed::whereMessageId($fbFeed->id)->first();
+            return $feed;
         }
     }
 
@@ -238,5 +225,43 @@ class FetchFacebookFeeds
         $stream->item_id = $newFeed->id;
         $stream->created_at = $newFeed->created_at;
         $stream->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getFeedEdge()
+    {
+        $query = http_build_query($this->pageFeedQueryFields);
+        $facebookPageId = env("FACEBOOK_PAGE_ID");
+        $uri = "$facebookPageId/feed?$query";
+        $response = $this->fb->get($uri);
+
+        $feedEdge = $response->getGraphEdge();
+
+        return $feedEdge;
+    }
+
+    /**
+     * @param                   $fbFeed
+     * @param \App\FacebookFeed $replyFeed
+     * @return array
+     */
+    private function prepareFacebookFeedDataForInsert($fbFeed, FacebookFeed $replyFeed)
+    {
+        $data = [
+            'message'    => $fbFeed->message??"",
+            "message_id" => $fbFeed->id,
+            "reply_to"   => $replyFeed ? $replyFeed->id : 0,
+            "author_id"  => $fbFeed->from->id,
+        ];
+
+        if (isset($fbFeed->created_time)) {
+            $data['created_at'] = is_string($fbFeed->created_time) ?
+                $this->covertFacebookTimeStamp($fbFeed->created_time) :
+                $this->covertFacebookTimeStamp($fbFeed->created_time->date);
+        }
+
+        return $data;
     }
 }

@@ -28,6 +28,7 @@ import methods from "./methods/MainFeedPage";
             }
         },
         ready(){
+            this.updateGA("category_"+this.$route.params.category);
             window.addEventListener('scroll', (ev) => {
                 if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                     if(this.hasMorePages && !this.calling) {

@@ -34,29 +34,9 @@ class EventsController extends Controller
 
     public function postEvent(Request $request)
     {
-        $data = $request->all();
-        if ($data['startHour']) {
-            if ($data['startMin']) {
-                $time = ($data['startHour'] . ":" . $data['startMin']);
-            } else {
-                $time = ($data['startHour'] . ":00");
-            }
-        } else {
-            $time = "00:00";
-        }
-        $data["startDateTime"] = $data['startDate'] . " " . $time;
+        $data = $this->prepareDateForEventCreation($request);
 
-        if ($data['endHour']) {
-            if ($data['endMin']) {
-                $time = ($data['endHour'] . ":" . $data['endMin']);
-            } else {
-                $time = ($data['endHour'] . ":00");
-            }
-        } else {
-            $time = "00:00";
-        }
-        $data["endDateTime"] = $data['endDate'] . " " . $time;
-
+//        dd($data);
 
         $event = $request->user()->events()->create($data);
 
@@ -64,7 +44,7 @@ class EventsController extends Controller
             return $entry instanceof UploadedFile;
         });
 
-        if (count($files) > 0) {
+        if ( empty($files) ) {
             $mediaService = new MediaServices();
             foreach ($files as $file) {
                 $link = $mediaService->storeFeedPhoto($file);
@@ -75,12 +55,10 @@ class EventsController extends Controller
                 $event->media()->create([])->update($data);
             }
         }
-
-//        $event = $request->user()->events()->create($request->all());
         event(new NewEventCreated($event));
         $event->load(["organiser", "media"]);
 
-        return response()->json(["event" => $event]);
+        return response()->json(compact("event"));
     }
 
     public function joinEvent(Request $request)
@@ -116,5 +94,40 @@ class EventsController extends Controller
         }
 
        return $event;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    private function prepareDateForEventCreation(Request $request)
+    {
+        $data = $request->all();
+        if ($data['startHour']) {
+            if ($data['startMin']) {
+                $time = ($data['startHour'] . ":" . $data['startMin'].":00");
+            } else {
+                $time = ($data['startHour'] . ":00:00");
+            }
+        } else {
+            $time = "00:00:00";
+        }
+        $data["startDateTime"] = $data['startDate'] . " " . $time;
+
+        if(!empty($data['endDate'])){
+            if ($data['endHour']) {
+                if ($data['endMin']) {
+                    $time = ($data['endHour'] . ":" . $data['endMin'].":00");
+                } else {
+                    $time = ($data['endHour'] . ":00:00");
+                }
+            } else {
+                $time = "00:00:00";
+            }
+            $data["endDateTime"] = $data['endDate'] . " " . $time;
+        }
+
+
+        return $data;
     }
 }

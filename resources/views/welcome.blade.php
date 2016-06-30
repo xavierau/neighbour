@@ -28,16 +28,18 @@
     <![endif]-->
 
     <style>
-        h3#tagline{
+        h3#tagline {
             line-height: 80px;
         }
-        h3#tagline span.also{
+
+        h3#tagline span.also {
             position: relative;
             top: -51px;
             margin-left: -15px;
             margin-right: -15px;
         }
-        h3#tagline span.also:after{
+
+        h3#tagline span.also:after {
             content: "";
             display: inline-block;
             position: absolute;
@@ -53,7 +55,6 @@
     </style>
 
 
-
 </head>
 <body data-spy="scroll" data-target="#menu-section" id='body'>
 <!--MENU SECTION START-->
@@ -66,7 +67,6 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-
 
 
             </a>
@@ -98,12 +98,12 @@
                 <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signinModal">Sign In</button>
 
                 {{--<div class="social">--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-facebook "></i></a>--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-twitter"></i></a>--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-google-plus "></i></a>--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-linkedin "></i></a>--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-pinterest "></i></a>--}}
-                    {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-github "></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-facebook "></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-twitter"></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-google-plus "></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-linkedin "></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-pinterest "></i></a>--}}
+                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-github "></i></a>--}}
                 {{--</div>--}}
                 {{--<a href="#services" class=" btn button-custom btn-custom-two">See Service List </a>--}}
             </div>
@@ -119,136 +119,27 @@
                                 IC Community, because Neighbors <span class="also">also</span> care
                             </h3>
                             <br>
-                            <br>
-                            <br>
-                            {{--<p>--}}
-                                {{--You have to put something here for your potential customer.--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
-                            {{--</p>--}}
+                            <p>
+                                Localhood has been built to foster communication and interaction, both virtually and
+                                in-person, within your neighborhood.
+                                By being friendly neighbors and making neighbors friends. Let's make our neighborhood an
+                                even more fun place to live.
+                            </p>
                         </div>
-                        {{--<div class="item">--}}
-                            {{--<h3>--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
-                            {{--</h3>--}}
-                            {{--<p>--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit--}}
-                                {{--Lorem ipsumdolor sitamet, consect adipiscing elit.--}}
-                            {{--</p>--}}
-                        {{--</div>--}}
-
                     </div>
-
-
                 </div>
-
-
             </div>
         </div>
-
     </div>
 
 </div>
 <!--HOME SECTION END-->
-<!--SERVICE SECTION START-->
-{{--<section id="services">--}}
-    {{--<div class="container">--}}
-        {{--<div class="row text-center header">--}}
-            {{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 animate-in" data-anim-type="fade-in-up">--}}
-                {{--<h3>Our Services</h3>--}}
-                {{--<hr/>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="row animate-in" data-anim-type="fade-in-up">--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-document"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-scissors"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-clipboard"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-calendar"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-erlenmeyer-flask"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-monitor"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-pinpoint"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-tshirt-outline"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
-                {{--<div class="services-wrapper">--}}
-                    {{--<i class="ion-speedometer"></i>--}}
-                    {{--<h3>Consectetur tellus nec</h3>--}}
-                    {{--Morbi mollis lectus et ipsum sollicitudin varius.--}}
-                    {{--Aliquam tempus ante placerat, consectetur tellus nec, porttitor nulla.--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</section>--}}
-<!--SERVICE SECTION END-->
-<!--CONTACT SECTION START-->
 <section id="contact">
     <div class="container">
         <div class="row text-center header animate-in" data-anim-type="fade-in-up">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
                 <h3>Contact Details </h3>
                 <hr/>
-
             </div>
         </div>
 
@@ -374,8 +265,11 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                     @endif
-                    <input type="checkbox" name="rememberme" class="form-control" placeholder="Password" required>
-
+                    <div class="checkbox">
+                        <label style="color: black">
+                            <input type="checkbox" name="remember"> Remember me
+                        </label>
+                    </div>
 
 
                 </div>

@@ -1,40 +1,5 @@
 <style></style>
-<template>
-    <div>
-        <mobile-editor
-                :content.sync="feed.content"
-                :category_id.sync="feed.category_id"
-                :category-list="categoryList"
-        ></mobile-editor>
-        <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
-            <desktop-editor
-                    :content.sync="feed.content"
-                    :category_id.sync="feed.category_id"
-                    :category-list="categoryList"
-                    :photos="feed.photos"
-                    :firt-url="firstUrl"
-                    :has-preview-url="hasPreviewUrl"
-                    :url-preview="urlPreview"
-            ></desktop-editor>
-            <feed v-for="feed in stream"
-                  :feed="feed"
-                  :user="user"
-            ></feed>
-        </div>
-        <create-event-modal
-                :new-event.sync="newEvent"
-        ></create-event-modal>
-
-        <image-carousel-modal
-                :images="carouselImages"
-                :active-item-index="activeItemIndex"
-        ></image-carousel-modal>
-        <mobile-photo-upload
-                :content.sync="feed.content"
-                :photos="feed.photos"
-        ></mobile-photo-upload>
-    </div>
-</template>
+<template lang="html" src="html/mainFeedPage.html"></template>
 
 <script>
     import Feed from './components/feed.vue';
@@ -65,6 +30,7 @@
             }
         },
         ready(){
+            this.updateGA("main");
             window.addEventListener('scroll', (ev) => {
                 if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                     if(this.hasMorePages && !this.calling) {

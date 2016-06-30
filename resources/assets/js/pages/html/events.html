@@ -2,7 +2,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingOne">
             <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                   aria-expanded="true" aria-controls="collapseOne">
                     My Event
                 </a>
             </h4>
@@ -10,7 +11,7 @@
         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
             <div class="panel-body">
                 <div class="row">
-                    <event-container v-for="event in myEvents" :event="event"></event-container>
+                    <event-container v-for="event in myEvents" :event="event" :is-my-event="true"></event-container>
                 </div>
             </div>
         </div>
@@ -18,7 +19,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingTwo">
             <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                   aria-expanded="false" aria-controls="collapseTwo">
                     Upcoming Events
                 </a>
             </h4>
@@ -26,10 +28,8 @@
         <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
             <div class="panel-body">
                 <div class="row">
-                    <div v-for="event in publicEvents" class="col-xs-6 col-sm-4 col-md-3">
-                        <h4>{{event.name}}</h4>
-                        <p>{{event.description}}</p>
-                    </div>
+                    <event-container v-for="event in publicEvents" :event="event"
+                                     :show-event-buttons="true"></event-container>
                 </div>
             </div>
         </div>
@@ -37,7 +37,8 @@
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingThree">
             <h4 class="panel-title">
-                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
+                   aria-expanded="false" aria-controls="collapseThree">
                     Past Events
                 </a>
             </h4>
@@ -45,10 +46,8 @@
         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
             <div class="panel-body">
                 <div class="row">
-                    <div v-for="event in publicEvents" class="col-xs-6 col-sm-4 col-md-3">
-                        <h4>{{event.name}}</h4>
-                        <p>{{event.description}}</p>
-                    </div>
+                    <event-container v-for="event in publicEvents" :event="event"
+                    ></event-container>
                 </div>
             </div>
         </div>
@@ -57,7 +56,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Invite Friends</h4>
                 </div>
                 <div class="modal-body">
@@ -70,11 +70,12 @@
                     <ul class="list-unstyled" style="margin-top:10px" v-show="searchUserResult.length>0">
                         <li v-for="user in searchUserResult">
                             <p>
-                                <img :src="user.avatar"  width="30px" style="border-radius: 15px" alt="">
+                                <img :src="user.avatar" width="30px" style="border-radius: 15px" alt="">
                                 {{user.name}}
                                 <button class="btn btn-xs pull-right"
                                         :class="{'btn-info':!isUserInvited(user.id), 'btn-warning':isUserInvited(user.id)}"
-                                @click="inviteUser(user.id)">{{inviteButtonText | showButtonText user.id}}</button>
+                                        @click="inviteUser(user.id)">{{inviteButtonText | showButtonText user.id}}
+                                </button>
                             </p>
                         </li>
 

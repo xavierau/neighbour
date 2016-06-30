@@ -2,8 +2,6 @@
 <template lang="html" src="html/eventCreationForm.html"></template>
 
 <script>
-    require("eonasdan-bootstrap-datetimepicker");
-
     export default{
         props:{
             newEvent:{
@@ -51,6 +49,14 @@
                         profilePicContainer = document.getElementById('eventPhoto');
                 profilePicContainer.src = URL.createObjectURL(file);
                 this.file = file;
+            }
+        },
+        filters:{
+            leftPadding(value){
+                var str = "" + value
+                var pad = "00"
+                var ans = pad.substring(0, pad.length - str.length) + str
+                return ans
             }
         }
     }

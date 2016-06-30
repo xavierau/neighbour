@@ -24,6 +24,7 @@ export default {
         EventContainer
     },
     ready(){
+        this.updateGA("events");
         $('#eventInviteModal').on('hidden.bs.modal', ()=> {
             this.searchName = "";
             this.searchUserResult=[];

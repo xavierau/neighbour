@@ -16,6 +16,7 @@ use App\Like;
 use App\Message;
 use App\Notification;
 use App\Role;
+use App\UserType;
 
 trait UserRelationshipTrait
 {
@@ -78,6 +79,12 @@ trait UserRelationshipTrait
     {
         return $this->belongsTo(Clan::class);
     }
+
+    public function type()
+    {
+        return $this->belongsTo(UserType::class);
+    }
+
 
 
 }

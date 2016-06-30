@@ -1,88 +1,28 @@
 <style lang="scss" src="style/headerNav.scss"></style>
-<template>
-    <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" v-link="{name:'home'}">
-                    {{appName}}
-                </a>
-                <ul class="nav nav-pills visible-xs">
-                    <li role="presentation"><a v-link="{name:'conversation'}"><i class="fa fa-comments-o"
-                                                                                 aria-hidden="true"
-                                                                                 style="font-size: 2em"></i></a></li>
-                    <li role="presentation"><a v-link="{name:'search'}"><i class="fa fa-search"
-                                                                                 aria-hidden="true"
-                                                                                 style="font-size: 2em"></i></a></li>
-                </ul>
-            </div>
-
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="visible-xs" v-for="category in categoryList">
-                        <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
-                    </li>
-                    <li class="visible-xs">
-                        <a href="" v-link="{name:'events'}">Events</a>
-                    </li>
-
-                    <li class="default" v-show="false">
-                        <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false"
-                           @click="getNotifications">
-                            Notifications
-                            <span class="badge" v-show="user.has_notification">New</span>
-                        </a>
-
-                        <notifications
-                                my-class="dropdown-menu notifications"
-                                aria-labelledby="notifications"
-                                :notifications="notifications"
-                        ></notifications>
-                    </li>
-                    <li>
-                        <a id="profile" data-target="#" href="" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            <img :src="user.avatar" style="height:50px; width:50px; border-radius: 25px" alt="">
-                            {{ user.name }}
-                            <span class="caret"></span>
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="profile">
-                            <li><a v-link="{name:'profile'}">My Profile</a></li>
-                            <li><a @click.prevent="logout">Logout</a></li>
-                        </ul>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
-    </div>
-</template>
+<template lang="html" src="html/headerNav.html"></template>
 
 <script>
     var socket;
     import Notifications from './notification.vue';
     export default{
-        created: function () {
+        created () {
             socket = require('socket.io-client')(":3000");
         },
-        beforeDestroy: function () {
+        beforeDestroy () {
             socket.disconnect();
         },
-        ready: function () {
+        ready () {
             var channel = "neighbourApp:notification:newNotification_" + this.user.id;
             console.log(channel);
-            socket.on(channel, function (data) {
+            socket.on(channel, data=> {
                 console.log(data);
                 this.user.notificationsCount = data;
                 this.user.has_notification = true;
-            }.bind(this))
+            })
+            $('#commenting').on('shown.bs.modal', function () {
+                $('#commentingInput').focus()
+            })
+            $('#commenting').on('hidden.bs.modal', ()=>this.comment="")
         },
         props: {
             user: {
@@ -96,6 +36,11 @@
                 type: Array
             }
         },
+        data(){
+            return{
+                comment:""
+            }
+        },
         components: {
             Notifications
         },
@@ -105,6 +50,17 @@
             }
         },
         methods: {
+            commenting(){
+                $('#commenting').modal("show")
+            },
+            sendComment(){
+                var headers = this.setRequestHeaders();
+              this.$http.post("/commenting", {comment:this.comment}, headers).then(()=> {
+                  toastr.success("Your comment is very much appreciated! Thanks!");
+                  $('#commenting').modal("hide");
+                  this.comment = ""
+              }, ()=>toastr.warning("Something Wrong, please try again later!"))
+            },
             getNotifications: function () {
                 if (this.user.has_notification) {
                     var uri = this.getApi("notifications"),

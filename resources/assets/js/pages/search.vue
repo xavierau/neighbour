@@ -20,6 +20,9 @@ export default{
             }
         }
     },
+    ready(){
+        this.updateGA("search")
+    },
     components: {
         TextFeed
     },

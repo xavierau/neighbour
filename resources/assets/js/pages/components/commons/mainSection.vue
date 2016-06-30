@@ -8,23 +8,32 @@
                 type: Array
             }
         },
+        data(){
+          return {
+              showMarquee: false
+          }
+        },
         ready(){
             var uri = this.getApi("getMarqueeContent"),
                 headers = this.setRequestHeaders();
             this.$http.get(uri, null, headers).then(({data})=>{
-                var string ="";
-                data.collection.map(item=>{
-                    if(typeof item.startDateTime != "undefined"){
-                        string += "-"+item.name+"- "
-                    }else{
-                        if(item.content.length > 30){
-                            string += "-"+item.content.substr(0,30)+"...more - "
+                if (data.collection.length > 0){
+                    this.showMarquee = true
+                    var string ="";
+                    data.collection.map(item=>{
+                        if(typeof item.startDateTime != "undefined"){
+                            string += "-"+item.name+"- "
                         }else{
-                            string += "-"+item.content+"- "
+                            if(item.content.length > 30){
+                                string += "-"+item.content.substr(0,30)+"...more - "
+                            }else{
+                                string += "-"+item.content+"- "
+                            }
                         }
-                    }
-                });
-                document.querySelector("div.marquee").innerHTML = string
+                    });
+                    document.querySelector("div.marquee").innerHTML = string
+                }
+
             });
 
 

@@ -38,6 +38,12 @@ class ClansController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            "label"=>"required|min:3",
+            "code"=>"required|unique:clans,code",
+        ];
+        $this->validate($request, $rules);
+
         Clan::create($request->all());
         return redirect()->route('admin.clans.index')->withMessage("Successfully create a clan.");
     }
@@ -61,7 +67,8 @@ class ClansController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clan = Clan::findOrFail($id);
+        return view('clans.edit', compact("clan"));
     }
 
     /**
@@ -73,7 +80,16 @@ class ClansController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+          "label"=>"required|min:3",
+          "code"=>"required|unique:clans,code,".$id,
+        ];
+        $this->validate($request, $rules);
+
+        $clan = Clan::findOrFail($id);
+        $clan->update($request->all());
+        return redirect()->route('admin.clans.index')->withMessage("Successfully update the clan.");
+
     }
 
     /**

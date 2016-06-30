@@ -9,46 +9,67 @@
                 var uri = this.getApi('getEvents') + "/" + this.$route.params.eventId,
                         headers = this.setRequestHeaders(),
                         data = null;
-                this.$http.get(uri, data, headers).then(function (response) {
-                    transition.next({
-                        event: response.data.event,
-                        numberOfParticipants: response.data.numberOfParticipants
-                    })
-                }, function (response) {
-                    transition.abort('get no data')
-                })
+                this.$http.get(uri, data, headers)
+                    .then(
+                        response=>transition.next({
+                            event: response.data.event,
+                            numberOfParticipants: response.data.numberOfParticipants}),
+                        ()=> transition.abort('get no data')
+                    )
             }
         },
         components:{
             UpdateEvent
         },
+        ready(){
+          this.updateGA("event_detail_"+ this.$route.params.eventId)
+        },
         data: function () {
             return {
+                user: this.$root.$data.user,
                 event: {},
                 numberOfParticipants:0
             }
         },
+        computed:{
+          isMyEvent(){
+                return this.user == this.event.user_id
+            },
+            availableForInvitation(){
+                return moment() < moment(this.event.startDateTime)
+            }
+        },
         methods:{
-          showModal(){
-              var target = $("#myModal");
-              target.modal('show');
-          },
+              showModal(){
+                  if(this.isMyEvent){
+                      var target = $("#myModal");
+                      target.modal('show');
+                  }
+              },
+            clickInvite(){
+                if(this.availableForInvitation){
+                    console.log("invite others");
+                }else{
+                    console.log("cannot invite others")
+                }
+            },
             createNewEvent(data) {
-                var uri = this.getApi("createEvent"),
-                    headers = this.setRequestHeaders();
-                this.$http.post(uri, data, headers).then(function (response) {
-                    $("#myModal").modal('hide');
-                    toastr.success("Event Created!");
-                    this.$emit('eventCreated', response.data.event)
-                }, function (response) {
-                    console.log(response)
-                });
-                console.log("create new Event with newEvent Object store here")
+                if (this.isMyEvent){
+                    var uri = this.getApi("createEvent"),
+                        headers = this.setRequestHeaders();
+                    this.$http.post(uri, data, headers).then(
+                        response => {
+                            $("#myModal").modal('hide');
+                            toastr.success("Event Updated!");
+                            this.$emit('eventCreated', response.data.event)
+                        },
+                        response => console.log(response)
+                    );
+                }
             }
         },
         filters:{
             dateParser(date){
-                console.log(date)
                 if(date == "0000-00-00 00:00:00")
                     return ""
                 return moment(date).format("LLL")

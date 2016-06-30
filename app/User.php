@@ -71,7 +71,5 @@ class User extends Authenticatable
     public function getNotificationsCountAttribute()
     {
         return Notification::whereIsNew(true)->whereNotifiedUserId($this->id)->count();
-    }
-
-    
+    }    
 }

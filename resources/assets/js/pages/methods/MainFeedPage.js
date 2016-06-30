@@ -52,7 +52,7 @@ var methods = {
             toastr['success']('comment deleted');
         }.bind(this))
     },
-    newComment: function (feed, comment) {
+    newComment (feed, comment) {
         var uri = this.getApi("commentFeed"),
             headers = this.setRequestHeaders(),
             data = {
@@ -60,15 +60,12 @@ var methods = {
                 comment: comment
             };
         this.$http.post(uri, data, headers).then(
-            function (response) {
-                this.stream.map(function (feed) {
-                    if (feed.id == response.data.comment.reply_to)  feed.numberOfComment = feed.numberOfComment + 1
-                });
-                this.$broadcast('updateComment', feed.id, response.data.comment)
+            ({data}) =>{
+                this.stream.map(feed => feed.numberOfComment = feed.id == data.comment.reply_to ? feed.numberOfComment = feed.numberOfComment + 1 : feed.numberOfComment);
+                this.$broadcast('updateComment', feed.id, data.comment)
             },
-            function (response) {
-                conole.log(response);
-            })
+            response => console.log(response)
+        )
     },
     joinEvent: function (event) {
         var uri = this.getApi("joinEvent"),

@@ -27,7 +27,7 @@ router.map({
         subRoutes:{
             "/":{
                 name: 'home',
-                component: require('./pages/mainFeedPage.vue')
+            component: require('./pages/mainFeedPage.vue')
             },
             "/search":{
                 name: 'search',

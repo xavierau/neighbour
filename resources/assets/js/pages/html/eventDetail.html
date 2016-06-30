@@ -27,8 +27,8 @@
         </tr>
         </tbody>
     </table>
-    <button class="btn btn-info" @click="showModal">Edit</button>
-    <button class="btn btn-info">Invite Others</button>
+    <button class="btn btn-info" v-show="isMyEvent" @click="showModal">Edit</button>
+    <button class="btn btn-info" v-show="availableForInvitation" @click="clickInvite">Invite Others</button>
 
     <update-event
             :event="event"

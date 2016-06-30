@@ -10,7 +10,6 @@ class Setting extends Model
     protected $fillable = [
         'label', 'code', 'type', 'value'
     ];
-
 }
 
 

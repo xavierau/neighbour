@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->string('location');
             $table->dateTime('startDateTime');
-            $table->dateTime('endDateTime');
+            $table->dateTime('endDateTime')->default("00-00-00 00:00:00");
             $table->text('description');
             $table->string('pic');
             $table->boolean('isPublic');

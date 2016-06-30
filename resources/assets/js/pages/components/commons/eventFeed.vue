@@ -3,6 +3,7 @@
 
 <script>
     import ContentContainer from './content.vue';
+    import {eventButtonsText} from "./../../../global/globalVariables.js"
     export default{
         props:{
             feed:{
@@ -11,7 +12,8 @@
         },
         data: function(){
             return {
-                joinEvent: false
+                joinEvent: false,
+                eventButtons: eventButtonsText
             }
         },
         computed:{
@@ -70,8 +72,7 @@
                     toastr['success']('You won\'t jon the event');
                     this.feed.eventStatus = 'no';
                 }
-
-            },
+            }
         }
     }
 </script>

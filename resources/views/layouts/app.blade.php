@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
 
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{asset("css/bootstrap/bootstrap.min.css")}}" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
     {{--<link href="{{ elixir('css/app.css') }}" rel="stylesheet">--}}
 
@@ -80,8 +80,8 @@
 @yield('content')
 
         <!-- JavaScripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{{asset("js/jquery/jquery.min.js")}}"></script>
+<script src="{{asset("js/bootstrap/bootstrap.min.js")}}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/3.0.1/sweetalert2.min.js"></script>
 
 @yield('script')

@@ -11,6 +11,7 @@
             <div id="collapse{{$index}}" class="panel-collapse collapse" :class="{'in':$index==0}" role="tabpanel" aria-labelledby="heading{{$index}}">
                 <div class="panel-body">
                     {{metric.data}}
+                    <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>

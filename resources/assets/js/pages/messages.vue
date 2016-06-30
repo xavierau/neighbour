@@ -94,7 +94,8 @@
                 messages: []
             }
         },
-        ready: function () {
+        ready(){
+            this.updateGA("conversation");
             var channel = "neighbourApp:message:conversation_" + this.$route.params.conversationId;
             socket.on(channel, function (data) {
                 this.messages.unshift(data);

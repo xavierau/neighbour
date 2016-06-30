@@ -2,10 +2,24 @@
 <template lang="html" src="html/eventContainer.html"></template>
 
 <script>
+    import {eventButtonsText} from "./../../../global/globalVariables.js"
     export default{
         props:{
             event:{
                 type:Object
+            },
+            showEventButtons:{
+                type:Boolean,
+                default:false
+            },
+            isMyEvent:{
+                type:Boolean,
+                default:false
+            }
+        },
+        data(){
+            return {
+                eventButtons: eventButtonsText
             }
         },
         computed:{
