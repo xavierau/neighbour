@@ -34,32 +34,26 @@
                         };
 
                 var uri = this.getApi('categoryList');
-                this.$http.get(uri).then(function (response) {
+                this.$http.get(uri).then(
+                    response => {
                     requiredFetch.categoryList = true;
                     data.categoryList = response.data;
                     if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
-                }, function () {
-                    transition.abort("cannot fetch category list.");
-                });
+                }, () => transition.abort("cannot fetch category list."));
 
                 uri = this.getApi('notifications');
-                this.$http.get(uri).then(function (response) {
+                this.$http.get(uri).then(response=> {
                     requiredFetch.notifications = true;
                     data.notifications = response.data.notifications;
                     if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
-                }, function () {
-                    transition.abort("cannot fetch category list.");
-                });
+                },  () => transition.abort("cannot fetch category list."));
 
                 uri = this.getApi('selectCategoryList');
-                this.$http.get(uri).then(function (response) {
+                this.$http.get(uri).then(response => {
                     requiredFetch.selectCategoryList = true;
                     data.selectCategoryList = response.data;
                     if (this.everyPairIsTrue(requiredFetch)) transition.next(data);
-                }, function () {
-                    transition.abort("cannot fetch selected category list.");
-                });
-
+                }, () => transition.abort("cannot fetch selected category list."));
             }
         },
         components: {

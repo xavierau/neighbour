@@ -47,10 +47,7 @@
                                                         this.hasMorePages = data.hasMorePages;
                                                         this.calling = false
                                                     },
-                                        response => {
-                                            console.log(response)
-                                            this.calling = false
-                                        }
+                                        response => this.calling = false
                                 )
                     }
                 }

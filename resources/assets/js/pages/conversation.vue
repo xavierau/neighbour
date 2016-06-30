@@ -25,9 +25,9 @@
         <div class="form-group">
             <label for="receiver">Send Message To:</label>
             <div class="col-sm-6 col-md-4">
-                <input class="form-control" type="text" id="receiver" @keyup.prevent="searchUser">
+                <input class="form-control" type="text" id="receiver" v-model="searchTerm" @keyup.prevent="searchUser">
             </div>
-            <ul class="list-unstyled searchResult" >
+            <ul class="list-unstyled searchResult" v-show="searchTerm.length > 0">
                 <li v-for="user in searchUserResult" @click.prevent="message(user)">
                     <img :src="user.avatar" alt="">
                     <p>{{user.name}}</p>
@@ -36,7 +36,7 @@
         </div>
 
         <h4>You have following conversations:</h4>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled" >
             <li class="conversation" v-for="conversation in conversations">
                 <a v-link="{name:'messages', params:{conversationId:conversation.id}}">
                     <div style="display: inline-block">
@@ -73,7 +73,8 @@
         data: function () {
             return {
                 conversations: [],
-                searchUserResult: []
+                searchUserResult: [],
+                searchTerm:""
             }
         },
         methods: {
@@ -88,15 +89,18 @@
                     console.log(response);
                 })
             },
-            searchUser: function (event) {
-                var uri = this.getApi("searchUserByUserName"),
-                        data = {name: event.target.value},
+            searchUser() {
+                if(this.searchTerm.length > 0){
+                    var uri = this.getApi("searchUserByUserName"),
+                        data = {name: this.searchTerm},
                         headers = this.setRequestHeaders();
-                this.$http.get(uri, data, headers).then(function (response) {
-                    this.$set('searchUserResult', response.data.users);
-                }, function (response) {
-                    console.log(response);
-                })
+                    this.$http.get(uri, data, headers).then(
+                        ({data}) => this.$set('searchUserResult', data.users),
+                        response => console.log(response)
+                    )
+                }else{
+                    this.searchUserResult = [];
+                }
             }
         }
     }

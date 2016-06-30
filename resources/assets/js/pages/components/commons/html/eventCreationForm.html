@@ -30,7 +30,7 @@
                 <div class="col-xs-6" style="padding:0">
                     <div class="col-xs-6" style="padding:0">
                         <select name="startHour" id="startHour" class="form-control">
-                            <option v-for="n in 24" :value="n+1" :selected="n==24">{{n+1 | leftPadding}}</option>
+                            <option v-for="n in 24" :value="n" :selected="n==0">{{n | leftPadding}}</option>
                         </select>
                     </div>
                     <div class="col-xs-6" style="padding:0">

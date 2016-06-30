@@ -1,5 +1,8 @@
 export default {
     methods: {
+        setGAUserID(userId){
+          ga('set','userId', userId)
+        },
         updateGA(page){
             ga('set', 'page', '/' + page);
             ga('send', 'pageview');

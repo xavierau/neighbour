@@ -43,13 +43,33 @@
             content: "";
             display: inline-block;
             position: absolute;
-            background-image: url("http://www.clker.com/cliparts/s/1/v/q/p/N/black-check-mark-md.png");
+            background-image: url("{{asset('assets/img/check.png')}}");
             background-size: cover;
             width: 50px;
             height: 50px;
             color: white;
             left: -2px;
-            top: 15px;
+            top: 35px;
+            -ms-transform: rotate(20deg); /* IE 9 */
+            -webkit-transform: rotate(20deg); /* Safari */
+            transform: rotate(20deg);
+        }
+
+        #carousel-slider {
+            padding: 0 20px 5px 20px;
+        }
+
+        #home {
+            text-align: center;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        h3#tagline span.also{
+            display: inline-block;
+            -ms-transform: rotate(-20deg); /* IE 9 */
+            -webkit-transform: rotate(-20deg); /* Safari */
+            transform: rotate(-20deg);
         }
 
     </style>
@@ -61,26 +81,25 @@
 <div class="navbar navbar-inverse navbar-fixed-top scroll-me" id="menu-section">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+            {{--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">--}}
+            {{--<span class="icon-bar"></span>--}}
+            {{--<span class="icon-bar"></span>--}}
+            {{--<span class="icon-bar"></span>--}}
+            {{--</button>--}}
             <a class="navbar-brand" href="#">
-
-
+                {{$settings->first()->value}}
             </a>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">SERVICES</a></li>
-                <li><a href="#contact">CONTACT</a></li>
-                @if(Auth::guest())
-                    <li><a href="" data-toggle="modal" data-target="#signinModal">SIGN IN</a></li>
-                @endif
-            </ul>
-        </div>
+        {{--<div class="navbar-collapse collapse">--}}
+        {{--<ul class="nav navbar-nav navbar-right">--}}
+        {{--<li><a href="#home">Home</a></li>--}}
+        {{--<li><a href="#services">SERVICES</a></li>--}}
+        {{--<li><a href="#contact">CONTACT</a></li>--}}
+        {{--@if(Auth::guest())--}}
+        {{--<li><a href="" data-toggle="modal" data-target="#signinModal">SIGN IN</a></li>--}}
+        {{--@endif--}}
+        {{--</ul>--}}
+        {{--</div>--}}
 
     </div>
 </div>
@@ -89,25 +108,6 @@
 <div id="home">
 
     <div class="container">
-        <div id="status">
-        </div>
-        <div class="row animate-in" data-anim-type="fade-in-up">
-            <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2 scroll-me">
-
-                <button class="btn-success btn-lg" data-toggle="modal" data-target="#signupModal">Join Now</button>
-                <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signinModal">Sign In</button>
-
-                {{--<div class="social">--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-facebook "></i></a>--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one"><i class="fa fa-twitter"></i></a>--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-google-plus "></i></a>--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-linkedin "></i></a>--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-pinterest "></i></a>--}}
-                {{--<a href="#" class="btn button-custom btn-custom-one" ><i class="fa fa-github "></i></a>--}}
-                {{--</div>--}}
-                {{--<a href="#services" class=" btn button-custom btn-custom-two">See Service List </a>--}}
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 ">
                 <div id="carousel-slider" data-ride="carousel" class="carousel slide  animate-in"
@@ -116,41 +116,41 @@
                     <div class="carousel-inner">
                         <div class="item active">
                             <h3 id="tagline">
-                                IC Community, because Neighbors <span class="also">also</span> care
+                                IC Community, because Neighbors <span class="also">also</span>
+                                care
                             </h3>
                             <br>
-                            <p>
-                                Localhood has been built to foster communication and interaction, both virtually and
-                                in-person, within your neighborhood.
-                                By being friendly neighbors and making neighbors friends. Let's make our neighborhood an
-                                even more fun place to live.
-                            </p>
+                            <div class="row animate-in" data-anim-type="fade-in-up">
+                                <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2 scroll-me">
+                                    <button class="btn-success btn-lg" data-toggle="modal" data-target="#signupModal">
+                                        Join Now
+                                    </button>
+                                    <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signinModal">
+                                        Sign In
+                                    </button>
+                                </div>
+                            </div>
+                            {{--<p>--}}
+                            {{--Localhood has been built to foster communication and interaction, both virtually and--}}
+                            {{--in-person, within your neighborhood.--}}
+                            {{--By being friendly neighbors and making neighbors friends. Let's make our neighborhood an--}}
+                            {{--even more fun place to live.--}}
+                            {{--</p>--}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-</div>
-<!--HOME SECTION END-->
-<section id="contact">
-    <div class="container">
-        <div class="row text-center header animate-in" data-anim-type="fade-in-up">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <h3>Contact Details </h3>
-                <hr/>
-            </div>
-        </div>
-
         <div class="row animate-in" data-anim-type="fade-in-up">
 
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <div class="contact-wrapper">
                     <h3>We Are Social</h3>
                     <p>
-                        Aliquam tempus ante placerat,
-                        consectetur tellus nec, porttitor nulla.
+                        Localhood has been built to foster communication and interaction, both virtually and
+                        in-person, within your neighborhood.
+                        By being friendly neighbors and making neighbors friends. Let's make our neighborhood an
+                        even more fun place to live.
                     </p>
                     <div class="social-below">
                         <a href="#" class="btn button-custom btn-custom-two"> Facebook</a>
@@ -162,29 +162,80 @@
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <div class="contact-wrapper">
-                    <h3>Quick Contact</h3>
-                    <h4><strong>Email : </strong> info@yuordomain.com </h4>
-                    <h4><strong>Call : </strong> +09-88-99-77-55 </h4>
-                    <h4><strong>Skype : </strong> Yujhaeu78 </h4>
+                    <h3>Contact Details.</h3>
+                    <h4><strong>Email : </strong> Info@iccommunity.net </h4>
+                    <h4><strong>Wazzap : </strong> 61098138 </h4>
                 </div>
 
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <div class="contact-wrapper">
-                    <h3>Address : </h3>
-                    <h4>230/45 , New way Lane , </h4>
-                    <h4>United States</h4>
-                    <div class="footer-div">
-                        &copy; 2015 YourDomain | <a href="http://www.designbootstrap.com/" target="_blank">by
-                            DesignBootstrp</a>
-                    </div>
-                </div>
+            {{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+            {{--<div class="contact-wrapper">--}}
+            {{--<h3>Address : </h3>--}}
+            {{--<h4>230/45 , New way Lane , </h4>--}}
+            {{--<h4>United States</h4>--}}
+            {{--<div class="footer-div">--}}
+            {{--&copy; 2015 YourDomain | <a href="http://www.designbootstrap.com/" target="_blank">by--}}
+            {{--DesignBootstrp</a>--}}
+            {{--</div>--}}
+            {{--</div>--}}
 
-            </div>
+            {{--</div>--}}
 
         </div>
     </div>
-</section>
+
+</div>
+<!--HOME SECTION END-->
+{{--<section id="contact">--}}
+{{--<div class="container">--}}
+{{--<div class="row text-center header animate-in" data-anim-type="fade-in-up">--}}
+{{--<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">--}}
+{{--<h3>Contact Details </h3>--}}
+{{--<hr/>--}}
+{{--</div>--}}
+{{--</div>--}}
+
+{{--<div class="row animate-in" data-anim-type="fade-in-up">--}}
+
+{{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+{{--<div class="contact-wrapper">--}}
+{{--<h3>We Are Social</h3>--}}
+{{--<p>--}}
+{{--Aliquam tempus ante placerat,--}}
+{{--consectetur tellus nec, porttitor nulla.--}}
+{{--</p>--}}
+{{--<div class="social-below">--}}
+{{--<a href="#" class="btn button-custom btn-custom-two"> Facebook</a>--}}
+{{--<a href="#" class="btn button-custom btn-custom-two"> Twitter</a>--}}
+{{--<a href="#" class="btn button-custom btn-custom-two"> Google +</a>--}}
+{{--</div>--}}
+{{--</div>--}}
+
+{{--</div>--}}
+{{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+{{--<div class="contact-wrapper">--}}
+{{--<h3>Contact Details.</h3>--}}
+{{--<h4><strong>Email : </strong> Info@iccommunity.net </h4>--}}
+{{--<h4><strong>Wazzap : </strong> 61098138 </h4>--}}
+{{--</div>--}}
+
+{{--</div>--}}
+{{--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">--}}
+{{--<div class="contact-wrapper">--}}
+{{--<h3>Address : </h3>--}}
+{{--<h4>230/45 , New way Lane , </h4>--}}
+{{--<h4>United States</h4>--}}
+{{--<div class="footer-div">--}}
+{{--&copy; 2015 YourDomain | <a href="http://www.designbootstrap.com/" target="_blank">by--}}
+{{--DesignBootstrp</a>--}}
+{{--</div>--}}
+{{--</div>--}}
+
+{{--</div>--}}
+
+{{--</div>--}}
+{{--</div>--}}
+{{--</section>--}}
 <!--CONTACT SECTION END-->
 
 <!--SIGNUP MODAL -->

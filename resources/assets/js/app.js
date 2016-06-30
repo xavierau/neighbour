@@ -78,6 +78,10 @@ var App = Vue.extend({
             user: user
         }
     },
+    ready(){
+        console.log(this.user);
+      this.setGAUserID(this.user.id)
+    },
     events: {
         logout: function () {
             window.location.replace('/logout');

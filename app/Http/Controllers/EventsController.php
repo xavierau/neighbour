@@ -28,6 +28,7 @@ class EventsController extends Controller
     public function getEvent($eventId)
     {
         $event = Event::find($eventId);
+        $event->load("participants");
 
         return response()->json(['event' => $event, 'numberOfParticipants' => $event->numberOfParticipants()]);
     }
@@ -36,26 +37,13 @@ class EventsController extends Controller
     {
         $data = $this->prepareDateForEventCreation($request);
 
-//        dd($data);
-
         $event = $request->user()->events()->create($data);
+        $event->participants()->attach($request->user()->id, ['status'=>'yes']);
 
-        $files = array_filter($request->all(), function ($entry) {
-            return $entry instanceof UploadedFile;
-        });
+        $this->createMediaIfNeeded($request, $event);
 
-        if ( empty($files) ) {
-            $mediaService = new MediaServices();
-            foreach ($files as $file) {
-                $link = $mediaService->storeFeedPhoto($file);
-                $data = [
-                    'link' => $link,
-                    'type' => 'image'
-                ];
-                $event->media()->create([])->update($data);
-            }
-        }
         event(new NewEventCreated($event));
+
         $event->load(["organiser", "media"]);
 
         return response()->json(compact("event"));
@@ -129,5 +117,28 @@ class EventsController extends Controller
 
 
         return $data;
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param                          $event
+     */
+    private function createMediaIfNeeded(Request $request, $event)
+    {
+        $files = array_filter($request->all(), function ($entry) {
+            return $entry instanceof UploadedFile;
+        });
+
+        if (!empty($files)) {
+            $mediaService = new MediaServices();
+            foreach ($files as $file) {
+                $link = $mediaService->storeFeedPhoto($file);
+                $data = [
+                    'link' => $link,
+                    'type' => 'image'
+                ];
+                $event->media()->create([])->update($data);
+            }
+        }
     }
 }

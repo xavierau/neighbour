@@ -16,9 +16,10 @@
                 <li role="presentation"><a v-link="{name:'search'}"><i class="fa fa-search"
                                                                        aria-hidden="true"
                                                                        style="font-size: 2em"></i></a></li>
-                <li role="presentation"><a @click.prevent="commenting" ><i class="fa fa-comment-o"
-                                              aria-hidden="true"
-                                              style="font-size: 2em"></i></a></li>
+                <li role="presentation"><a @click.prevent="commenting"><i class="fa fa-comment-o"
+                                                                          aria-hidden="true"
+                                                                          style="font-size: 2em; color:gold"></i></a>
+                </li>
             </ul>
         </div>
 
@@ -30,6 +31,10 @@
                 <li class="visible-xs">
                     <a href="" v-link="{name:'events'}">Events</a>
                 </li>
+                <li class="visible-xs">
+                    <a @click.prevent="showDirectory">Directory</a>
+                </li>
+
 
                 <li class="default" v-show="false">
                     <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
@@ -68,7 +73,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="commentingLabel" style="color:black">Tell us your comment</h4>
                 </div>
                 <div class="modal-body">
@@ -77,6 +83,158 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" @click.prevent="sendComment">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Directory Modal -->
+    <div class="modal fade" id="directory" tabindex="-1" role="dialog" aria-labelledby="directoryLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="directoryLabel" style="color:black">Directory</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive" style="color:black">
+                        <table class="table table-bordered table-hover table-condensed table-striped">
+                            <thead>
+                            <th>Category</th>
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>Tel</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>Handyman</td>
+                                <td>1</td>
+                                <td>Expat-handyman</td>
+                                <td>FB</td>
+                            </tr>
+                            <tr>
+                                <td>Handyman</td>
+                                <td>2</td>
+                                <td>Koos Venter</td>
+                                <td>9205 2304</td>
+                            </tr>
+                            <tr>
+                                <td>Handyman</td>
+                                <td>3</td>
+                                <td>Max</td>
+                                <td>9129 2996</td>
+                            </tr>
+                            <tr>
+                                <td>Handyman</td>
+                                <td>4</td>
+                                <td>Fong, Sheung wan</td>
+                                <td>9821 7520</td>
+                            </tr>
+                            <tr>
+                                <td>Electrician</td>
+                                <td>1</td>
+                                <td>Jeffery Chan</td>
+                                <td>5683 2023</td>
+                            </tr>
+                            <tr>
+                                <td>Electrician</td>
+                                <td>2</td>
+                                <td>Fong, Sheung wan</td>
+                                <td>9821 7520</td>
+                            </tr>
+                            <tr>
+                                <td>Prenatal pilates class</td>
+                                <td>1</td>
+                                <td>Heidi</td>
+                                <td>9736 5732</td>
+                            </tr>
+                            <tr>
+                                <td>Yoga</td>
+                                <td>1</td>
+                                <td>Christine Ritter</td>
+                                <td>Facebook</td>
+                            </tr>
+                            <tr>
+                                <td>Opthalmologist</td>
+                                <td>1</td>
+                                <td>Dennis Lam & Partners Eye Centre, Central</td>
+                                <td>3997 3566</td>
+                            </tr>
+                            <tr>
+                                <td>Tailor for odd job/cloth repair (replace zips, fix hems etc)</td>
+                                <td>1</td>
+                                <td>3 alteration ladies in the dry market/ food market, beside island crest, not the one up
+                                    the escalator.
+                                </td>
+                                <td>NA</td>
+                            </tr>
+                            <tr>
+                                <td>Tailor for odd job/cloth repair (replace zips, fix hems etc)</td>
+                                <td>2</td>
+                                <td>Another lady on eastern st, small alley just after the Mori jap resto</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Securing windows</td>
+                                <td>1</td>
+                                <td>Bubba safety</td>
+                                <td>Facebook</td>
+                            </tr>
+                            <tr>
+                                <td>For afro/curly hair</td>
+                                <td></td>
+                                <td>Tony Yu salon in Central along the escalator</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Massage</td>
+                                <td>1</td>
+                                <td>Bio beauty spa, Central</td>
+                                <td>2489 0222</td>
+                            </tr>
+                            <tr>
+                                <td>Massage</td>
+                                <td>2</td>
+                                <td>Candy</td>
+                                <td>6693 8422</td>
+                            </tr>
+                            <tr>
+                                <td>Shellac Mani/Pedi</td>
+                                <td>1</td>
+                                <td>May</td>
+                                <td>6414 3193</td>
+                            </tr>
+                            <tr>
+                                <td>Chiropractor/Osteopath:</td>
+                                <td>1</td>
+                                <td>Allesio Savana, London medical centre, central</td>
+                                <td>2537 6898</td>
+                            </tr>
+                            <tr>
+                                <td>Chiropractor/Osteopath:</td>
+                                <td>2</td>
+                                <td>Damien, Lauren Bramley n Partners, Central</td>
+                                <td>28 7760 68</td>
+                            </tr>
+                            <tr>
+                                <td>Chiropractor/Osteopath:</td>
+                                <td>3</td>
+                                <td>Stanley Lum</td>
+                                <td>2868 6060</td>
+                            </tr>
+                            <tr>
+                                <td>Pound/Kennels for pets</td>
+                                <td>1</td>
+                                <td>petworldresort.com</td>
+                                <td>24706928</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

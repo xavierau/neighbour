@@ -50,6 +50,9 @@
             }
         },
         methods: {
+            showDirectory(){
+                $('#directory').modal("show")
+            },
             commenting(){
                 $('#commenting').modal("show")
             },
