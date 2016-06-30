@@ -42,7 +42,7 @@ class SettingsController extends Controller
 
         event(new SettingsChanged());
 
-        return redirect('/settings')->withMessage('Setting Update Successfully!');
+        return redirect('/admin/settings')->withMessage('Setting Update Successfully!');
     }
     public function store(Request $request)
     {
@@ -58,7 +58,7 @@ class SettingsController extends Controller
 
         event(new SettingsChanged());
 
-        return redirect('/settings')->withMessage('Setting Created Successfully!');
+        return redirect('/admin/settings')->withMessage('Setting Created Successfully!');
 
     }
     public function delete($settingId)
@@ -69,6 +69,6 @@ class SettingsController extends Controller
 
         event(new SettingsChanged());
 
-        return redirect('/settings')->withMessage('Setting Delete Successfully!');
+        return redirect('/admin/settings')->withMessage('Setting Delete Successfully!');
     }
 }
