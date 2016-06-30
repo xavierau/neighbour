@@ -67,7 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     Route::group(['middleware' => "isAdmin", "prefix" => "admin"], function () {
-        require_once app_path('Http/routes/adminPages.php');
+        require_once app_path('Http/Routes/adminPages.php');
     });
 
     Route::group(["prefix" => "api"], function () {
