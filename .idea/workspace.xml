@@ -2,95 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f800e0a4-1662-4575-960c-49ed71a34269" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Enums/ContentType.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Enums/Frequency.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Enums/UserType.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/adminPages.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/api.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/googleLogin.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/metrics.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/socialLogin.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Http/Routes/twitterLogin.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/Services/Stats.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap-theme.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap-theme.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap-theme.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap-theme.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/bootstrap/bootstrap.min.css.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/bootstrap/bootstrap.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jquery/jquery.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/js/jquery/jquery.min.map" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/dashboard/graphMetric.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/global/globalVariables.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/headerNav.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/pages/html/mainFeedPage.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/assets/js/pages/scrips/mainFeePage.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/clans/edit.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/emails/comment.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/users/create.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/users/edit.blade.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/users/index.blade.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLinters/jslint.xml" afterPath="$PROJECT_DIR$/.idea/jsLinters/jslint.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Event.php" afterPath="$PROJECT_DIR$/app/Event.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Helpers/HelperFuncs.php" afterPath="$PROJECT_DIR$/app/Helpers/HelperFuncs.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/AuthController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ClansController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ClansController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/EventsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/FeedsController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/UsersController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Listeners/FetchFacebookFeeds.php" afterPath="$PROJECT_DIR$/app/Listeners/FetchFacebookFeeds.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/RelationshipTraits/UserRelationshipTrait.php" afterPath="$PROJECT_DIR$/app/RelationshipTraits/UserRelationshipTrait.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Setting.php" afterPath="$PROJECT_DIR$/app/Setting.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/User.php" afterPath="$PROJECT_DIR$/app/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/services.php" afterPath="$PROJECT_DIR$/config/services.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/session.php" afterPath="$PROJECT_DIR$/config/session.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_04_19_060138_create_events_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_04_19_060138_create_events_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js" afterPath="$PROJECT_DIR$/public/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/app.js.map" afterPath="$PROJECT_DIR$/public/js/app.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dashboard.js" afterPath="$PROJECT_DIR$/public/js/dashboard.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/dashboard.js.map" afterPath="$PROJECT_DIR$/public/js/dashboard.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/app.js" afterPath="$PROJECT_DIR$/resources/assets/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dashboard/app.js" afterPath="$PROJECT_DIR$/resources/assets/js/dashboard/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/dashboard.html" afterPath="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/index.js" afterPath="$PROJECT_DIR$/resources/assets/js/dashboard/components/dashboard/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/global/mixin.js" afterPath="$PROJECT_DIR$/resources/assets/js/global/mixin.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/app.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/app.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/categories.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/categories.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventContainer.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventContainer.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventCreationForm.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventCreationForm.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventFeed.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/eventFeed.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/headerNav.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/headerNav.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/eventContainer.html" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/eventContainer.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/eventCreationForm.html" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/eventCreationForm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/mainSection.html" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/html/mainSection.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/mainSection.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/components/commons/mainSection.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/conversation.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/conversation.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/eventDetail.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/eventDetail.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/events.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/events.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/html/eventDetail.html" afterPath="$PROJECT_DIR$/resources/assets/js/pages/html/eventDetail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/html/events.html" afterPath="$PROJECT_DIR$/resources/assets/js/pages/html/events.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/messages.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/messages.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/methods/MainFeedPage.js" afterPath="$PROJECT_DIR$/resources/assets/js/pages/methods/MainFeedPage.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/search.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/search.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/pages/userProfile.vue" afterPath="$PROJECT_DIR$/resources/assets/js/pages/userProfile.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/app.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/clans/create.blade.php" afterPath="$PROJECT_DIR$/resources/views/clans/create.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" />
     </list>
     <ignored path="Neighbour.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -137,8 +49,8 @@
           <file leaf-file-name="mainFeedPage.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="23">
-                  <caret line="1" column="40" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
+                <state relative-caret-position="621">
+                  <caret line="27" column="68" selection-start-line="27" selection-start-column="68" selection-end-line="27" selection-end-column="68" />
                   <folding>
                     <element signature="e#93#134#0" expanded="true" />
                   </folding>
@@ -176,25 +88,25 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+          <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="621">
-                  <caret line="51" column="32" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
+                <state relative-caret-position="598">
+                  <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
                   <folding>
                     <element signature="e#394#407#0#PHP" expanded="true" />
-                    <element signature="e#2243#2435#0#PHP" expanded="false" />
-                    <element signature="e#2465#2788#0#PHP" expanded="false" />
+                    <element signature="e#2247#2439#0#PHP" expanded="false" />
+                    <element signature="e#2469#2792#0#PHP" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name=".env" pinned="false" current-in-tab="true">
+          <file leaf-file-name=".env" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/.env">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="805">
-                  <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
+                <state relative-caret-position="918">
+                  <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -289,9 +201,9 @@
         <option value="$PROJECT_DIR$/resources/assets/js/app.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/components/commons/headerNav.vue" />
         <option value="$PROJECT_DIR$/resources/views/emails/comment.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
       </list>
     </option>
   </component>
@@ -319,7 +231,7 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="Remote PHP 7.0" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-645" />
+    <option name="x" value="-500" />
     <option name="y" value="-1273" />
     <option name="width" value="2304" />
     <option name="height" value="1273" />
@@ -419,6 +331,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="storage" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Neighbour" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Neighbour" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -577,12 +503,12 @@
       <workItem from="1467220455171" duration="1774000" />
       <workItem from="1467222662714" duration="78000" />
       <workItem from="1467224886340" duration="1538000" />
-      <workItem from="1467266454598" duration="9140000" />
+      <workItem from="1467266454598" duration="9893000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="424953000" />
+    <option name="totallyTimeSpent" value="425706000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -594,7 +520,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-645" y="-1273" width="2304" height="1273" extended-state="0" />
+    <frame x="-500" y="-1273" width="2304" height="1273" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -641,13 +567,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
@@ -999,26 +918,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="51" column="32" selection-start-line="51" selection-start-column="32" selection-end-line="51" selection-end-column="32" />
-          <folding>
-            <element signature="e#394#407#0#PHP" expanded="true" />
-            <element signature="e#2243#2435#0#PHP" expanded="false" />
-            <element signature="e#2465#2788#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="805">
-          <caret line="35" column="38" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/emails/comment.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
@@ -1035,12 +934,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/pages/mainFeedPage.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="40" selection-start-line="1" selection-start-column="40" selection-end-line="1" selection-end-column="40" />
+        <state relative-caret-position="621">
+          <caret line="27" column="68" selection-start-line="27" selection-start-column="68" selection-end-line="27" selection-end-column="68" />
           <folding>
             <element signature="e#93#134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="69" column="35" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+          <folding>
+            <element signature="e#394#407#0#PHP" expanded="true" />
+            <element signature="e#2247#2439#0#PHP" expanded="false" />
+            <element signature="e#2469#2792#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
