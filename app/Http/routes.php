@@ -93,11 +93,11 @@ Route::group(['middleware' => 'auth'], function () {
 
             return response()->json(compact("metrics", "shownMetrics"));
         });
-        require_once __DIR__ . "/routes/api.php";
+        require_once __DIR__ . "/Routes/api.php";
     });
 });
 
-require_once __DIR__ . "/routes/socialLogin.php";
+require_once __DIR__ . "/Routes/socialLogin.php";
 
 Route::auth();
 
