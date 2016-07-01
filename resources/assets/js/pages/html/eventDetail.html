@@ -28,6 +28,7 @@
         </tbody>
     </table>
     <button class="btn btn-info" v-show="isMyEvent" @click="showModal">Edit</button>
+    <button class="btn btn-danger" v-show="isMyEvent" @click="deleteEvent">Delete</button>
     <button class="btn btn-info" v-show="availableForInvitation" @click="clickInvite">Invite Others</button>
 
     <h4>Going: </h4>

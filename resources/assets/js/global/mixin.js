@@ -1,9 +1,11 @@
 export default {
     methods: {
         setGAUserID(userId){
-          ga('set','userId', userId)
+            ga('set', 'userId', userId)
         },
         updateGA(page){
+            var userId = this.$root.$data.user.id;
+            this.setGAUserID(userId);
             ga('set', 'page', '/' + page);
             ga('send', 'pageview');
         },
@@ -14,14 +16,14 @@ export default {
         createGAEventFieldsObject(category, action, label, value, outbound){
             var myFieldsObject = {
                 eventCategory: category,
-                eventAction: action,
-            }
-            if(label != null) myFieldsObject['eventLabel'] = label;
-            if(value != null){
+                eventAction: action
+            };
+            if (label != null) myFieldsObject['eventLabel'] = label;
+            if (value != null) {
                 var tryParse = parseInt(parseInt(value));
-                if(!isNaN(tryParse))  myFieldsObject['eventValue'] = tryParse;
+                if (!isNaN(tryParse))  myFieldsObject['eventValue'] = tryParse;
             }
-            if(outbound != false) myFieldsObject['transport'] = "beacon";
+            if (outbound != false) myFieldsObject['transport'] = "beacon";
             return myFieldsObject
         },
         everyPairIsTrue: function (object) {

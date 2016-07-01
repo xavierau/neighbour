@@ -120,7 +120,7 @@
                 this.$http.get('/api/feed/'+feedId+'/whoLikes')
                     .then(
                         ({data})=>{
-                            $("#whoLike").modal("show")
+                            $("#whoLike").modal("show");
                             this.whoLikeFeed = data;
                             toastr.clear()
                         },

@@ -45,6 +45,8 @@ Route::get("feed/{feedId}/whoLikes", function($feedId){
 Route::post('events', "EventsController@postEvent");
 Route::get('events', "EventsController@getEvents");
 Route::get('events/{eventId}', "EventsController@getEvent");
+Route::put('events/{eventId}', "EventsController@updateEvent");
+Route::delete('events/{eventId}', "EventsController@deleteEvent");
 Route::post('joinEvent', "EventsController@joinEvent");
 // This is when user click the button in the app
 Route::get("invitation/event/{eventId}/user/{userId}", "InvitationsController@sendEventInvitation");

@@ -1,12 +1,11 @@
 <style lang="scss" src="style/eventCreationForm.scss"></style>
 <template lang="html" src="html/eventUpdateForm.html"></template>
 
-    <script>
-
+<script>
 export default{
     props:{
         event:{
-            type:Object,
+            type:Object
         }
     },
     data(){
@@ -15,27 +14,32 @@ export default{
         }
     },
     computed:{
-    startDate(){
+        eventPhoto(){
+            if(this.event.media.length == 0)
+                return "https://bimsync.com/images/Icon-Blue.png";
+            return this.event.media[this.event.media.length-1].link;
+        },
+        startDate(){
         console.log(this.event);
         return moment(this.event.startDateTime).format("YYYY-MM-DD")
-      },
-      startHour(){
+        },
+        startHour(){
           return moment(this.event.startDateTime).format("H")-1
-      },
-      startMin(){
+        },
+        startMin(){
           return moment(this.event.startDateTime).format("m")
-      },
-      endDate(){
+        },
+        endDate(){
           if(this.event.endDate != "0000-00-00 00:00:00"){
               return moment(this.event.endDate).format("YYYY-MM-DD")
           }
-      },
-      endHour(){
+        },
+        endHour(){
           if(this.event.endDate != "0000-00-00 00:00:00"){
               return moment(this.event.endDate).format("H")-1
           }
-      },
-      endMin(){
+        },
+        endMin(){
           if(this.event.endDate != "0000-00-00 00:00:00"){
               return moment(this.event.endDate).format("m")
           }
@@ -43,7 +47,7 @@ export default{
     },
     methods:{
         formIsValid: function () {
-            var form = document.getElementById("createEventForm");
+            var form = document.getElementById("updateEventForm");
             var check=true;
             if(form.name.value.length<3){
                 toastr.warning('The event name at least 3 char long.');
@@ -63,10 +67,14 @@ export default{
             }
             return check;
         },
-        clickCreateEvent: function () {
+        clickUpdateEvent: function () {
             if(this.formIsValid()){
-                var form = document.getElementById("updateEventForm");
-                var data = new FormData(form);
+                var form = $('#updateEventForm');
+                console.log(form);
+                console.log(form[0]);
+                var data = new FormData(form[0]);
+                console.log(data.get('name'));
+                console.log(data.get('location'));
                 this.$dispatch("updateEvent", data)
             }
 

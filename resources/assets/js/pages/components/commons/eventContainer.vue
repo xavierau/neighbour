@@ -24,7 +24,7 @@
         },
         computed:{
             getEventImage(){
-                return this.event.media.length>0? this.event.media[0].link:"https://cdn1.iconfinder.com/data/icons/delivery-logistics/512/delivery_date-512.png"
+                return this.event.media.length>0? this.event.media[this.event.media.length-1].link:"https://cdn1.iconfinder.com/data/icons/delivery-logistics/512/delivery_date-512.png"
             }
         },
         methods:{

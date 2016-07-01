@@ -24,7 +24,7 @@
         ready(){
           this.updateGA("event_detail_"+ this.$route.params.eventId)
         },
-        data: function () {
+        data () {
             return {
                 user: this.$root.$data.user,
                 event: {},
@@ -40,18 +40,18 @@
             }
         },
         methods:{
-              showModal(){
-                  if(this.isMyEvent){
-                      var target = $("#myModal");
-                      target.modal('show');
-                  }
-              },
+            showModal(){
+              if(this.isMyEvent){
+                  var target = $("#myModal");
+                  target.modal('show');
+              }
+            },
             clickInvite(){
-                if(this.availableForInvitation){
-                    console.log("invite others");
-                }else{
-                    console.log("cannot invite others")
-                }
+            if(this.availableForInvitation){
+                console.log("invite others");
+            }else{
+                console.log("cannot invite others")
+            }
             },
             createNewEvent(data) {
                 if (this.isMyEvent){
@@ -66,12 +66,38 @@
                         response => console.log(response)
                     );
                 }
+            },
+            deleteEvent(){
+                this.$http.post("/api/events/"+this.event.id, {'_method':"DELETE"}, this.setRequestHeaders())
+                    .then(()=>{
+                        toastr.success('event deleted!')
+                        this.$router.go({name:"events"})
+                    },
+                        response=>console.log(response)
+                    )
+
+            }
+        },
+        events:{
+            updateEvent(eventFormData){
+                eventFormData.append("_method", "PUT");
+                toastr.info('Updating...');
+                this.$http.post("/api/events/"+this.event.id, eventFormData, this.setRequestHeaders())
+                    .then(
+                        ({data})=>{
+                            toastr.clear();
+                            toastr.success("Successfully update");
+                            this.event = data.event;
+                            $("#myModal").modal("hide")
+                        },
+                        response=>console.log(response)
+                    )
             }
         },
         filters:{
             dateParser(date){
-                if(date == "0000-00-00 00:00:00")
-                    return ""
+                if(date == "0000-00-00 00:00:00" || date == "-0001-11-30 00:00:00")
+                    return "";
                 return moment(date).format("LLL")
             }
         }

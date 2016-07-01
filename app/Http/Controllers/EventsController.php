@@ -28,7 +28,7 @@ class EventsController extends Controller
     public function getEvent($eventId)
     {
         $event = Event::find($eventId);
-        $event->load("participants");
+        $event->load("participants", "media");
 
         return response()->json(['event' => $event, 'numberOfParticipants' => $event->numberOfParticipants()]);
     }
@@ -64,6 +64,27 @@ class EventsController extends Controller
         return response()->json(['status' => 'completed', 'eventId' => $event->id]);
     }
 
+    public function updateEvent(Request $request , $eventId)
+    {
+        $data = $this->prepareDateForEventCreation($request);
+        $event = Event::findOrFail($eventId);
+        $event->update($data);
+        $this->createMediaIfNeeded($request, $event);
+
+        $event->load(["organiser", "media"]);
+
+        return response()->json(compact("event"));
+    }
+
+    public function deleteEvent(Request $request, $id)
+    {
+        $event = $request->user()->events()->whereId($id)->first();
+        if($event)
+            $event->stream->first()->delete();
+            $event->delete();
+        return response("Ok");
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Event               $event
@@ -91,7 +112,6 @@ class EventsController extends Controller
     private function prepareDateForEventCreation(Request $request)
     {
         $data = $request->all();
-
         $startHour = $data['startHour'];
         $startMin = $data['startMin'];
         if ($startHour) {

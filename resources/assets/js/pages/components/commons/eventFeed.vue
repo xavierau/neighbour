@@ -18,7 +18,7 @@
         },
         computed:{
           getImage(){
-              return this.feed.media.length>0? this.feed.media[0].link:""
+              return this.feed.media.length>0? this.feed.media[this.feed.media.length-1].link:""
           }
         },
         filters: {
