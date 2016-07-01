@@ -23,7 +23,7 @@ class Event extends Model
     ];
 
     protected $appends =[
-      "eventStatus"
+      "eventStatus", "numberWhoAreGoing"
     ];
 
     public function organiser()
@@ -48,6 +48,10 @@ class Event extends Model
             return $user->pivot->status;
             else
                 return null;
+    }
+    public function getNumberWhoAreGoingAttribute()
+    {
+        return  $this->participants()->count();
     }
 
     public function loadStandardFetchSetting()

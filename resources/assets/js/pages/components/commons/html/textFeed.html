@@ -16,6 +16,7 @@
         <span
                 class="pull-right"
                 v-show="feed.numberOfLikes>0"
+                @click.prevent="showWhoLikes"
                 style="margin-top:2px">{{feed.numberOfLikes}} Likes
         </span>
     </div>

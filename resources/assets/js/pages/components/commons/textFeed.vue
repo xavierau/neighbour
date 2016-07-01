@@ -88,6 +88,10 @@ export default {
         },
         clickComment(){
             this.wantToCommentFeed = !this.wantToCommentFeed;
+        },
+        showWhoLikes(){
+            toastr.info('Loading List...');
+            this.$dispatch('getWhoLikeFeed', this.feed.id);
         }
     },
     filters: {

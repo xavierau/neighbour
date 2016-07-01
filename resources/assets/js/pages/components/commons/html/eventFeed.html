@@ -21,7 +21,12 @@
                         :content="feed.description"
                         :max-char="150"
                 ></content-container>
+                <div class="participantContainer" style="margin-top:15px">
+                    <p v-show="feed.numberWhoAreGoing ==1" style="color:grey">{{feed.numberWhoAreGoing}} is going</p>
+                    <p v-show="feed.numberWhoAreGoing >1"  style="color:grey">{{feed.numberWhoAreGoing}} are going</p>
+                </div>
             </div>
+
         </div>
         <button
                 class="pull-right unstyled"

@@ -5,7 +5,9 @@
  * Time: 11:21 AM
  */
 
-Route::group(['middleware'=>"isAdmin", "prefix"=>"metrics"], function(){
+use App\Feed;
+
+Route::group(['middleware' =>"isAdmin", "prefix" =>"metrics"], function(){
    require_once "metrics.php";
 });
 
@@ -33,6 +35,12 @@ Route::post("categoryList", "CategoriesController@getCategoryList");
 Route::get('feeds/comments', "FeedsController@getFeedComments");
 Route::post('feeds/comment', "FeedsController@commentFeed");
 Route::get("feeds/{feedOption}", "FeedsController@getFeeds");
+Route::get("feed/{feedId}/whoLikes", function($feedId){
+   $feed = Feed::find($feedId);
+   $likes = $feed->likes()->with("user")->get();
+
+   return response()->json($likes);
+});
 
 Route::post('events', "EventsController@postEvent");
 Route::get('events', "EventsController@getEvents");

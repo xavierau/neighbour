@@ -30,12 +30,12 @@
                 <div class="col-xs-6" style="padding:0">
                     <div class="col-xs-6" style="padding:0">
                         <select name="startHour" id="startHour" class="form-control">
-                            <option v-for="n in 24" :value="n+1" :selected="n==startHour">{{n+1}}</option>
+                            <option v-for="n in 24" :value="n" :selected="n==startHour">{{n | leftPadding}}</option>
                         </select>
                     </div>
                     <div class="col-xs-6" style="padding:0">
                         <select name="startMin" id="startMin" class="form-control">
-                            <option v-for="n in 60" :value="n" :selected="n==startMin">{{n}}</option>
+                            <option v-for="n in 60" :value="n" :selected="n==startMin">{{n | leftPadding}}</option>
                         </select>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
 
         <div class="form-group  clearfix">
             <div class="col-md-10 pull-right">
-                <img src="https://bimsync.com/images/Icon-Blue.png" alt="" id="eventPhoto">
+                <img :src="eventPhoto" alt="" id="eventPhoto">
             </div>
         </div>
         <div class="form-group">

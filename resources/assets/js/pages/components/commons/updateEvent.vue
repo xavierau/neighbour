@@ -19,6 +19,17 @@ export default{
             type:Object
         }
     },
+    ready(){
+      console.log("from ready, "+this.event.pic);
+    },
+    computed:{
+        eventPhoto(){
+          if(typeof this.event.pic == "undefined" ||  this.event.pic == "null"){
+              return "https://bimsync.com/images/Icon-Blue.png"
+          }
+              return this.event.pic;
+      }
+    },
     components:{
         EventUpdateForm
     }

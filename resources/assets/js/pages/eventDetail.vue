@@ -33,7 +33,7 @@
         },
         computed:{
           isMyEvent(){
-                return this.user == this.event.user_id
+                return this.user.id == this.event.user_id
             },
             availableForInvitation(){
                 return moment() < moment(this.event.startDateTime)

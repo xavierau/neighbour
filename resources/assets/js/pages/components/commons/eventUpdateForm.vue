@@ -16,13 +16,14 @@ export default{
     },
     computed:{
     startDate(){
-        return moment(this.event.startDate).format("YYYY-MM-DD")
+        console.log(this.event);
+        return moment(this.event.startDateTime).format("YYYY-MM-DD")
       },
       startHour(){
-          return moment(this.event.startDate).format("H")-1
+          return moment(this.event.startDateTime).format("H")-1
       },
       startMin(){
-          return moment(this.event.startDate).format("m")
+          return moment(this.event.startDateTime).format("m")
       },
       endDate(){
           if(this.event.endDate != "0000-00-00 00:00:00"){
@@ -75,6 +76,14 @@ export default{
                 profilePicContainer = document.getElementById('eventPhoto');
             profilePicContainer.src = URL.createObjectURL(file);
             this.file = file;
+        }
+    },
+    filters:{
+        leftPadding(value){
+            var str = "" + value
+            var pad = "00"
+            var ans = pad.substring(0, pad.length - str.length) + str
+            return ans
         }
     }
 }

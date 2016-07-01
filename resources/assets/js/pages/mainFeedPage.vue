@@ -8,6 +8,7 @@
     import MobileEditor from './components/commons/mobileEditor.vue';
     import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
     import MobilePhotoUpload from './components/commons/mobilePhotoUplaod.vue';
+    import WhoLike from './components/commons/whoLike.vue';
 
     import methods from "./methods/MainFeedPage";
 
@@ -92,7 +93,8 @@
                     description: ""
                 },
                 carouselImages: [],
-                activeItemIndex: 0
+                activeItemIndex: 0,
+                whoLikeFeed:[]
             }
         },
         watch: {
@@ -109,10 +111,22 @@
             DesktopEditor,
             MobileEditor,
             ImageCarouselModal,
-            MobilePhotoUpload
+            MobilePhotoUpload,
+            WhoLike
         },
         methods,
         events: {
+            getWhoLikeFeed(feedId){
+                this.$http.get('/api/feed/'+feedId+'/whoLikes')
+                    .then(
+                        ({data})=>{
+                            $("#whoLike").modal("show")
+                            this.whoLikeFeed = data;
+                            toastr.clear()
+                        },
+                        response=>console.log(response)
+                    )
+            },
             showMobilePhotoUpload: function () {
                 $("#mobileImageUploadModal").modal("show");
             },
