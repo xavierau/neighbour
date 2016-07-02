@@ -8,7 +8,7 @@
     import MobileEditor from './components/commons/mobileEditor.vue';
     import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
     import MobilePhotoUpload from './components/commons/mobilePhotoUplaod.vue';
-    import WhoLike from './components/commons/whoLike.vue';
+    import SimpleUserList from './components/commons/whoLike.vue';
 
     import methods from "./methods/MainFeedPage";
 
@@ -32,27 +32,7 @@
         },
         ready(){
             this.updateGA("main");
-            window.addEventListener('scroll', (ev) => {
-                if( (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    if(this.hasMorePages && !this.calling) {
-                        this.calling = true;
-                        var uri = this.nextPageUrl,
-                                headers = this.setRequestHeaders();
-                        this.$http.get(uri, "", headers)
-                                .then(
-                                        ({data}) => {
-                                                        data.items.map(item => this.stream.push(item));
-                                                        this.currentPage = data.currentPage;
-                                                        this.previousPageUrl = data.previousPageUrl;
-                                                        this.nextPageUrl = data.nextPageUrl;
-                                                        this.hasMorePages = data.hasMorePages;
-                                                        this.calling = false
-                                                    },
-                                        response => this.calling = false
-                                )
-                    }
-                }
-            });
+            window.addEventListener('scroll', this.fetchNewFeedSet);
         },
         props: {
             categoryList: {
@@ -94,7 +74,7 @@
                 },
                 carouselImages: [],
                 activeItemIndex: 0,
-                whoLikeFeed:[]
+                simpleUserList:[]
             }
         },
         watch: {
@@ -112,16 +92,27 @@
             MobileEditor,
             ImageCarouselModal,
             MobilePhotoUpload,
-            WhoLike
+            SimpleUserList
         },
         methods,
         events: {
+            getWhoViewsFeed(feedId){
+                this.$http.get('/api/feeds/'+feedId+'/whoViews')
+                    .then(
+                        ({data})=>{
+                            $("#simpleUserListModal").modal("show");
+                            this.simpleUserList = data;
+                            toastr.clear()
+                        },
+                        response=>console.log(response)
+                    )
+            },
             getWhoLikeFeed(feedId){
                 this.$http.get('/api/feed/'+feedId+'/whoLikes')
                     .then(
                         ({data})=>{
-                            $("#whoLike").modal("show");
-                            this.whoLikeFeed = data;
+                            $("#simpleUserListModal").modal("show");
+                            this.simpleUserList = data;
                             toastr.clear()
                         },
                         response=>console.log(response)

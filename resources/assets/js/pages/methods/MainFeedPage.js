@@ -2,20 +2,41 @@
  * Created by Xavier on 11/5/2016.
  */
 var methods = {
-    postCreated: function (response) {
+    fetchNewFeedSet(ev){
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if (this.hasMorePages && !this.calling) {
+                this.calling = true;
+                var uri = this.nextPageUrl,
+                    headers = this.setRequestHeaders();
+                this.$http.get(uri, "", headers)
+                    .then(
+                        ({data}) => {
+                            data.items.map(item => this.stream.push(item));
+                            this.currentPage = data.currentPage;
+                            this.previousPageUrl = data.previousPageUrl;
+                            this.nextPageUrl = data.nextPageUrl;
+                            this.hasMorePages = data.hasMorePages;
+                            this.calling = false
+                        },
+                        response => this.calling = false
+                    )
+            }
+        }
+    },
+    postCreated (response) {
         toastr['success']("Update successfully!");
         this.resetFeed();
         if (response.data.hasOwnProperty('feed'))
             this.stream.unshift(response.data.feed);
         this.$broadcast('updateFeedCompleted');
     },
-    unableToCreatePost: function (response) {
+    unableToCreatePost (response) {
     },
-    showModal: function () {
+    showModal () {
         var target = $("#myModal");
         target.modal('show');
     },
-    resetFeed: function () {
+    resetFeed () {
         var defaultFeedObject = {
             category_id: 1,
             content: "",
@@ -31,26 +52,26 @@ var methods = {
             description: ""
         };
     },
-    deleteFeed: function (feed) {
+    deleteFeed (feed) {
         var uri = this.getApi("feed") + "/" + feed.id,
             data = null,
             headers = this.setRequestHeaders();
-        this.$http.delete(uri, data, headers).then(function (response) {
-            this.stream.$remove(feed);
-        }.bind(this))
+        this.$http.delete(uri, data, headers)
+            .then(()=> this.stream.$remove(feed))
     },
-    deleteComment: function (comment) {
+    deleteComment (comment) {
         toastr['info']('deleting the comment');
         var uri = this.getApi("feed") + "/" + comment.id,
             data = null,
             headers = this.setRequestHeaders();
-        this.$http.delete(uri, data, headers).then(function (response) {
-            this.stream.map(function (feed) {
-                if (feed.id == comment.reply_to)  feed.numberOfComment = feed.numberOfComment - 1
-            });
-            this.$broadcast("commentDeletedEvent", comment.reply_to, comment);
-            toastr['success']('comment deleted');
-        }.bind(this))
+        this.$http.delete(uri, data, headers)
+            .then(
+                ()=> {
+                    this.stream.map(feed=> feed.id == comment.reply_to ? feed.numberOfComment = feed.numberOfComment - 1 : "");
+                    this.$broadcast("commentDeletedEvent", comment.reply_to, comment);
+                    toastr['success']('comment deleted');
+                }
+            )
     },
     newComment (feed, comment) {
         var uri = this.getApi("commentFeed"),
@@ -60,77 +81,64 @@ var methods = {
                 comment: comment
             };
         this.$http.post(uri, data, headers).then(
-            ({data}) =>{
+            ({data}) => {
                 this.stream.map(feed => feed.numberOfComment = feed.id == data.comment.reply_to ? feed.numberOfComment = feed.numberOfComment + 1 : feed.numberOfComment);
                 this.$broadcast('updateComment', feed.id, data.comment)
             },
             response => console.log(response)
         )
     },
-    joinEvent: function (event) {
+    joinEvent (event) {
         var uri = this.getApi("joinEvent"),
             headers = this.setRequestHeaders(),
             data = {eventId: event.id};
-        this.$http.post(uri, data, headers).then(
-            function (response) {
-                console.log(response);
-                this.$broadcast('jointedEvent', response.data.eventId)
-            },
-            function (response) {
-                conole.log(response);
-            })
+        this.$http.post(uri, data, headers)
+            .then(
+                response=> this.$broadcast('jointedEvent', response.data.eventId),
+                response => console.log(response)
+            )
     },
-    joinEventMaybe: function (event) {
-        var uri = this.getApi("joinEvent")+"?option=maybe",
+    joinEventMaybe (event) {
+        var uri = this.getApi("joinEvent") + "?option=maybe",
             headers = this.setRequestHeaders(),
             data = {eventId: event.id};
-        this.$http.post(uri, data, headers).then(
-            function (response) {
-                console.log(response);
-                this.$broadcast('jointedEventMaybe', response.data.eventId)
-            },
-            function (response) {
-                conole.log(response);
-            })
+        this.$http.post(uri, data, headers)
+            .then(
+                response => this.$broadcast('jointedEventMaybe', response.data.eventId),
+                response => console.log(response)
+            )
     },
-    joinEventNo: function (event) {
-        var uri = this.getApi("joinEvent")+"?option=no",
+    joinEventNo (event) {
+        var uri = this.getApi("joinEvent") + "?option=no",
             headers = this.setRequestHeaders(),
             data = {eventId: event.id};
-        this.$http.post(uri, data, headers).then(
-            function (response) {
-                console.log(response);
-                this.$broadcast('jointedEventNo', response.data.eventId)
-            },
-            function (response) {
-                conole.log(response);
-            })
+        this.$http.post(uri, data, headers)
+            .then(
+                response => this.$broadcast('jointedEventNo', response.data.eventId),
+                response => console.log(response)
+            )
     },
-    createNewEvent: function (data) {
+    createNewEvent (data) {
         var uri = this.getApi("createEvent"),
             headers = this.setRequestHeaders();
         toastr.info("Event Uploading!");
-        this.$http.post(uri, data, headers).then(function (response) {
-            $("#myModal").modal('hide');
-            toastr.success("Event Created!");
-            this.$emit('eventCreated', response.data.event)
-        }, function (response) {
-            toastr.warning(response);
-            console.log(response)
-        });
+        this.$http.post(uri, data, headers)
+            .then(response => {
+                    $("#myModal").modal('hide');
+                    toastr.success("Event Created!");
+                    this.$emit('eventCreated', response.data.event)
+                },
+                response => toastr.warning(response)
+            );
         console.log("create new Event with newEvent Object store here")
     },
     updateFeed() {
-        console.log(this.feed.content);
-        console.log(this.feed.photos);
         if (this.feed.content.trim().length > 0) {
             var formData = new FormData();
             formData.append('category_id', this.feed.category_id);
             formData.append('content', this.feed.content);
             if (this.feed.photos.length > 0)
-                this.feed.photos.map(function (photo, index) {
-                    formData.append('photo' + index, photo.file);
-                });
+                this.feed.photos.map((photo, index) => formData.append('photo' + index, photo.file));
             var uri = this.getApi("postFeed"),
                 headers = this.setRequestHeaders(),
                 data = formData;
@@ -141,29 +149,26 @@ var methods = {
             );
         }
     },
-    checkAndParseUrl: function (value) {
+    checkAndParseUrl (value) {
         var textArray = value.split(" ");
-        console.log('this is text array', textArray);
         var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-        textArray.map(function (item) {
-            if (item.match(expression)) this.firstUrl = item;
-        }.bind(this));
+        textArray.map(item => item.match(expression) ? this.firstUrl = item : "");
     },
-    fetchUrlPreview: function (value) {
-        console.log('parse url');
+    fetchUrlPreview (value) {
         var data = {
             uri: value
         };
-        this.$http.get("/api/urlPreview", data).then(function (response) {
-            this.hasPreviewUrl = true;
-            if (response.data.hasOwnProperty('og:image'))this.urlPreview.imageSrc = response.data['og:image'];
-            if (response.data.hasOwnProperty('og:url'))this.urlPreview.url = response.data['og:url'];
-            if (response.data.hasOwnProperty('og:title'))this.urlPreview.title = response.data['og:title'];
-            if (response.data.hasOwnProperty('og:description'))this.urlPreview.description = response.data['og:description'];
-        })
+        this.$http.get("/api/urlPreview", data)
+            .then(response => {
+                this.hasPreviewUrl = true;
+                if (response.data.hasOwnProperty('og:image'))this.urlPreview.imageSrc = response.data['og:image'];
+                if (response.data.hasOwnProperty('og:url'))this.urlPreview.url = response.data['og:url'];
+                if (response.data.hasOwnProperty('og:title'))this.urlPreview.title = response.data['og:title'];
+                if (response.data.hasOwnProperty('og:description'))this.urlPreview.description = response.data['og:description'];
+            })
 
     },
-    showLargerImage: function (images, selectedImageIndex) {
+    showLargerImage (images, selectedImageIndex) {
         this.$set("carouselImages", images);
         this.$set("activeItemIndex", selectedImageIndex);
         $('#imageCarouselModal').modal('show');

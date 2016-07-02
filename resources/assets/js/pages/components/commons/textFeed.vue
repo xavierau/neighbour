@@ -6,6 +6,13 @@ import ContentContainer from "./content.vue";
 import CommentContainer from "./comment.vue";
 
 export default {
+    ready(){
+        window.addEventListener('scroll', this.updateFeedViews);
+        console.log(this.$el);
+        var visible = this.checkVisible(this.$el);
+        console.log(visible)
+
+    },
     props: {
         feed: {
             type: Object,
@@ -21,7 +28,8 @@ export default {
             comment: "",
             comments: [],
             wantToCommentFeed: false,
-            showCommentContainer: false
+            showCommentContainer: false,
+            isViewUpdated:false
         }
     },
     computed: {
@@ -40,6 +48,23 @@ export default {
         CommentContainer
     },
     methods: {
+        updateFeedViews(){
+            if(this.checkVisible(this.$el) && !this.isViewUpdated){
+                this.isViewUpdated = !this.isViewUpdated;
+                this.$http.post(
+                    "/api/feeds/"+this.feed.id+"/views",
+                    null,
+                    this.setRequestHeaders()
+                )
+                    .then(
+                    response=>console.log(response)
+                )
+            };
+        },
+        showWhoViews(){
+            toastr.info('Loading List...');
+            this.$dispatch('getWhoViewsFeed', this.feed.id);
+        },
         toggleLikeButton(){
             var data = null,
                 uri = "",

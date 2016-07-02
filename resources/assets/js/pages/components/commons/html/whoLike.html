@@ -1,11 +1,11 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="whoLike" style="color:black">
+<div class="modal fade" tabindex="-1" role="dialog" id="simpleUserListModal" style="color:black">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <ul class="list-unstyled">
-                    <li v-for="like in likes">
-                        <img :src="like.user.avatar" class="profile">
-                        {{like.user.name}}
+                    <li v-for="record in userList">
+                        <img :src="record.user.avatar" class="profile">
+                        {{record.user.name}}
                     </li>
                 </ul>
             </div>

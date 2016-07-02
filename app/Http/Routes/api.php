@@ -6,6 +6,7 @@
  */
 
 use App\Feed;
+use App\View;
 
 Route::group(['middleware' =>"isAdmin", "prefix" =>"metrics"], function(){
    require_once "metrics.php";
@@ -40,6 +41,30 @@ Route::get("feed/{feedId}/whoLikes", function($feedId){
    $likes = $feed->likes()->with("user")->get();
 
    return response()->json($likes);
+});
+Route::post("feeds/{feedId}/views", function(\Illuminate\Http\Request $request, $feedId){
+   $feed = Feed::find($feedId);
+   $user = $request->user();
+   $data = [
+       "user_id" => $user->id,
+       "feed_id" => $feed->id,
+   ];
+   $view = View::whereUserId($user->id)->whereFeedId($feed->id)->first();
+   if(!$view){
+      View::create($data);
+   }
+
+
+   $likes = "okay";
+
+   return response()->json($likes);
+});
+Route::get("feeds/{feedId}/whoViews", function($feedId){
+  $feed = Feed::find($feedId);
+   $views = $feed->views()->with(["user"=>function($query){
+      $query->select(["avatar", "name","id"]);
+   }])->select("id", "user_id")->get();
+   return response()->json($views);
 });
 
 Route::post('events', "EventsController@postEvent");

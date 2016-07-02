@@ -17,6 +17,7 @@ use App\Message;
 use App\Notification;
 use App\Role;
 use App\UserType;
+use App\View;
 
 trait UserRelationshipTrait
 {
@@ -85,6 +86,9 @@ trait UserRelationshipTrait
         return $this->belongsTo(UserType::class);
     }
 
-
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
 
 }

@@ -4,7 +4,7 @@
 <script>
 export default{
     props:{
-        likes:[]
+        userList:[]
     }
 }
 </script>

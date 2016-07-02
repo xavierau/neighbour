@@ -15,9 +15,15 @@
         </button>
         <span
                 class="pull-right"
+                v-show="feed.views>0"
+                @click.prevent="showWhoViews"
+                style="margin-top:2px"> {{feed.views}} views
+        </span>
+        <span
+                class="pull-right"
                 v-show="feed.numberOfLikes>0"
                 @click.prevent="showWhoLikes"
-                style="margin-top:2px">{{feed.numberOfLikes}} Likes
+                style="margin-top:2px"> {{feed.numberOfLikes}} Likes
         </span>
     </div>
     <hr>

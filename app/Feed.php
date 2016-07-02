@@ -11,13 +11,18 @@ use Illuminate\Database\Eloquent\Model;
 class Feed extends Model
 {
     use NotificationTrait, HasMedia, IsLikeable, InStream;
-    
+
     protected $fillable = [
-        'content','category_id','reply_to', 'created_at'
+        'content',
+        'category_id',
+        'reply_to',
+        'created_at'
     ];
 
     protected $appends = [
-        "numberOfComment", "numberOfLikes"
+        "numberOfComment",
+        "numberOfLikes",
+        "views"
     ];
 
 
@@ -43,34 +48,48 @@ class Feed extends Model
 
     public function scopePublicShown($query)
     {
-        return $query->whereHas("category", function($q){
-                $q->where("showInPublic", true);
+        return $query->whereHas("category", function ($q) {
+            $q->where("showInPublic", true);
         });
     }
+
     public function scopeTopLevelFeeds($query)
     {
-        return $query->whereHas("category", function($q){
-                $q->where("showInPublic", true);
+        return $query->whereHas("category", function ($q) {
+            $q->where("showInPublic", true);
         });
     }
+
     public function scopeStandardFetchSetting($query)
     {
-        return $query->orderBy('created_at',"desc")
-            ->with(["sender", "media", "category", "likes"=>function($query){
-                $query->where('user_id', request()->user()->id);
-            }]);
+        return $query->orderBy('created_at', "desc")
+            ->with([
+                "sender",
+                "media",
+                "category",
+                "likes" => function ($query) {
+                    $query->where('user_id', request()->user()->id);
+                }
+            ]);
 
     }
+
     public function loadStandardFetchSetting()
     {
-        return $this->load(["sender", "media", "category", "likes"=>function($query){
+        return $this->load([
+            "sender",
+            "media",
+            "category",
+            "likes" => function ($query) {
                 $query->where('user_id', request()->user()->id);
-            }]);
+            }
+        ]);
 
     }
+
     public function scopeFeedCategory($query, $categoryCode)
     {
-        return $query->whereHas("category", function($q)use($categoryCode){
+        return $query->whereHas("category", function ($q) use ($categoryCode) {
             $q->where("code", $categoryCode);
         });
     }
@@ -79,5 +98,22 @@ class Feed extends Model
     {
         return $this->likes()->count();
     }
+
+
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
+
+    public function getViewsAttribute()
+    {
+//        $facebookFeed = FacebookFeed::whereFeedId($this->id)->first();
+//        if ($facebookFeed) {
+//            return $facebookFeed->views + $value;
+//        }
+
+        return $this->views()->count();
+    }
+
 
 }
