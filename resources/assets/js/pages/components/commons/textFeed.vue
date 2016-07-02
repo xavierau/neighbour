@@ -117,6 +117,9 @@ export default {
         showWhoLikes(){
             toastr.info('Loading List...');
             this.$dispatch('getWhoLikeFeed', this.feed.id);
+        },
+        clickShare(){
+            this.$dispatch('shareWithOthers', this.feed.id, "feed");
         }
     },
     filters: {

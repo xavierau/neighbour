@@ -1,0 +1,22 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="shareWithOthers" style="color:black">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="shareForm" @submit.prevent="share">
+                    <div class="from-group">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="email address" v-model="email"
+                                   required>
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="submit">Share!</button>
+                              </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

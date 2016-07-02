@@ -49,6 +49,6 @@ div.left-side-menu {
 
 /* Make it move */
 @keyframes marquee {
-  0%   { text-indent: 27.5em }
-  100% { text-indent: -105em }
+  0%   { text-indent: 100% }
+  100% { text-indent: -100% }
 }

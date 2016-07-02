@@ -9,6 +9,7 @@
     import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
     import MobilePhotoUpload from './components/commons/mobilePhotoUplaod.vue';
     import SimpleUserList from './components/commons/whoLike.vue';
+    import ShareModal from './components/commons/shareModal.vue';
 
     import methods from "./methods/MainFeedPage";
 
@@ -74,7 +75,9 @@
                 },
                 carouselImages: [],
                 activeItemIndex: 0,
-                simpleUserList:[]
+                simpleUserList:[],
+                shareFeedId:"",
+                shareFeedType:""
             }
         },
         watch: {
@@ -92,7 +95,8 @@
             MobileEditor,
             ImageCarouselModal,
             MobilePhotoUpload,
-            SimpleUserList
+            SimpleUserList,
+            ShareModal
         },
         methods,
         events: {
@@ -162,6 +166,21 @@
             },
             eventCreated(event){
                 this.stream.unshift(event)
+            },
+            shareWithOthers(feedId, type){
+                this.shareFeedId = feedId;
+                this.shareFeedType = type;
+                $("#shareWithOthers").modal("show");
+            },
+            shareFeed(feedId, email){
+                $("#shareWithOthers").modal("hide");
+                toastr.info('sharing the feed');
+                this.$http.post("/api/share/"+this.shareFeedType+"/"+feedId,{email:email}, this.setRequestHeaders())
+                    .then(
+                        response=>console.log(response),
+                        response=>console.log(response)
+                    );
+
             }
         }
     }

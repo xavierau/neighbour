@@ -4,7 +4,7 @@
             :category_id.sync="feed.category_id"
             :category-list="categoryList"
     ></mobile-editor>
-    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7">
+    <div class="col-sm-offset-3 col-md-offset-2 col-sm-8 col-md-7" style="margin-top: 90px">
         <desktop-editor
                 :content.sync="feed.content"
                 :category_id.sync="feed.category_id"
@@ -32,4 +32,5 @@
             :photos="feed.photos"
     ></mobile-photo-upload>
     <simple-user-list :user-list="simpleUserList"></simple-user-list>
+    <share-modal :feed-id="shareFeedId"></share-modal>
 </div>

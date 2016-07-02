@@ -6,6 +6,7 @@
  */
 
 use App\Feed;
+use App\Jobs\ShareFeedByEmail;
 use App\View;
 
 Route::group(['middleware' =>"isAdmin", "prefix" =>"metrics"], function(){
@@ -89,3 +90,8 @@ Route::get('notifications/acknowledge', "NotificationsController@acknowledge");
 Route::get("users/search/username", "UsersController@searchByUserName");
 
 Route::get('urlPreview', "UrlsController@preview");
+
+Route::post("share/{feedType}/{feedId}/", function(\Illuminate\Http\Request $request, $feedType, $feedId){
+    dispatch(new ShareFeedByEmail($request->get('email'), $request->user(), $feedType, $feedId));
+   dd($request->get('email'));
+});

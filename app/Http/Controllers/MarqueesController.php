@@ -15,20 +15,40 @@ class MarqueesController extends Controller
 {
     public function get()
     {
-            $events = Event::where("startDateTime", ">", new DateTime())->get();
+        $events = $this->getUpcomingEvents();
 
-            $categories = Cache::remember('categories', 10, function(){
-                return Category::all();
-            });
-            $hotDealCategory =  $categories->first(function($index, $category){
-                return $category->code == "hotDeals";
-            });
-            $feeds = Feed::whereCategoryId($hotDealCategory->id)
-                ->orderBy("created_at", "desc")
-                ->get();
+        $hotDeals = $this->getHotDeals();
 
-            $collection = $events->merge($feeds);
+         $collection = $events->merge($hotDeals);
 
             return response()->json(compact("collection"));
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getUpcomingEvents()
+    {
+        $events = Event::where("startDateTime", ">", new DateTime())->get();
+
+        return $events;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getHotDeals()
+    {
+        $categories = Cache::remember('categories', 10, function () {
+            return Category::all();
+        });
+        $hotDealCategory = $categories->first(function ($index, $category) {
+            return $category->code == "hotDeals";
+        });
+        $feeds = Feed::whereCategoryId($hotDealCategory->id)
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        return $feeds;
     }
 }

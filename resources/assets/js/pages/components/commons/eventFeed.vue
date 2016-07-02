@@ -51,6 +51,9 @@
                 if(!this.feed.eventStatus != "no")
                     this.$dispatch("joinEventNo", this.feed)
             },
+            clickShare(){
+                this.$dispatch("shareWithOthers", this.feed.id, "event")
+            }
         },
         events:{
             jointedEvent: function (eventId) {

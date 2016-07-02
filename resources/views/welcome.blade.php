@@ -29,7 +29,7 @@
 
     <style>
         h3#tagline {
-            line-height: 80px;
+            line-height: 90px;
         }
 
         h3#tagline span.also {
@@ -49,7 +49,7 @@
             height: 50px;
             color: white;
             left: -2px;
-            top: 35px;
+            top: 40px;
             -ms-transform: rotate(20deg); /* IE 9 */
             -webkit-transform: rotate(20deg); /* Safari */
             transform: rotate(20deg);
@@ -70,6 +70,10 @@
             -ms-transform: rotate(-20deg); /* IE 9 */
             -webkit-transform: rotate(-20deg); /* Safari */
             transform: rotate(-20deg);
+        }
+        .row div.first-container{
+            margin-top: 100px;
+            margin-bottom: 200px;
         }
 
     </style>
@@ -109,7 +113,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 ">
+            <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 first-container">
                 <div id="carousel-slider" data-ride="carousel" class="carousel slide  animate-in"
                      data-anim-type="fade-in-up">
 
@@ -121,13 +125,9 @@
                             </h3>
                             <br>
                             <div class="row animate-in" data-anim-type="fade-in-up">
-                                <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2 scroll-me">
-                                    <button class="btn-success btn-lg" data-toggle="modal" data-target="#signupModal">
-                                        Join Now
-                                    </button>
-                                    <button class="btn-primary btn-lg" data-toggle="modal" data-target="#signinModal">
-                                        Sign In
-                                    </button>
+                                <div class="social-below">
+                                    <a href="#" class="btn button-custom btn-custom-two" data-toggle="modal" data-target="#signupModal"> Join Now</a>
+                                    <a href="#" class="btn button-custom btn-custom-two" data-toggle="modal" data-target="#signinModal"> Login</a>
                                 </div>
                             </div>
                             {{--<p>--}}
@@ -143,10 +143,10 @@
         </div>
         <div class="row animate-in" data-anim-type="fade-in-up">
 
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="margin-bottom: 30px">
                 <div class="contact-wrapper">
                     <h3>We Are Social</h3>
-                    <p>
+                    <p class="text-justify" style="line-height: 25px">
                         Localhood has been built to foster communication and interaction, both virtually and
                         in-person, within your neighborhood.
                         By being friendly neighbors and making neighbors friends. Let's make our neighborhood an
@@ -158,9 +158,8 @@
                         <a href="#" class="btn button-custom btn-custom-two"> Google +</a>
                     </div>
                 </div>
-
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" style="margin-bottom: 30px">
                 <div class="contact-wrapper">
                     <h3>Contact Details.</h3>
                     <h4><strong>Email : </strong> Info@iccommunity.net </h4>
@@ -295,14 +294,22 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel" style="color:black">Sign In Form</h4>
+                <h4 class="modal-title" id="myModalLabel" style="color:black">Login In Form</h4>
             </div>
             <form action="login" method="POST">
-                <div class="modal-body">
+                <div class="modal-body" style="color:black">
+                    <label> Login With </label>
                     <div class="form-group">
-                        <a href="/facebook/register" class="btn btn btn-primary">Login With Facebook</a>
+                        <a href="/facebook/register" class="btn btn btn-primary btn-block">Facebook</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="btn btn btn-primary btn-block">Google+</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="btn btn btn-primary btn-block">Twitter</a>
                     </div>
                     {{csrf_field()}}
+                    <p class="text-center"> or </p>
                     <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                     @if ($errors->has('email'))
                         <span class="help-block">

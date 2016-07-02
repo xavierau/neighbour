@@ -7,7 +7,7 @@
                 <small>{{feed.created_at | parseDateToHuman}}</small>
             </p>
         </div>
-        <div class="row clearfix">
+        <div class="row clearfix" style="margin-bottom:20px">
             <div class="col-xs-7 col-sm-8 date">
                 <img :src="getImage" alt="" class="img-responsive" v-show="feed.media.length>0">
                 <div class="date-container">
@@ -21,10 +21,6 @@
                         :content="feed.description"
                         :max-char="150"
                 ></content-container>
-                <div class="participantContainer" style="margin-top:15px">
-                    <p v-show="feed.numberWhoAreGoing ==1" style="color:grey">{{feed.numberWhoAreGoing}} is going</p>
-                    <p v-show="feed.numberWhoAreGoing >1"  style="color:grey">{{feed.numberWhoAreGoing}} are going</p>
-                </div>
             </div>
 
         </div>
@@ -36,7 +32,7 @@
     </div>
     <hr>
     <div class="actions">
-        <ul class="list-inline">
+        <ul class="list-inline" style="position: relative">
             <li>
                 <button :class="{'btn btn-primary': feed.eventStatus=='yes', 'unstyled':feed.eventStatus != 'yes'}"
                         @click.prevent="clickJoinEvent"><i class="fa fa-calendar-o"></i>
@@ -52,13 +48,19 @@
             <li>
                 <button :class="{'btn btn-primary':feed.eventStatus=='no', 'unstyled':feed.eventStatus != 'no'}"
                         @click.prevent="clickJoinEventNo"><i class="fa fa-calendar-o"></i>
-                    No
+                    Can't
                 </button>
             </li>
             <li>
-                <button class="unstyled"><i class="fa fa-share-alt" aria-hidden="true"></i>
+                <button class="unstyled" @click.prevent="clickShare"><i class="fa fa-share-alt" aria-hidden="true"></i>
                     Share
                 </button>
+            </li>
+            <li class="paricipants" style="position: absolute; top: -30px; right: 5px;">
+                <div class="participantContainer" >
+                    <p v-show="feed.numberWhoAreGoing ==1" style="color:grey">{{feed.numberWhoAreGoing}} is going</p>
+                    <p v-show="feed.numberWhoAreGoing >1"  style="color:grey">{{feed.numberWhoAreGoing}} are going</p>
+                </div>
             </li>
         </ul>
     </div>

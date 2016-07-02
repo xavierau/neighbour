@@ -18,29 +18,19 @@
                 headers = this.setRequestHeaders();
             this.$http.get(uri, null, headers).then(({data})=>{
                 if (data.collection.length > 0){
-                    this.showMarquee = true
+                    this.showMarquee = true;
                     var string ="";
-                    data.collection.map(item=>{
+                    data.collection.map(item =>{
                         if(typeof item.startDateTime != "undefined"){
                             string += "-"+item.name+"- "
                         }else{
-                            if(item.content.length > 30){
-                                string += "-"+item.content.substr(0,30)+"...more - "
-                            }else{
-                                string += "-"+item.content+"- "
-                            }
+                            string += item.content.length > 30? "-"+item.content.substr(0,30)+"...more - ": "-"+item.content+"- "
                         }
                     });
                     document.querySelector("div.marquee").innerHTML = string
                 }
 
             });
-
-
-            // get avaliabe events
-            // get hot deals
-            // construct marquee
-            // insert html to marquee
         }
     }
 </script>
