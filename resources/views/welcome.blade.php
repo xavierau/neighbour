@@ -274,6 +274,12 @@
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                                     </span>
                     @endif
+                    <input type="hidden" name="clan_id" class="form-control" required value="{{App\Clan::first()->id}}">
+                    @if ($errors->has('password_confirmation'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('clan_id') }}</strong>
+                                    </span>
+                    @endif
 
                 </div>
                 <div class="modal-footer">
