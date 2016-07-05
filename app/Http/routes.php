@@ -18,6 +18,18 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
+function bootUpCheck(){
+    if(! $clan = App\Clan::first()){
+        App\Clan::create([
+            "label"=>"Island Crest",
+            "code"=>"ic",
+        ]);
+    }
+}
+
+bootUpCheck();
+
+
 Route::get('statTest', "StatsController@getUserContentStats");
 
 Route::get('/', function () {
