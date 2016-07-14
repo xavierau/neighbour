@@ -8,6 +8,7 @@ use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 
 class EmailNotification extends Job implements ShouldQueue
 {
@@ -48,7 +49,8 @@ class EmailNotification extends Job implements ShouldQueue
     public function handle(Mailer $mailer)
     {
         $data = [
-            "feed" => $this->feed->load(['sender', 'media'])
+            "feed" => $this->feed->load(['sender', 'media']),
+            "settings" => Cache::get('settings')
         ];
 
         $email = $this->recipient->email;

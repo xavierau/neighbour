@@ -13,24 +13,30 @@
 
 use App\Feed;
 use App\Setting;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
-function bootUpCheck(){
-    if(! $clan = App\Clan::first()){
+function bootUpCheck()
+{
+    if (!$clan = App\Clan::first()) {
         App\Clan::create([
-            "label"=>"Island Crest",
-            "code"=>"ic",
+            "label" => "Island Crest",
+            "code"  => "ic",
         ]);
     }
 }
 
-bootUpCheck();
-
 
 Route::get('statTest', "StatsController@getUserContentStats");
+Route::get('emails/postNotification', function (){
+    return view('test');
+    $feed = Feed::first();
+    $user = User::first();
+    dispatch(new \App\Jobs\EmailNotification($feed, $user));
+});
 
 Route::get('/', function () {
     if (Auth::guest()) {
@@ -53,9 +59,9 @@ Route::get("invitation/replay/{invitationId}/{status}", [
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::post('commenting', function(\Illuminate\Http\Request $request){
+    Route::post('commenting', function (\Illuminate\Http\Request $request) {
 
-        if(! empty($request->get('comment'))){
+        if (!empty($request->get('comment'))) {
             $comment = $request->get('comment');
             $user = $request->user();
             Mail::send('emails.comment', compact('user', 'comment'), function ($m) use ($user) {
@@ -66,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
         }
 
 
-        return response()->json(['data'=>$request->get('comment')]);
+        return response()->json(['data' => $request->get('comment')]);
     });
 
     Route::get("/app/{segment1?}/{segment2?}/{segment3?}", function () {

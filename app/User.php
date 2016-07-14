@@ -60,7 +60,9 @@ class User extends Authenticatable
      */
     public function getAvatarAttribute($value)
     {
-        return $value?$value:"/profilePic/default-user-icon-profile.png";
+        $result = $value ? $value : "/profilePic/default-user-icon-profile.png";
+
+        return filter_var($result, FILTER_VALIDATE_URL) ? $result: url($result);
     }
 
     public function myNotifications()
