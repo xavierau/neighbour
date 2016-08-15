@@ -72,4 +72,20 @@ class PasswordController extends Controller
         }
         return false;
     }
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function getResetValidationRules()
+    {
+        $pattern = "/((?:[0-9]{1,})(?:[a-zA-Z]{1,}))|((?:[a-zA-Z]{1,})(?:[0-9]{1,}))/";
+
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => ["required", "min:5", "confirmed", "regex:".$pattern],
+        ];
+    }
 }
