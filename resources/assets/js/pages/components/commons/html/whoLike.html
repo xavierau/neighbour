@@ -5,7 +5,7 @@
                 <ul class="list-unstyled">
                     <li v-for="record in userList">
                         <img :src="record.user.avatar" class="profile">
-                        {{record.user.name}}
+                        {{record.user.first_name}} {{record.user.last_name}}
                     </li>
                 </ul>
             </div>

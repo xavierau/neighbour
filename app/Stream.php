@@ -16,14 +16,19 @@ class Stream extends Model
         return $this->belongsTo(Clan::class);
     }
 
-    public function getStream($clanId=null, $paginateNumber = 5)
+    public static function getStream($clanId=null, $paginateNumber = 5)
     {
+        $self = new static();
         if($clanId){
-            return $this->whereClanId($clanId)
-                ->orderBy('created_at', "desc")
-                ->with('item')
+            return $self->getClanStream($clanId)
                 ->paginate($paginateNumber);
         }
-        return $this->orderBy('created_at', "desc")->with('item')->paginate(5);
+        return $self->orderBy('created_at', "desc")->with('item')->paginate(5);
+    }
+
+    public function scopeGetClanStream($query, $clanId=null){
+        return $query->whereClanId($clanId)
+            ->orderBy('created_at', "desc")
+            ->with('item');
     }
 }

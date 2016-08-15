@@ -2,7 +2,7 @@
     <div class="clearfix">
         <div class="feed-owner">
             <img class="avatar" :src="feed.sender.avatar" :alt="feed.sender">
-            <p class="name">{{feed.sender.name}}</p>
+            <p class="name">{{feed.sender.first_name}} {{feed.sender.last_name}}</p>
             <p class="time">
                 <small>{{feed.created_at | parseDateToHuman}}</small>
             </p>

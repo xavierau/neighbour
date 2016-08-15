@@ -206,4 +206,12 @@ class FeedsController extends Controller
         return array();
     }
 
+    public function whoViews($feedId){
+        $feed = Feed::find($feedId);
+        $views = $feed->views()->with(["user"=>function($query){
+            $query->select(["avatar", "first_name", "last_name","id"]);
+        }])->select("id", "user_id")->get();
+        return response()->json($views);
+    }
+
 }

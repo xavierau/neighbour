@@ -62,13 +62,7 @@ Route::post("feeds/{feedId}/views", function(\Illuminate\Http\Request $request, 
 
     return response()->json($likes);
 });
-Route::get("feeds/{feedId}/whoViews", function($feedId){
-    $feed = Feed::find($feedId);
-    $views = $feed->views()->with(["user"=>function($query){
-        $query->select(["avatar", "name","id"]);
-    }])->select("id", "user_id")->get();
-    return response()->json($views);
-});
+Route::get("feeds/{feedId}/whoViews", "FeedsController@whoViews");
 
 Route::post('events', "EventsController@postEvent");
 Route::get('events', "EventsController@getEvents");
