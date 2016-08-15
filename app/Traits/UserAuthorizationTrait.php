@@ -13,27 +13,25 @@ use Illuminate\Support\Facades\Cache;
 
 trait UserAuthorizationTrait
 {
-    protected function getUserRoleCodeArray(){
-        $key = $this->userRoleCacheKey."_".$this->id;
+    protected function getUserRoleCodeCollection(){
 
-        return Cache::rememberForever($key, function(){
-            return $this->roles()->lists("code");
-        });
+        $roleCodes = $this->roles()->lists("code");
+
+        return $roleCodes;
+
     }
 
-    protected function getPermissionRoleCodeArray($permissionCode){
-        $key = $this->permissionRoleCacheKey."_".$permissionCode;
+    protected function getPermissionRoleCodeCollection($permissionCode){
         $permissionObject = Permission::whereCode($permissionCode)->firstOrFail();
-        return Cache::rememberForever($key, function()use($permissionObject){
-            return $permissionObject->roles()->lists('code');
-        });
+        $permissionRoleCodes = $permissionObject->roles()->lists("code");
+        return $permissionRoleCodes;
     }
 
     public function can($permissionCode, $arguments = [])
     {
-        $userRoleCodes = $this->getUserRoleCodeArray();
-        $permissionRoles = $this->getPermissionRoleCodeArray($permissionCode);
-        return count(array_intersect($userRoleCodes, $permissionRoles)) > 0;
+        $userRoleCodes = $this->getUserRoleCodeCollection();
+        $permissionRoles = $this->getPermissionRoleCodeCollection($permissionCode);
+        return count(array_intersect($userRoleCodes->toArray(), $permissionRoles->toArray())) > 0;
     }
 
     public function is($roleCode)

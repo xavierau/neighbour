@@ -4,7 +4,19 @@
 <script>
     var socket;
     import Notifications from './notification.vue';
+    import PendingUsers from './pendingUsers.vue';
+    import store from "./../../../store";
+    import {updateUser} from "./../../../actions";
+    import {getUser} from "./../../../getters";
     export default{
+        vuex:{
+            actions:{
+                updateUser
+            },
+            getters:{
+                user:getUser
+            }
+        },
         created () {
             socket = require('socket.io-client')(":3000");
         },
@@ -12,6 +24,7 @@
             socket.disconnect();
         },
         ready () {
+            console.log(this.user);
             var channel = "neighbourApp:notification:newNotification_" + this.user.id;
             console.log(channel);
             socket.on(channel, data=> {
@@ -25,10 +38,6 @@
             $('#commenting').on('hidden.bs.modal', ()=>this.comment="")
         },
         props: {
-            user: {
-                type: Object,
-                required: true
-            },
             categoryList: {
                 type: Array
             },
@@ -42,14 +51,21 @@
             }
         },
         components: {
-            Notifications
+            Notifications,
+            PendingUsers
         },
         computed:{
             appName(){
                 return document.querySelector("meta[name='appName']").getAttribute("content");
+            },
+            canShowPendingUser(){
+                return this.user.canApproveUser
             }
         },
         methods: {
+            showPendingUsers(){
+                $('#pendingUsers').modal("show")
+            },
             showDirectory(){
                 $('#directory').modal("show")
             },

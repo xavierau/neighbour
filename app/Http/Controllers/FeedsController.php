@@ -66,13 +66,12 @@ class FeedsController extends Controller
     {
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
 
-            $stream = Stream::orderBy('created_at', "desc")->with('item')->paginate(5);
+            $stream = (new Stream())->getStream($request->user()->clan_id);
             $items = new Collection();
             foreach ($stream as $item) {
                 if ($item->item instanceof Feed) {
                     $item->item = $item->item->loadStandardFetchSetting();
-                }
-                if ($item->item instanceof Event) {
+                }elseif ($item->item instanceof Event) {
                     $item->item = $item->item->loadStandardFetchSetting();
                 }
                 $items->push($item->item);

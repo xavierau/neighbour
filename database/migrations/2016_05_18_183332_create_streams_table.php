@@ -16,6 +16,7 @@ class CreateStreamsTable extends Migration
             $table->increments('id');
             $table->string('item_type');
             $table->integer('item_id')->unsigned();
+            $table->integer('clan_id')->unsigned();
             $table->timestamps();
         });
     }

@@ -2,6 +2,8 @@
 <template lang="html" src="html/mainFeedPage.html"></template>
 
 <script>
+    import store from "./../store";
+    import {getUser} from "./../getters";
     import Feed from './components/feed.vue';
     import CreateEventModal from './components/commons/createEventModal.vue';
     import DesktopEditor from './components/desktopFeedEditor.vue';
@@ -14,6 +16,11 @@
     import methods from "./methods/MainFeedPage";
 
     export default{
+        vuex:{
+            getters:{
+                user:getUser
+            }
+        },
         route: {
             data: function (transition) {
                 var uri = this.getApi("getPublicShownFeeds"),
@@ -39,9 +46,6 @@
             categoryList: {
                 type: Array
             },
-            user: {
-                type: Object
-            }
         },
         data: function () {
             return {

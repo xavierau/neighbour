@@ -6,6 +6,7 @@ use App\Events\RequireNewFacebookFeeds;
 use App\Events\NewEventCreated;
 use App\Events\NewPostCreated;
 use App\Events\NotificationEvent;
+use App\Events\UserApprovedEvent;
 use App\Listeners\AddEventToStream;
 use App\Listeners\AddPostToStream;
 use App\Listeners\CreateNewNotification;
@@ -36,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         RequireNewFacebookFeeds::class => [
             "App\Listeners\FetchFacebookFeeds",
+        ],
+        UserApprovedEvent::class => [
+            "App\Listeners\SendConfirmationEmailToUser",
         ],
     ];
 

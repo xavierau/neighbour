@@ -17,31 +17,36 @@ class CreateCategorySeeder extends Seeder
                 'name'=>'Public',
                 'code'=>'public',
                 'showInList'=>true,
-                'showInPublic'=>true
+                'showInPublic'=>true,
+                'canSelect'=>true
             ],
             [
                 'name'=>'Events',
                 'code'=>'events',
                 'showInList'=>false,
-                'showInPublic'=>true
+                'showInPublic'=>true,
+                'canSelect'=>false
             ],
             [
                 'name'=>'Lost and found',
                 'code'=>'lostAndFound',
                 'showInList'=>true,
-                'showInPublic'=>true
+                'showInPublic'=>true,
+                'canSelect'=>true
             ],
             [
                 'name'=>'Hot deals',
                 'code'=>'hotDeals',
                 'showInList'=>true,
-                'showInPublic'=>false
+                'showInPublic'=>false,
+                'canSelect'=>false
             ],
             [
                 'name'=>'Others',
                 'code'=>'others',
                 'showInList'=>true,
-                'showInPublic'=>false
+                'showInPublic'=>false,
+                'canSelect'=>false
             ],
         ];
 
@@ -51,6 +56,7 @@ class CreateCategorySeeder extends Seeder
             $newCategory->showInList =   $category['showInList'];
             $newCategory->code =   $category['code'];
             $newCategory->showInPublic =   $category['showInPublic'];
+            $newCategory->canSelect =   $category['canSelect'];
             $newCategory->save();
         }
     }

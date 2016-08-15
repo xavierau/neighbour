@@ -12,25 +12,6 @@ class CreateRoleSeeder extends Seeder
      */
     public function run()
     {
-        $roles=[
-            [
-                'label'=>'Developer',
-                'code'=>'dev',
-            ],
-            [
-                'label'=>'Site Administrator',
-                'code'=>'sadmin',
-            ],
-            [
-                'label'=>'General User',
-                'code'=>'gen',
-            ]
-        ];
-        foreach ($roles as $role){
-            $newRole = new Role();
-            $newRole->label = $role['label'];
-            $newRole->code = $role['code'];
-            $newRole->save();
-        }
+
     }
 }

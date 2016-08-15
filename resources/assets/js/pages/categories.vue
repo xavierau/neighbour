@@ -6,9 +6,20 @@
     import CreateEventModal from './components/commons/createEventModal.vue';
     import DesktopEditor from './components/desktopFeedEditor.vue';
     import MobileEditor from './components/commons/mobileEditor.vue';
-import methods from "./methods/MainFeedPage";
+    import methods from "./methods/MainFeedPage";
 
+    import store from "./../store";
+    import {updateUser} from "./../actions";
+    import {getUser} from "./../getters";
     export default{
+        vuex:{
+            actions:{
+                updateUser
+            },
+            getters:{
+                user:getUser
+            }
+        },
         route: {
             data: function (transition) {
                 var uri = this.getApi("getFeeds")+"/"+this.$route.params.category,
@@ -57,9 +68,6 @@ import methods from "./methods/MainFeedPage";
         props: {
             categoryList: {
                 type: Array
-            },
-            user: {
-                type: Object
             }
         },
         data: function () {

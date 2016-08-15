@@ -11,22 +11,22 @@ namespace App\Events;
 
 
 use Illuminate\Queue\SerializesModels;
-use App\Event;
+use App\Event as UserEvent;
 
 class NewEventCreated
 {
     use SerializesModels;
     /**
-     * @type \App\Feed
+     * @var \App\Event
      */
     public $event;
 
+
     /**
      * Create a new event instance.
-     *
      * @param \App\Event $event
      */
-    public function __construct(Event $event)
+    public function __construct(UserEvent $event)
     {
         //
         $this->event = $event;

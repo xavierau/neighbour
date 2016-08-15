@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\City;
 use App\Clan;
 use App\FacebookUser;
+use App\Role;
 use App\Services\FbServices;
 use App\User;
+use App\UserStatus;
 use App\UserType;
 use Facebook\FacebookRequest;
 use GuzzleHttp\Client;
@@ -37,7 +40,8 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/app';
+    protected $redirectTo = '/';
+
 
     /**
      * Create a new authentication controller instance.
@@ -57,11 +61,15 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
+        $pattern = "/((?:[0-9]{1,})(?:[a-zA-Z]{1,}))|((?:[a-zA-Z]{1,})(?:[0-9]{1,}))/";
+
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => ["required", "min:5", "confirmed", "regex:".$pattern],
             'clan_id' => 'required|in:'.implode(",", Clan::lists('id')->toArray()),
+            'city_id' => 'required|in:'.implode(",", City::lists('id')->toArray()),
         ]);
     }
 
@@ -73,11 +81,93 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        $role = Role::whereCode("gen")->first();
+        $userStatus = UserStatus::whereCode('pending')->first();
+        $userType = UserType::whereType('app')->first();
+
+        $user = $userStatus->users()->create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'city_id' => $data['city_id'],
+            'clan_id' => $data['clan_id'],
+            'user_type_id' => $userType->id,
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'status' =>'pending',
         ]);
+//        $user = User::create([
+//            'first_name' => $data['first_name'],
+//            'last_name' => $data['last_name'],
+//            'city_id' => $data['city_id'],
+//            'clan_id' => $data['clan_id'],
+//            'email' => $data['email'],
+//            'password' => bcrypt($data['password']),
+//            'status' =>'pending',
+//        ]);
+
+        $user->roles()->save($role);
+
+        return $user;
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $this->create($request->all());
+
+        return redirect($this->redirectPath());
+    }
+
+    /**
+     * Handle a login request to the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        $credentials = $this->getCredentials($request);
+        $activeStatusId = UserStatus::whereCode('active')->first()->id;
+        $credentials['user_status_id'] = $activeStatusId;
+
+        if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles && ! $lockedOut) {
+            $this->incrementLoginAttempts($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
     }
 
     public function facebookSignUp()
@@ -174,7 +264,7 @@ class AuthController extends Controller
             dd($e);
             return redirect('auth/twitter');
         }
-        
+
         $authUser = $this->findOrCreateUser($user);
 
         Auth::login($authUser, true);

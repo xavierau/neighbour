@@ -4,7 +4,18 @@
 
 <script>
 import EventContainer from "./components/commons/eventContainer.vue";
-export default {
+import store from "./../store";
+import {updateUser} from "./../actions";
+import {getUser} from "./../getters";
+export default{
+    vuex:{
+        actions:{
+            updateUser
+        },
+        getters:{
+            user:getUser
+        }
+    },
     route: {
         data: function (transition) {
             var uri = this.getApi("getEvents"),

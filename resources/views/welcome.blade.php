@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
+    <meta name="token" content="{{csrf_token()}}"/>
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
@@ -75,6 +76,9 @@
             margin-top: 100px;
             margin-bottom: 200px;
         }
+        .button-custom.btn-custom-two.btn-sm{
+            margin-top: 10px;
+        }
 
     </style>
 
@@ -91,8 +95,10 @@
             {{--<span class="icon-bar"></span>--}}
             {{--</button>--}}
             <a class="navbar-brand" href="#">
-                {{$settings->first()->value}}
+                {{App\Setting::appName()}}
             </a>
+            <a href="#" class="btn button-custom btn-custom-two btn-sm" data-toggle="modal" data-target="#signupModal"> Join Now</a>
+            <a href="#" class="btn button-custom btn-custom-two btn-sm" data-toggle="modal" data-target="#signinModal"> Log In</a>
         </div>
         {{--<div class="navbar-collapse collapse">--}}
         {{--<ul class="nav navbar-nav navbar-right">--}}
@@ -120,16 +126,16 @@
                     <div class="carousel-inner">
                         <div class="item active">
                             <h3 id="tagline">
-                                IC Community, because Neighbors <span class="also">also</span>
-                                care
+                                LocalHood, because Neighbors
+                                <br><span class="also">also</span> care
                             </h3>
                             <br>
-                            <div class="row animate-in" data-anim-type="fade-in-up">
-                                <div class="social-below">
-                                    <a href="#" class="btn button-custom btn-custom-two" data-toggle="modal" data-target="#signupModal"> Join Now</a>
-                                    <a href="#" class="btn button-custom btn-custom-two" data-toggle="modal" data-target="#signinModal"> Login</a>
-                                </div>
-                            </div>
+                            {{--<div class="row animate-in" data-anim-type="fade-in-up">--}}
+                                {{--<div class="social-below">--}}
+                                    {{--<a href="#" class="btn button-custom btn-custom-two " data-toggle="modal" data-target="#signupModal"> Join Now</a>--}}
+                                    {{--<a href="#" class="btn button-custom btn-custom-two" data-toggle="modal" data-target="#signinModal"> Log In</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             {{--<p>--}}
                             {{--Localhood has been built to foster communication and interaction, both virtually and--}}
                             {{--in-person, within your neighborhood.--}}
@@ -249,24 +255,62 @@
             <form action="register" method="POST">
                 <div class="modal-body">
                     {{csrf_field()}}
-                    <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                    <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+                    @if ($errors->has('first_name'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('first_name') }}</strong>
+                                    </span>
+                    @endif
+                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+                    @if ($errors->has('last_name'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                    @endif
+                    <input type="email" name="email" class="form-control" placeholder="Email" required>
                     @if ($errors->has('email'))
                         <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                     @endif
-                    <input type="text" name="name" class="form-control" placeholder="User Name" required>
-                    @if ($errors->has('name'))
+
+                    <select class="form-control" name="city_id">
+                        @foreach($cities as $city)
+                            <option value="{{$city->id}}">{{$city->label}}</option>
+                            @endforeach
+                    </select>
+                    @if ($errors->has('city_id'))
                         <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong>{{ $errors->first('city_id') }}</strong>
                                     </span>
                     @endif
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                    @if ($errors->has('password'))
+
+                    <select name="clanId" class="form-control" required>
+                        @foreach($buildings as $building)
+                            <option value="{{$building->id}}">{{$building->label}}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('clanId'))
                         <span class="help-block">
+                                        <strong>{{ $errors->first('clanId') }}</strong>
+                                    </span>
+                    @endif
+
+
+                    <div class="" style="position: relative">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <span style="position: absolute; color: black; top: 7px; right: 10px;"
+                              data-toggle="tooltip"
+                              data-placement="left"
+                              title="You password should contain at least 1 letter and 1 number and has at least 5 characters."
+                        ><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                        @if ($errors->has('password'))
+                            <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
-                    @endif
+                        @endif
+                    </div>
+
                     <input type="password" name="password_confirmation" class="form-control"
                            placeholder="Confirm your password" required>
                     @if ($errors->has('password_confirmation'))
@@ -303,16 +347,17 @@
                 <h4 class="modal-title" id="myModalLabel" style="color:black">Login In Form</h4>
             </div>
             <form action="login" method="POST">
-                <div class="modal-body" style="color:black">
+                <div class="modal-body clearfix" style="color:black">
                     <label> Login With </label>
                     <div class="form-group">
                         <a href="/facebook/register" class="btn btn btn-primary btn-block">Facebook</a>
                     </div>
-                    <div class="form-group">
-                        <a href="#" class="btn btn btn-primary btn-block">Google+</a>
-                    </div>
+
                     <div class="form-group">
                         <a href="#" class="btn btn btn-primary btn-block">Twitter</a>
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="btn btn btn-primary btn-block">LinkedIn</a>
                     </div>
                     {{csrf_field()}}
                     <p class="text-center"> or </p>
@@ -329,11 +374,19 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                     @endif
-                    <div class="checkbox">
-                        <label style="color: black">
-                            <input type="checkbox" name="remember"> Remember me
-                        </label>
+                    <div class="clearfix">
+                        <div class="checkbox" style="display: inline-block">
+                            <label style="color: black">
+                                <input type="checkbox" name="remember"> Remember me
+                            </label>
+                        </div>
+                        <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px;">
+                            <a style="color:Grey" onclick="showResetModal(event)">Forget Password</a>
+                        </div>
                     </div>
+
+
+
 
 
                 </div>
@@ -346,6 +399,37 @@
     </div>
 </div>
 <!--SIGNIN MODAL END-->
+
+<!--RESETPASSWORD MODAL -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="color:black">Reset your Password</h4>
+            </div>
+            <form onsubmit="resetPassword(event)">
+                <div class="modal-body" style="color:black">
+                    <p>In order to reset your password, please insert your Email address below</p>
+                    {{csrf_field()}}
+                    <input type="email" name="resetEmail" id="resetEmail" class="form-control" placeholder="Your Email" required autofocus>
+                    @if ($errors->has('email'))
+                        <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                    @endif
+                    <p>An email will be sent to your Email address in order to reset password</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Send"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--RESETPASSWORD MODAL END-->
 
 
 <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME -->
@@ -366,6 +450,48 @@
 <script src="/assets/js/animations.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="/assets/js/custom.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    function showResetModal(e){
+        e.preventDefault();
+        $("#signinModal").modal("hide");
+        $("#resetPasswordModal").modal("show");
+    }
+    function resetPassword(e){
+        e.preventDefault();
+        console.log(e.target.resetEmail.value);
+        console.log(window.location);
+        
+
+        var data = {
+            email:e.target.resetEmail.value,
+            "_token":$("meta[name='token']").attr("content")
+        };
+        
+        console.log(data);
+        
+        var url = window.location.origin +"/password/email";
+
+        $.post(url, data)
+                .done(function(response){
+                    if(response.hasOwnProperty("fail")){
+                        alert("Incorrect Email. Please verify!");
+                    }else{
+                        e.target.resetEmail.value = "";
+                        $("#resetPasswordModal").modal("hide");
+                        alert("Reset Password Email will send to you soon!");
+                    }
+                })
+                .fail(function(response){
+                    alert("request fail due to system error. Try again later.");
+                    console.log(response);
+                });
+        return false;
+    }
+</script>
 
 </body>
 

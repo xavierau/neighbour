@@ -16,6 +16,7 @@ use App\Like;
 use App\Message;
 use App\Notification;
 use App\Role;
+use App\UserStatus;
 use App\UserType;
 use App\View;
 
@@ -83,12 +84,16 @@ trait UserRelationshipTrait
 
     public function type()
     {
-        return $this->belongsTo(UserType::class);
+        return $this->belongsTo(UserType::class, 'user_type_id');
     }
 
     public function views()
     {
         return $this->hasMany(View::class);
+    }
+
+    public function status(){
+        return $this->belongsTo(UserStatus::class, 'user_status_id');
     }
 
 }

@@ -14,4 +14,9 @@ class Clan extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function stream()
+    {
+        return $this->hasMany(Stream::class);
+    }
 }

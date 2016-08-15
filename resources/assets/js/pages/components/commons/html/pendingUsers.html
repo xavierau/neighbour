@@ -1,0 +1,39 @@
+<div class="modal fade" id="pendingUsers" tabindex="-1" role="dialog" aria-labelledby="directoryLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="directoryLabel" style="color:black">Pending Users</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive" style="color:black">
+                    <table class="table table-bordered table-hover table-condensed table-striped">
+                        <thead>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th v-show="showBuildingName">Building</th>
+                        <th>Actions</th>
+                        </thead>
+                        <tbody>
+                        <tr v-for="user in pendingUsers">
+                            <td>{{user.first_name}} {{user.last_name}}</td>
+                            <td>{{user.email}}</td>
+                            <th v-show="showBuildingName">{{user.clan.label}}</th>
+                            <td>
+                                <button class="btn btn-success btn-sm" @click.prevent="approveUser(user)">Approve</button>
+                                <button class="btn btn-warning btn-sm">NO</button>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

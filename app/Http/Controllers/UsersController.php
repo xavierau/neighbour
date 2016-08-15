@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ConfirmEmailRequest;
 use App\Services\MediaServices;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class UsersController extends Controller
 
         $inputs = $request->all();
         $user = User::findOrFail($inputs['id']);
-        $user->name = $inputs['name'];
+        $user->first_name = $inputs['first_name'];
+        $user->last_name = $inputs['last_name'];
         $user->email = $inputs['email'];
         if($request->hasFile('file')){
             $service = new MediaServices();
@@ -138,5 +140,32 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect()->route("admin.users.index")->withMessage("Successfully Deleted");
+    }
+
+    public function confirmEmail(ConfirmEmailRequest $request)
+    {
+        $email = $request->get('email');
+        $token = $request->get('token');
+        $user = User::whereEmail($email)->first();
+
+        if ($user->email_confirmation_token != $token){throw  new Exception("Invalid Token");}
+
+        $activeStatus = \App\UserStatus::whereCode('active')->first();
+        $user->email_confirmation_token = null;
+        $user->status()->associate($activeStatus);
+        $user->save();
+
+        return redirect("/");
+    }
+
+    public function getPendingUsers(Request $request)
+    {
+        $user = $request->user();
+        if($user && $user->can("approveUser")){
+            if($user->is('dev') or $user->is("sadmin")){
+                return response()->json(['PendingUsers'=>User::getPendingUsers()]);
+            }
+            return response()->json(['PendingUsers'=>User::getPendingUsers($user->clan_id)]);
+        }
     }
 }

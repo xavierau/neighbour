@@ -2,7 +2,6 @@
 
 <template>
     <header-nav
-            :user="user"
             :category-list="categoryList"
             :notifications="notifications"
             keep-alive
@@ -19,7 +18,18 @@
 <script>
     import HeaderNav from './components/commons/headerNav.vue';
     import MainSection from './components/commons/mainSection.vue';
+    import store from "./../store";
+    import {updateUser} from "./../actions";
+    import {getUser} from "./../getters";
     export default{
+        vuex:{
+          actions:{
+              updateUser
+          },
+            getters:{
+              user:getUser
+            }
+        },
         route: {
             data: function (transition) {
                 var requiredFetch = {
@@ -62,7 +72,6 @@
         },
         data: function () {
             return {
-                user: this.$root.$data.user,
                 categoryList: [],
                 notifications:[],
                 selectCategoryList:[]
@@ -70,7 +79,7 @@
         },
         events: {
             userHasBeenUpdated: function (newUser) {
-                this.$set('user', newUser);
+                this.updateUser(newUser)
             }
         }
 

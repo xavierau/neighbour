@@ -9,8 +9,6 @@ Vue.use(Resource);
 window.toastr = require('toastr');
 window.moment = require('moment');
 
-
-
 var router = new Router({
     history: true
 });
@@ -18,8 +16,11 @@ var router = new Router({
 Vue.config.debug = true;
 
 import globalMixin from './global/mixin.js'
-Vue.mixin( globalMixin);
+import store from './store'
+import {updateUser} from './actions'
+import {getUser} from './getters'
 
+Vue.mixin( globalMixin);
 
 router.map({
     '/app': {
@@ -73,22 +74,21 @@ router.map({
 });
 
 var App = Vue.extend({
-    data: function () {
-        return {
-            user: user
+    store: store,
+    vuex:{
+        actions:{
+            updateUser
+        },
+        getters:{
+            user: getUser
         }
     },
     ready(){
-        console.log(this.user);
       this.setGAUserID(this.user.id)
     },
     events: {
         logout: function () {
             window.location.replace('/logout');
-        },
-        updateUser:function(newUser){
-            this.$set('user', newUser);
-            this.$broadcast("userHasBeenUpdated", newUser);
         }
     }
 });

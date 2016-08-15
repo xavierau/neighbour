@@ -32,7 +32,7 @@ class SendNewPostEmailNotification
      */
     public function handle(NewPostCreated $event)
     {
-        $recipients = User::where('email',"<>",$event->feed->sender->email)->get();
+        $recipients = $event->feed->sender->getOtherActiveClanMembers()->get();
         foreach ($recipients as $recipient){
             $this->dispatch(new EmailNotification($event->feed, $recipient));
         }

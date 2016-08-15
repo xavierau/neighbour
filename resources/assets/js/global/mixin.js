@@ -15,7 +15,7 @@ export default {
             ga('set', 'userId', userId)
         },
         updateGA(page){
-            var userId = this.$root.$data.user.id;
+            var userId = this.user.id;
             this.setGAUserID(userId);
             ga('set', 'page', '/' + page);
             ga('send', 'pageview');
@@ -57,6 +57,12 @@ export default {
         getApi: function (apiName) {
             var uri = "/api/";
             switch (apiName) {
+                case "approveUser":
+                    uri = uri + "users/approve"
+                    break;
+                case "getPendingUsers":
+                    uri = uri + "users/pending"
+                    break;
                 case "likeFeed":
                     uri = uri + "like/Feed"
                     break;

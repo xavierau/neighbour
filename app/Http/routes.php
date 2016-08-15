@@ -11,9 +11,12 @@
 |
 */
 
+use App\City;
+use App\Clan;
 use App\Feed;
 use App\Setting;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
@@ -31,22 +34,17 @@ function bootUpCheck()
 
 
 Route::get('statTest', "StatsController@getUserContentStats");
-Route::get('emails/postNotification', function (){
-    return view('test');
-    $feed = Feed::first();
-    $user = User::first();
-    dispatch(new \App\Jobs\EmailNotification($feed, $user));
-});
+Route::get('email/confirmation', "UsersController@confirmEmail");
 
 Route::get('/', function () {
     if (Auth::guest()) {
         $settings = Cache::rememberForever('settings', function () {
             return Setting::all();
         });
-
-        return view('welcome', compact("settings"));
+        $buildings = Clan::get();
+        $cities = City::select("id", "label")->get();
+        return view('welcome', compact("settings","buildings", "cities"));
     }
-
     return redirect("/app");
 });
 
@@ -55,7 +53,6 @@ Route::get("invitation/replay/{invitationId}/{status}", [
     "as"   => "replyInvitation",
     "uses" => "InvitationsController@replyEventInvitation"
 ]);
-
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -118,48 +115,3 @@ Route::group(['middleware' => 'auth'], function () {
 require_once __DIR__ . "/Routes/socialLogin.php";
 
 Route::auth();
-
-//Route::get('/sampling', function () {
-//
-//    function pushToStream($collection, $stream)
-//    {
-//        $collection->map(function ($item) use ($stream) {
-//            $stream->push($item);
-//        });
-//
-//        return $stream;
-//    }
-//
-//
-//
-//    $topLevelFeeds = Feed::whereReplyTo(0)->get();
-//    $events = Event::all();
-//    $temp = new Collection();
-//
-//    while ($topLevelFeeds->count() != 0 and $events->count() != 0) {
-//        $firstFeed = $topLevelFeeds->first();
-//        $firstEvent = $events->first();
-//        if ($firstFeed->created_at > $firstEvent->created_at) {
-//            $temp->push($topLevelFeeds->first());
-//            $topLevelFeeds->shift();
-//        } else {
-//            $temp->push($events->first());
-//            $events->shift();
-//        }
-//    };
-//    if ($topLevelFeeds->count() != 0) {
-//        $temp = pushToStream($topLevelFeeds, $temp);
-//    }
-//    if ($events->count() != 0) {
-//        $temp = pushToStream($events, $temp);
-//    }
-//
-//    foreach ($temp as $item){
-//        $item->stream()->create([]);
-//    }
-//
-//    dd(Stream::orderBy('created_at', 'desc')->with("item")->paginate(5));
-//
-//});
-
-

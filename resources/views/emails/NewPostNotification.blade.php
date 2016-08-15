@@ -50,14 +50,14 @@
     <h1>{{getSettingValue($settings, "appName")}}</h1>
     <hr />
 
-    <p>{{$feed->sender->name}} posted in {{$feed->sender->clan->label}}.</p>
+    <p>{{$feed->sender->first_name}} posted in {{$feed->sender->clan->label}}.</p>
     <div class="feed-container">
         <div class="credentials">
             <div class="image-container">
                 <img src="{{$feed->sender->avatar}}">
             </div>
             <div class="name">
-                <p>{{$feed->sender->name}}</p>
+                <p>{{$feed->sender->first_name}} {{$feed->sender->last_name}}</p>
                 <p>{{$feed->created_at->format("M j")}} at {{$feed->created_at->format("g:ia")}}</p>
             </div>
         </div>

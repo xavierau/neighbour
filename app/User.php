@@ -4,7 +4,9 @@ namespace App;
 
 use App\RelationshipTraits\UserRelationshipTrait;
 use App\Traits\UserAuthorizationTrait;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -30,7 +32,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'clan_id',
+        'city_id',
+        'user_type_id',
+        'last_name',
         'email',
         'password',
         'avatar'
@@ -47,7 +54,8 @@ class User extends Authenticatable
     ];
 
     protected $appends =[
-        'notificationsCount'
+        'notificationsCount',
+        'canApproveUser'
     ];
 
     protected $casts =[
@@ -73,5 +81,40 @@ class User extends Authenticatable
     public function getNotificationsCountAttribute()
     {
         return Notification::whereIsNew(true)->whereNotifiedUserId($this->id)->count();
-    }    
+    }
+
+    public function getCanApproveUserAttribute()
+    {
+        return $this->can("approveUser");
+    }
+
+    static function getPendingUsers($clanId = null){
+        $pendingStatusId = \App\UserStatus::whereCode("pending")->first()->id;
+
+        $self = new self();
+
+        $query =  $self::whereUserStatusId($pendingStatusId)->select("id", "first_name", "last_name", "email","clan_id");
+
+        if ($clanId){
+            return $query
+                ->whereClanId($clanId)
+                ->get();
+        }
+        return $query
+                ->with(["clan"=>function($query){
+                    return $query->select("label","id");
+                }])->get();
+    }
+
+    public function scopeGetOtherClanMembers($query)
+    {
+        return $query->whereClanId($this->clan_id)->where("id","<>", $this->id);
+    }
+
+    public function scopeGetOtherActiveClanMembers($query)
+    {
+        return $query->getOtherClanMembers()->whereUserStatusId(UserStatus::whereCode("active")->first()->id);
+
+    }
+
 }

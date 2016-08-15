@@ -1,6 +1,6 @@
 <template lang="html" src="html/singleFeed.html"></template>
 
-< script >
+<script>
 import Feed from './components/feed.vue';
 export default{
     route:{
@@ -25,4 +25,4 @@ export default{
         Feed
     }
 }
-< / script >
+</script>

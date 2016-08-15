@@ -19,15 +19,15 @@ class CreateRolesTable extends Migration
             $table->timestamps();
         });
         Schema::create('permission_role', function (Blueprint $table) {
-            $table->integer('permission_id')->unsigned()->index();
-            $table->integer('role_id')->unsigned()->index();
-            $table->primary(["permission_id", "role_id"]);
+            $table->integer('permission_id')->unsigned();
+            $table->integer('role_id')->unsigned();
+            $table->index(["permission_id", "role_id"]);
             $table->timestamps();
         });
         Schema::create('role_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->index();
-            $table->integer('role_id')->unsigned()->index();
-            $table->primary(["user_id", "role_id"]);
+            $table->integer('user_id')->unsigned();
+            $table->integer('role_id')->unsigned();
+            $table->index(["user_id", "role_id"]);
             $table->timestamps();
         });
     }

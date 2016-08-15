@@ -58,7 +58,14 @@
 
 <script>
     var socket;
+    import store from "./../store";
+    import {getUser} from "./../getters";
     export default{
+        vuex:{
+            getters:{
+                user:getUser
+            }
+        },
         route: {
             data: function (transition) {
                 var uri = this.getApi("conversationMessages") + "/" + this.$route.params.conversationId,
@@ -80,11 +87,6 @@
             deactivate: function (transition) {
                 socket.disconnect();
                 transition.next();
-            }
-        },
-        props: {
-            user: {
-                type: Object
             }
         },
         data: function () {

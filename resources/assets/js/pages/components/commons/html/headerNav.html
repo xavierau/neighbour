@@ -20,6 +20,10 @@
                                                                           aria-hidden="true"
                                                                           style="font-size: 2em; color:gold"></i></a>
                 </li>
+                <li role="presentation" v-show="canShowPendingUser"><a @click.prevent="showPendingUsers"><i class="fa fa-users"
+                                                                          aria-hidden="true"
+                                                                          style="font-size: 2em;"></i></a>
+                </li>
             </ul>
         </div>
 
@@ -34,8 +38,6 @@
                 <li class="visible-xs">
                     <a @click.prevent="showDirectory">Directory</a>
                 </li>
-
-
                 <li class="default" v-show="false">
                     <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false"
@@ -239,4 +241,6 @@
             </div>
         </div>
     </div>
+    <!-- PendingUser Modal -->
+    <pending-users></pending-users>
 </div>

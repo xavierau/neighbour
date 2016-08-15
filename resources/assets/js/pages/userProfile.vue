@@ -19,8 +19,12 @@
         <form id="profile">
             <input name="id" :value="user.id" type="hidden"/>
             <div class="form-group">
-                <label for="name">User Name:</label>
-                <input type="text" id="name" name="name" class="form-control" v-model="user.name">
+                <label for="name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" v-model="user.first_name">
+            </div>
+            <div class="form-group">
+                <label for="name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" v-model="user.last_name">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -47,11 +51,11 @@
             <div v-show="wantToChangePassword">
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="text" id="password" name="password" class="form-control" v-model="password">
+                    <input type="password" id="password" name="password" class="form-control" v-model="password">
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">Confirm Password:</label>
-                    <input type="text" id="password_confirmation" class="form-control" v-model="password_confirmation">
+                    <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation">
                 </div>
             </div>
 

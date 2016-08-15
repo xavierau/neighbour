@@ -2,7 +2,7 @@
 <template lang="html" src="html/mainSection.html"></template>
 
 <script>
-    export default( / script > {
+    export default {
         props: {
             categoryList: {
                 type: Array
@@ -32,4 +32,5 @@
 
             });
         }
-    } >
+    }
+</script>

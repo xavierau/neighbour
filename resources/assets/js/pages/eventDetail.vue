@@ -3,7 +3,18 @@
 
 <script>
     import UpdateEvent from './components/commons/updateEvent.vue';
+    import store from "./../store";
+    import {updateUser} from "./../actions";
+    import {getUser} from "./../getters";
     export default{
+        vuex:{
+            actions:{
+                updateUser
+            },
+            getters:{
+                user:getUser
+            }
+        },
         route: {
             data: function (transition) {
                 var uri = this.getApi('getEvents') + "/" + this.$route.params.eventId,
@@ -26,7 +37,6 @@
         },
         data () {
             return {
-                user: this.$root.$data.user,
                 event: {},
                 numberOfParticipants:0
             }
