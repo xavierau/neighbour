@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Clan;
 use App\Http\Requests\ConfirmEmailRequest;
+use App\Role;
 use App\Services\MediaServices;
 use App\User;
 use Illuminate\Http\Request;
@@ -59,9 +61,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('users.create');
+        if($request->user()->cannot("createUser")) abort(403);
+
+        $roles = Role::select('label','id')->get();
+        $clans = Clan::select('label','id')->get();
+        return view('users.create', compact("roles","clans"));
     }
 
     /**

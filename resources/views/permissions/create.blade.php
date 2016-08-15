@@ -7,7 +7,7 @@
                 <h1 class="permission-header">New Permission</h1>
             </div>
             <div class="panel-body">
-                <form action="/permissions" method="POST" class="form">
+                <form action="{{route("admin.permissions.store")}}" method="POST" class="form">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="label">Label: </label>
@@ -28,7 +28,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <a href="/permissions" class="btn btn-default">Back</a>
+                        <a href="{{route("admin.permissions.index")}}" class="btn btn-default">Back</a>
                         <button class="btn btn-success">Create</button>
                     </div>
                 </form>

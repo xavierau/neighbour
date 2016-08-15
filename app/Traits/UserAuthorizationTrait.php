@@ -34,6 +34,11 @@ trait UserAuthorizationTrait
         return count(array_intersect($userRoleCodes->toArray(), $permissionRoles->toArray())) > 0;
     }
 
+    public function cannot($permissionCode, $arguments = [])
+    {
+        return ! $this->can($permissionCode);
+    }
+
     public function is($roleCode)
     {
         $roleCodes = $this->roles()->lists('code')->toArray();

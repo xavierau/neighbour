@@ -29,7 +29,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <a href="/permissions" class="btn btn-default">Back</a>
+                        <a href="{{route("admin.permissions.index")}}" class="btn btn-default">Back</a>
                         <button class="btn btn-success">Update</button>
                     </div>
                 </form>

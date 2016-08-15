@@ -25,8 +25,9 @@ class ClansController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        if($request->user()->cannot('createClan')) abort(403);
         return view('clans.create');
     }
 
@@ -38,6 +39,8 @@ class ClansController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->user()->cannot('createClan')) abort(403);
+
         $rules = [
             "label"=>"required|min:3",
             "code"=>"required|unique:clans,code",
@@ -45,6 +48,7 @@ class ClansController extends Controller
         $this->validate($request, $rules);
 
         Clan::create($request->all());
+
         return redirect()->route('admin.clans.index')->withMessage("Successfully create a clan.");
     }
 
@@ -65,8 +69,10 @@ class ClansController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
+        if($request->user()->cannot('editClan')) abort(403);
+
         $clan = Clan::findOrFail($id);
         return view('clans.edit', compact("clan"));
     }
@@ -80,6 +86,8 @@ class ClansController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($request->user()->cannot('editClan')) abort(403);
+
         $rules = [
           "label"=>"required|min:3",
           "code"=>"required|unique:clans,code,".$id,
@@ -99,8 +107,10 @@ class ClansController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if($request->user()->cannot('deleteClan')) abort(403);
+
         $clan = Clan::findOrFail($id);
         
         $clan->delete();

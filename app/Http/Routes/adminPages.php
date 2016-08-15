@@ -9,13 +9,13 @@
 Route::get('dashboard', function () {
     return view('dashboard');
 });
-
-Route::get("permissions", "PermissionsController@index");
-Route::get("permissions/create", "PermissionsController@create");
-Route::get("permissions/{permissionId}/edit", "PermissionsController@edit");
-Route::put("permissions/{permissionId}", "PermissionsController@update");
-Route::post("permissions", "PermissionsController@store");
-Route::delete("permissions/{permissionId}", "PermissionsController@delete");
+//
+//Route::get("permissions", "PermissionsController@index");
+//Route::get("permissions/create", "PermissionsController@create");
+//Route::get("permissions/{permissionId}/edit", "PermissionsController@edit");
+//Route::put("permissions/{permissionId}", "PermissionsController@update");
+//Route::post("permissions", "PermissionsController@store");
+//Route::delete("permissions/{permissionId}", "PermissionsController@delete");
 
 Route::get("settings", "SettingsController@index");
 Route::get("settings/create", "SettingsController@create");
@@ -36,4 +36,4 @@ Route::resource("clans", "ClansController");
 Route::resource("users", "UsersController");
 
 Route::resource('roles', "RolesController");
-Route::resource('clans', "ClansController");
+Route::resource('permissions', "PermissionsController");

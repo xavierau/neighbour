@@ -15,8 +15,8 @@
                     <td style="color:black">{{$role->label}}</td>
                     <td style="color:black">{{$role->code}}</td>
                     <td>
-                        <a href="/categories/{{$role->id}}/edit" class="btn btn-info">Edit</a>
-                        <form action="/categories/{{$role->id}}/delete" method="POST">
+                        <a href="{{route('admin.roles.edit', $role->id)}}" class="btn btn-info">Edit</a>
+                        <form action="{{route('admin.roles.destroy', $role->id)}}" method="POST">
                             <input type="hidden" value="delete" name="_method">
                             {{csrf_field()}}
                             <input type="submit" value="delete" class="btn btn-danger"/>
