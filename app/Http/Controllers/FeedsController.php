@@ -11,6 +11,7 @@ use App\Feed;
 use App\Http\Requests;
 use App\Services\MediaServices;
 use App\Stream;
+use App\View;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request as GR;
 use Illuminate\Http\Request;
@@ -104,17 +105,14 @@ class FeedsController extends Controller
     {
         $feedId = $request->get('feedId');
         $comment = $request->get('comment');
-        $feed = Feed::find($feedId);
+        $feed = Feed::findOrFail($feedId);
         $replay = $request->user()->feeds()->create([
             "content"     => $comment,
             "reply_to"    => $feedId,
             "category_id" => $feed->category->id
-        ]);
-        $replay->load('sender');
-        if ($feed->sender->id != $request->user()->id) {
-            event(new NotificationEvent($feed, $feed->sender->id, $request->user()->id));
-            event(new Notification($feed->sender));
-        }
+        ])->load('sender');
+
+        $this->notifyFeedAuthorIfNecessary($request, $feed);
 
         return response()->json(['comment' => $replay]);
     }
@@ -136,24 +134,14 @@ class FeedsController extends Controller
      */
     public function deleteFeed(Request $request, $feedId)
     {
-        $feed = $request->user()->feeds()->find($feedId);
-        if ($feed->reply_to == 0) {
-            $class = get_class($feed);
-            $stream = Stream::whereItemType($class)
-                ->whereItemId($feed->id)
-                ->first();
-            $stream->delete();
-        }
-        $feed->delete();
+        $request->user()->feeds()->deleteFeed($feedId);
+
         return response()->json("completed");
     }
 
     public function deleteComment(Request $request, $postId, $commentId)
     {
-        $feed = $request->user()->feeds()->whereReplyTo($postId)->whereId($commentId)->first();
-        if ($feed) {
-            $feed->delete();
-        }
+        $request->user()->feeds()->deleteComment($postId, $commentId);
         return response()->json('completed');
     }
 
@@ -207,11 +195,44 @@ class FeedsController extends Controller
     }
 
     public function whoViews($feedId){
-        $feed = Feed::find($feedId);
-        $views = $feed->views()->with(["user"=>function($query){
-            $query->select(["avatar", "first_name", "last_name","id"]);
-        }])->select("id", "user_id")->get();
+        $views = Feed::findOrFail($feedId)->getViews();
         return response()->json($views);
     }
 
+    public function whoLikes($feedId)
+    {
+        $feed = Feed::find($feedId);
+        $likes = $feed->likes()->with("user")->get();
+
+        return response()->json($likes);
+    }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param                          $feed
+     */
+    private function notifyFeedAuthorIfNecessary(Request $request, $feed)
+    {
+        if ($feed->sender->id != $request->user()->id) {
+            event(new NotificationEvent($feed, $feed->sender->id, $request->user()->id));
+            event(new Notification($feed->sender));
+        }
+    }
+
+    public function incrementViews(Request $request, $feedId){
+        $feed = Feed::findOrFail($feedId);
+        $user = $request->user();
+
+        if(!$view = View::whereUserId($user->id)->whereFeedId($feed->id)->first()){
+            $data = [
+                "user_id" => $user->id,
+                "feed_id" => $feed->id,
+            ];
+            View::create($data);
+        }
+
+        $likes = "okay";
+
+        return response()->json($likes);
+    }
 }

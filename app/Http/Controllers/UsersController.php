@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clan;
+use App\Events\UserApprovedEvent;
 use App\Http\Requests\ConfirmEmailRequest;
 use App\Role;
 use App\Services\MediaServices;
@@ -21,7 +22,6 @@ class UsersController extends Controller
 
     public function updateProfile(Request $request)
     {
-
         $inputs = $request->all();
         $user = User::findOrFail($inputs['id']);
         $user->first_name = $inputs['first_name'];
@@ -173,5 +173,26 @@ class UsersController extends Controller
             }
             return response()->json(['PendingUsers'=>User::getPendingUsers($user->clan_id)]);
         }
+    }
+
+    public function approveUser(Request $request, $userId)
+    {
+        if(!$approver = $request->user() or $approver->cannot('approveUser')) abort(403);
+
+        $newStatus = \App\UserStatus::whereCode("new")->first();
+
+        if($approver->is('dev') or $approver->is("sadmin")){
+            $user = User::find($userId);
+        }else{
+            $user = User::whereClanId($request->user()->clan->id)->whereId($userId)->first();
+        }
+        if ($user){
+            $user->email_confirmation_token = str_random(128);
+            $user->status()->associate($newStatus);
+            $user->save();
+            event(new UserApprovedEvent($user));
+            return response()->json(['Status'=>"approved"]);
+        }
+        return response()->json(['Status'=>"NA"]);
     }
 }

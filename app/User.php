@@ -116,5 +116,4 @@ class User extends Authenticatable
         return $query->getOtherClanMembers()->whereUserStatusId(UserStatus::whereCode("active")->first()->id);
 
     }
-
 }

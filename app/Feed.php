@@ -25,7 +25,6 @@ class Feed extends Model
         "views"
     ];
 
-
     public function sender()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -99,7 +98,6 @@ class Feed extends Model
         return $this->likes()->count();
     }
 
-
     public function views()
     {
         return $this->hasMany(View::class);
@@ -107,13 +105,35 @@ class Feed extends Model
 
     public function getViewsAttribute()
     {
-//        $facebookFeed = FacebookFeed::whereFeedId($this->id)->first();
-//        if ($facebookFeed) {
-//            return $facebookFeed->views + $value;
-//        }
-
         return $this->views()->count();
     }
 
+    public function getViews()
+    {
+        return $this->views()->with(["user"=>function($query){
+            $query->select(["avatar", "first_name", "last_name","id"]);
+        }])->select("id", "user_id")->get();
+    }
+
+    public function scopeDeleteComment($query, $postId, $commentId)
+    {
+        $feed = $query->whereReplyTo($postId)->whereId($commentId)->first();
+        if ($feed) {
+            $feed->delete();
+        }
+    }
+
+    public function scopeDeleteFeed($query, $feedId)
+    {
+        $feed = $query->find($feedId);
+        if ($feed->reply_to == 0) {
+            $class = get_class($feed);
+            $stream = Stream::whereItemType($class)
+                ->whereItemId($feed->id)
+                ->first();
+            $stream->delete();
+        }
+        $feed->delete();
+    }
 
 }

@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => "no-reply@neighbour.net", 'name' => 'Neighbour App'],
+    'from' => ['address' => "no-reply@neighbour.net", 'name' => ' LocalHood'],
 
     /*
     |--------------------------------------------------------------------------

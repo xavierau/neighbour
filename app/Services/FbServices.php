@@ -8,21 +8,26 @@
 namespace App\Services;
 
 
+use App\FacebookUser;
+use App\User;
+use App\UserType;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
-use Facebook\Facebook\Exceptions\FacebookResponseException;
-use Facebook\Facebook\Exceptions\FacebookSDKException;
-use Facebook\FacebookApp;
 
 class FbServices
 {
     private $token;
+    private $fbUser;
+
     /**
      * FacebookServices constructor.
-     * @param $token
+     * @param $fbUser
      */
-    public function __construct($token)
+    public function __construct($fbUser)
     {
-        $this->token = $token;
+        $this->fbUser = $fbUser;
+        $this->token = $this->fbUser->token;
     }
 
     public function get($endPoint)
@@ -47,6 +52,80 @@ class FbServices
     {
         $response = $this->get("/{$userId}/picture?height=120&width=120");
         return $response->getHeaders()["Location"];
+    }
+
+    public function fetchOrCreateAppUserFromFacebookUserGraph(): User
+    {
+        $user = User::whereEmail($this-$this->fbUser->email)->first();
+        if(!$user){
+            $userTypeId = UserType::whereType(\App\Enums\UserType::FACEBOOK)->firstOrFail();
+
+            $user = $this->createUser($userTypeId);
+
+            $this->createFacebookUser($user);
+        }
+        return $user;
+    }
+
+    public function fetchFeedFromGroup()
+    {
+        $response = $this->get("/1170712616312556/feed");
+
+        $bodyObject = json_decode($response->getBody(), true);
+        $feeds = $bodyObject['data'];
+        $feedDetail = [];
+        foreach ($feeds as $feed){
+            if(array_key_exists('message',$feed)){
+                $temp = [
+                    'created_at' =>$feed['updated_time'],
+                    'id' =>$feed['id'],
+                    'message' =>$feed['message'],
+                ];
+                $response = $this->get("/".$feed['id']."/?fields=from");
+                $responseArray = json_decode($response->getBody(), true);
+                $temp['sender'] = $responseArray['from']['name'];
+                $temp['sender_id'] = $responseArray['from']['id'];
+                $feedDetail[] = $temp;
+            }
+        }
+    }
+
+    /**
+     * @param $avatar
+     * @param $userTypeId
+     * @return \App\User
+     */
+    private function createUser($userTypeId)
+    {
+        $avatar = $this->getAvatar($this->fbUser->id);
+        $user = new User();
+        $user->name = $this->fbUser->name;
+        $user->email = $this->fbUser->email;
+        $user->avatar = $avatar;
+        $user->user_type_id = $userTypeId;
+        $user->password = bcrypt(str_random(12));
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * @param $avatar
+     * @param $user
+     */
+    private function createFacebookUser($user)
+    {
+        $avatar = $this->getAvatar($this->fbUser->id);
+
+        $newFbUser = new FacebookUser();
+        $newFbUser->id = $this->fbUser->id;
+        $newFbUser->token = $this->fbUser->token;
+        $newFbUser->name = $this->fbUser->name;
+        $newFbUser->email = $this->fbUser->email;
+        $newFbUser->avatar = $avatar;
+        $newFbUser->gender = $this->fbUser->user["gender"];
+        $newFbUser->user_id = $user->id;
+        $newFbUser->save();
     }
 
 }

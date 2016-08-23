@@ -177,7 +177,6 @@ class AuthController extends Controller
         ])->redirect();
     }
 
-
     public function facebookLogin()
     {
         return Socialite::driver('facebook')->scopes([
@@ -188,52 +187,15 @@ class AuthController extends Controller
     public function handleFacebookSignUpCallback()
     {
         $fbUser = Socialite::driver('facebook')->user();
-        $user = User::whereEmail($fbUser->email)->first();
 
-        if(!$user){
-            $userTypeId = UserType::whereType(\App\Enums\UserType::FACEBOOK)->firstOrFail();
-            $fbService = new FbServices($fbUser->token);
-            $avatar = $fbService->getAvatar($fbUser->id);
+        $service  = new FbServices($fbUser);
 
-            $user = new User();
-            $user->name = $fbUser->name;
-            $user->email = $fbUser->email;
-            $user->avatar = $avatar;
-            $user->user_type_id = $userTypeId;
-            $user->password = bcrypt(str_random(12));
-            $user->save();
+        $user = $service->fetchOrCreateAppUserFromFacebookUserGraph();
 
-            $newFbUser = new FacebookUser();
-            $newFbUser->id = $fbUser->id;
-            $newFbUser->token = $fbUser->token;
-            $newFbUser->name = $fbUser->name;
-            $newFbUser->email = $fbUser->email;
-            $newFbUser->avatar = $avatar;
-            $newFbUser->gender = $fbUser->user["gender"];
-            $newFbUser->user_id = $user->id;
-            $newFbUser->save();
-        }
+        $service->fetchFeedFromGroup();
 
-        $service  = new FbServices($fbUser->token);
-        $response = $service->get("/1170712616312556/feed");
-        $bodyObject = json_decode($response->getBody(), true);
-        $feeds = $bodyObject['data'];
-        $feedDetail = [];
-        foreach ($feeds as $feed){
-            if(array_key_exists('message',$feed)){
-                $temp = [
-                    'created_at' =>$feed['updated_time'],
-                    'id' =>$feed['id'],
-                    'message' =>$feed['message'],
-                ];
-                $response = $service->get("/".$feed['id']."/?fields=from");
-                $responseArray = json_decode($response->getBody(), true);
-                $temp['sender'] = $responseArray['from']['name'];
-                $temp['sender_id'] = $responseArray['from']['id'];
-                $feedDetail[] = $temp;
-            }
-        }
         Auth::login($user);
+
         return redirect('/app');
     }
 
