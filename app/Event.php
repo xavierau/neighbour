@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Contracts\InStream as InStreamInterface;
 use App\RelationshipTraits\HasMedia;
 use App\RelationshipTraits\InStream;
 use App\RelationshipTraits\IsLikeable;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Event extends Model
+class Event extends Model implements InStreamInterface
 {
     use NotificationTrait, InStream, HasMedia, IsLikeable;
 
@@ -62,8 +63,20 @@ class Event extends Model
 
     }
 
+    public function scopeDefaultQuery($query) {
+        return $query->with(['media', "invitations"])->orderBy('created_at', 'desc');
+    }
+
     public function invitations()
     {
         return $this->hasMany(EventInvitation::class);
     }
+
+    public function scopeGetOthersPublicEvents($query, $myUserId) {
+        return $query->where('isPublic', 1)
+            ->where('user_id', "<>", $myUserId)
+            ->with('media')
+            ->orderBy('created_at', 'desc');
+    }
+
 }

@@ -79,7 +79,7 @@ class ShareFeedByEmail extends Job implements ShouldQueue
 
                 $fromAddress = $this->user->email;
                 $subject = "Share with you!";
-                $sender = $this->user->name;
+                $sender = $this->user->first_name;
 
                 $m->to($this->email, $this->email)
                     ->from($fromAddress, $sender)

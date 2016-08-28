@@ -2,13 +2,15 @@
 
 namespace App;
 
+use App\Contracts\InStream as InSteamInterface;
 use App\RelationshipTraits\HasMedia;
 use App\RelationshipTraits\InStream;
 use App\RelationshipTraits\IsLikeable;
 use App\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
-class Feed extends Model
+class Feed extends Model implements InSteamInterface
 {
     use NotificationTrait, HasMedia, IsLikeable, InStream;
 
@@ -54,20 +56,29 @@ class Feed extends Model
 
     public function scopeTopLevelFeeds($query)
     {
-        return $query->whereHas("category", function ($q) {
-            $q->where("showInPublic", true);
+        return $query->whereReplyTo(0);
+    }
+
+    public function scopeInSameClan($query, $user = null){
+
+        $user = $user?? Auth::user();
+
+        return $query->whereHas('sender', function($q)use($user){
+           $q->whereClanId($user->clan_id);
         });
     }
 
-    public function scopeStandardFetchSetting($query)
+    public function scopeStandardFetchSetting($query, $user=nll)
     {
+        $user = $user?? request()->user();
+
         return $query->orderBy('created_at', "desc")
             ->with([
                 "sender",
                 "media",
                 "category",
-                "likes" => function ($query) {
-                    $query->where('user_id', request()->user()->id);
+                "likes" => function ($query)use($user) {
+                    $query->where('user_id', $user->id);
                 }
             ]);
 

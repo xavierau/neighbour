@@ -81,11 +81,11 @@ var methods = {
                 comment: comment
             };
         this.$http.post(uri, data, headers).then(
-            ({data}) => {
-                this.stream.map(feed => feed.numberOfComment = feed.id == data.comment.reply_to ? feed.numberOfComment = feed.numberOfComment + 1 : feed.numberOfComment);
-                this.$broadcast('updateComment', feed.id, data.comment)
-            },
-            response => console.log(response)
+          ({data}) => {
+              this.stream.map(feed => feed.numberOfComment = feed.id == data.comment.reply_to ? feed.numberOfComment = feed.numberOfComment + 1 : feed.numberOfComment);
+              this.$broadcast('updateComment', feed.id, data.comment)
+          },
+          response => console.log(response)
         )
     },
     joinEvent (event) {

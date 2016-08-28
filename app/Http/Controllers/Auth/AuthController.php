@@ -127,8 +127,9 @@ class AuthController extends Controller
         }
 
         $this->create($request->all());
+        $buildingName = Clan::find($request->get("clan_id"))->label;
 
-        return redirect($this->redirectPath());
+        return redirect($this->redirectPath())->withRegistration($buildingName);
     }
 
     /**
@@ -259,6 +260,41 @@ class AuthController extends Controller
             'twitter_id' => $twitterUser->id,
             'avatar' => $twitterUser->avatar_original
         ]);
+    }
+
+    /**
+     * Create the response for when a request fails validation.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $errors
+     * @return \Illuminate\Http\Response
+     */
+    protected function buildFailedValidationResponse(Request $request, array $errors)
+    {
+        if (($request->ajax() && ! $request->pjax()) || $request->wantsJson()) {
+            return new JsonResponse($errors, 422);
+        }
+
+        return redirect()->to($this->getRedirectUrl())
+            ->withInput($request->input())
+            ->withFrom($request->path())
+            ->withErrors($errors, $this->errorBag());
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return redirect()->back()
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withFrom($request->path())
+            ->withErrors([
+                $this->loginUsername() => $this->getFailedLoginMessage(),
+            ]);
     }
 
 }

@@ -13,11 +13,15 @@
                 :category-list="selectCategoryList"
         ></router-view>
     </main-section>
+    <simple-user-list></simple-user-list>
+    <share-modal></share-modal>
 </template>
 
 <script>
     import HeaderNav from './components/commons/headerNav.vue';
     import MainSection from './components/commons/mainSection.vue';
+    import SimpleUserList from './components/commons/whoLike.vue';
+    import ShareModal from './components/commons/shareModal.vue';
     import store from "./../store";
     import {updateUser} from "./../actions";
     import {getUser} from "./../getters";
@@ -68,7 +72,9 @@
         },
         components: {
             HeaderNav,
-            MainSection
+            MainSection,
+            SimpleUserList,
+            ShareModal
         },
         data: function () {
             return {

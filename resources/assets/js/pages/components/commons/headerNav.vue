@@ -6,12 +6,13 @@
     import Notifications from './notification.vue';
     import PendingUsers from './pendingUsers.vue';
     import store from "./../../../store";
-    import {updateUser} from "./../../../actions";
+    import {updateUser, logout} from "./../../../actions";
     import {getUser} from "./../../../getters";
     export default{
         vuex:{
             actions:{
-                updateUser
+                updateUser,
+                logout
             },
             getters:{
                 user:getUser
@@ -100,7 +101,7 @@
 
             },
             logout: function () {
-                this.$dispatch('logout');
+                this.logout();
             }
         }
     }

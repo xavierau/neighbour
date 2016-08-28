@@ -2,7 +2,7 @@
 
 @section("content")
     <div class="container">
-        <form action="/categories/{{$category->id}}" class="form" method="POST">
+        <form action="{{route("admin.categories.update", $category->id)}}" class="form" method="POST">
             <input type="hidden" name="_method" value="PUT">
             {{csrf_field()}}
 
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <a href="/categories" class="btn btn-default">Back</a>
+                <a href="{{route("admin.categories.index")}}" class="btn btn-default">Back</a>
                 <input type="submit" class="btn btn-primary" value="Update">
             </div>
         </form>

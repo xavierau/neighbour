@@ -51,7 +51,7 @@ class CategoriesController extends Controller
         
         $request->session()->flash('message', 'update successfully');
 
-        return redirect("/categories");
+        return redirect()->route('admin.categories.index');;
     }
 
     public function delete(Request $request, $id)
@@ -61,7 +61,7 @@ class CategoriesController extends Controller
 
         $request->session()->flash('message', 'category deleted');
 
-        return redirect("/categories");
+        return redirect()->route('admin.categories.index');
     }
 
     public function create()
@@ -74,6 +74,6 @@ class CategoriesController extends Controller
         Category::create($request->all());
         
         $request->session()->flash('message', 'new category created!');
-        return redirect("/categories");
+        return redirect()->route('admin.categories.index');
     }
 }

@@ -4,8 +4,24 @@
 <script>
 import ContentContainer from "./content.vue";
 import CommentContainer from "./comment.vue";
+import {shareItem, getWhoLikes, updateSimpleUserList, getWhoViews, Comment} from "./../../../actions"
+import {getStream} from "./../../../getters"
 
 export default {
+    vuex:{
+        actions:{
+            shareItem,
+            getWhoLikes,
+            getWhoViews,
+            createComment: Comment.commentFeed,
+            unshiftComment: Comment.unshiftComment,
+            updateSimpleUserList,
+            incrementNumberOfComment:Comment.incrementNumberOfComment
+        },
+        getters:{
+            stream: getStream
+        }
+    },
     ready(){
         window.addEventListener('scroll', this.updateFeedViews);
         console.log(this.$el);
@@ -56,19 +72,18 @@ export default {
                     null,
                     this.setRequestHeaders()
                 )
-                    .then(
-                    response=>console.log(response)
-                )
+                    .then(response=>console.log(response))
             };
         },
         showWhoViews(){
             toastr.info('Loading List...');
-            this.$dispatch('getWhoViewsFeed', this.feed.id);
+            this.getWhoViews(this.feed.id)
         },
         toggleLikeButton(){
             var data = null,
                 uri = "",
                 headers = this.setRequestHeaders();
+            console.log("toggle LIke")
             if (this.feed.likes.length == 0) {
                 uri = this.getApi('likeFeed') + "/" + this.feed.id;
                 this.$http.get(uri, data, headers).then(
@@ -92,7 +107,14 @@ export default {
         },
         commentFeed(){
             if (this.comment.trim().length > 0)
-                this.$dispatch('commentFeed', this.feed, this.comment);
+                this.createComment(this.feed, this.comment).then(
+                        ({data}) => {
+                            this.incrementNumberOfComment(this.feed.id)
+                            this.unshiftComment(this.feed.id, data.comment)
+                            this.wantToCommentFeed = false
+                        },
+                        response => console.log(response)
+                )
         },
         clickShowComment() {
             if (!this.showCommentContainer) {
@@ -116,10 +138,24 @@ export default {
         },
         showWhoLikes(){
             toastr.info('Loading List...');
-            this.$dispatch('getWhoLikeFeed', this.feed.id);
+            this.getWhoLikes(this.feed.id)
+                .then(
+                        ({data})=>{
+                            console.log(data)
+                            $("#simpleUserListModal").modal("show");
+                            this.updateSimpleUserList(data);
+                            toastr.clear()
+                        },
+                        response=>console.log(response)
+                )
         },
         clickShare(){
-            this.$dispatch('shareWithOthers', this.feed.id, "feed");
+            this.shareItem( this.feed.id, "feed")
+            $("#shareWithOthers").modal("show");
+        },
+        updateComment(){
+                this.comment = "";
+                this.wantToCommentFeed = false
         }
     },
     filters: {
@@ -128,14 +164,14 @@ export default {
         }
     },
     events: {
-        updateComment(feedId, comment){
-            if (feedId == this.feed.id) {
-                this.comments.unshift(comment);
-                this.comment = "";
-                this.wantToCommentFeed = false
-            }
-            return true
-        },
+//        updateComment(feedId, comment){
+//            if (feedId == this.feed.id) {
+//                this.comments.unshift(comment);
+//                this.comment = "";
+//                this.wantToCommentFeed = false
+//            }
+//            return true
+//        },
         pushCommentsCollections (feedId, comments) {
             if (feedId == this.feed.id) this.comments = comments;
         },

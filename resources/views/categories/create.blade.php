@@ -2,7 +2,7 @@
 
 @section("content")
     <div class="container">
-        <form action="/categories" class="form" method="POST">
+        <form action="{{route("admin.categories.store")}}" class="form" method="POST">
             {{csrf_field()}}
 
             <div class="form-group">

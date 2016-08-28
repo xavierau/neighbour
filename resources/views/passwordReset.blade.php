@@ -106,26 +106,32 @@
             {!! csrf_field() !!}
 
             <input type="hidden" name="token" value="{{ $token }}">
+            <input type="hidden" class="form-control" name="email" value="{{ $email or old('email') }}">
 
-            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                <label class="col-md-4 control-label">E-Mail Address</label>
+            {{--<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">--}}
+                {{--<label class="col-md-4 control-label">E-Mail Address</label>--}}
 
-                <div class="col-md-6">
-                    <input type="email" class="form-control" name="email" value="{{ $email or old('email') }}">
+                {{--<div class="col-md-6">--}}
+                    {{--<input type="email" class="form-control" name="email" value="{{ $email or old('email') }}">--}}
 
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                    @endif
-                </div>
-            </div>
+                    {{--@if ($errors->has('email'))--}}
+                        {{--<span class="help-block">--}}
+                                        {{--<strong>{{ $errors->first('email') }}</strong>--}}
+                                    {{--</span>--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                 <label class="col-md-4 control-label">Password</label>
 
                 <div class="col-md-6">
                     <input type="password" class="form-control" name="password">
+                    <span style="position: absolute; color: black; top: 7px; right: 20px;"
+                          data-toggle="tooltip"
+                          data-placement="left"
+                          title="You password should contain at least 1 letter and 1 number and has at least 5 characters."
+                    ><i class="fa fa-info-circle" aria-hidden="true"></i></span>
 
                     @if ($errors->has('password'))
                         <span class="help-block">
@@ -151,7 +157,7 @@
             <div class="form-group">
                 <div class="col-md-6 col-md-offset-4">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-btn fa-refresh"></i> Reset your password
+                        <i class="fa fa-btn fa-refresh"></i> Access my LocalHood network
                     </button>
                 </div>
             </div>
@@ -179,6 +185,12 @@
 <script src="/assets/js/animations.min.js"></script>
 <!-- CUSTOM SCRIPTS -->
 <script src="/assets/js/custom.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 
 </body>

@@ -45,11 +45,11 @@ $(document).ready(function () {
         delay: 15000,
         backgrounds: [
             {src: '/img/DSC00368_new.jpg', fade: 1000},
-            {src: '/img/1_new.jpg', fade: 1000},
-            {src: '/img/2_new.jpg', fade: 1000},
-            {src: '/img/3_new.jpg', fade: 1000},
-            {src: '/img/4_new.jpg', fade: 1000},
-            {src: '/img/5_new.jpg', fade: 1000}
+            {src: '/img/1_new_sm.jpg', fade: 1000},
+            {src: '/img/2_new_sm.jpg', fade: 1000},
+            {src: '/img/3_new_sm.jpg', fade: 1000},
+            {src: '/img/4_new_sm.jpg', fade: 1000},
+            {src: '/img/5_new_sm.jpg', fade: 1000}
         ]
     })('overlay', {
         /** SLIDESHOW OVERLAY IMAGE **/

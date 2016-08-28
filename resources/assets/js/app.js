@@ -17,7 +17,6 @@ Vue.config.debug = true;
 
 import globalMixin from './global/mixin.js'
 import store from './store'
-import {updateUser} from './actions'
 import {getUser} from './getters'
 
 Vue.mixin( globalMixin);
@@ -76,20 +75,12 @@ router.map({
 var App = Vue.extend({
     store: store,
     vuex:{
-        actions:{
-            updateUser
-        },
         getters:{
             user: getUser
         }
     },
     ready(){
       this.setGAUserID(this.user.id)
-    },
-    events: {
-        logout: function () {
-            window.location.replace('/logout');
-        }
     }
 });
 

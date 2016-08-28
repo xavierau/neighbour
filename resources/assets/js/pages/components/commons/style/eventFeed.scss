@@ -10,7 +10,8 @@ div.calendarDate{
 }
 
 .event.feed-container{
-  background-color: rgb(255, 255, 157);
+  //background-color: rgb(255, 255, 157);
+  background-color: #b666d2;
 }
 
 p.eventName{
@@ -19,4 +20,10 @@ p.eventName{
 }
 p.eventLocation{
   margin-bottom: 5px;
+}
+
+.participantContainer {
+  p{
+    color: black;
+  }
 }

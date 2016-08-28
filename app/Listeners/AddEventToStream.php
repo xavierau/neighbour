@@ -33,7 +33,8 @@ class AddEventToStream
     public function handle($event)
     {
         $model = $event->event;
-        $creator = $model->sender;
+        $creator = $model->organiser;
+
         $clanId = $creator->clan_id == 0? 1 : $creator->clan_id;
         if($model->isPublic){
             if(method_exists($model, "stream")){

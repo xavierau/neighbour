@@ -24,12 +24,14 @@ Route::put("settings/{settingId}", "SettingsController@update");
 Route::post("settings", "SettingsController@store");
 Route::delete("settings/{settingId}", "SettingsController@delete");
 
-Route::get("categories", "CategoriesController@index");
-Route::post("categories", "CategoriesController@store");
-Route::get("categories/new", "CategoriesController@create");
-Route::get("categories/{id}/edit", "CategoriesController@edit");
-Route::put("categories/{id}", "CategoriesController@update");
-Route::delete("categories/{id}/delete", "CategoriesController@delete");
+Route::resource("categories", "CategoriesController");
+//
+//Route::get("categories", "CategoriesController@index");
+//Route::post("categories", "CategoriesController@store");
+//Route::get("categories/new", "CategoriesController@create");
+//Route::get("categories/{id}/edit", "CategoriesController@edit");
+//Route::put("categories/{id}", "CategoriesController@update");
+//Route::delete("categories/{id}/delete", "CategoriesController@delete");
 
 
 Route::resource("clans", "ClansController");

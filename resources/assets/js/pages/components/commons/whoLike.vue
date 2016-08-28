@@ -2,9 +2,12 @@
 <template lang="html" src="html/whoLike.html"></template>
 
 <script>
+    import {getSimpleUserList} from "./../../../getters"
 export default{
-    props:{
-        userList:[]
-    }
+        vuex:{
+            getters:{
+                userList: getSimpleUserList
+            }
+        }
 }
 </script>

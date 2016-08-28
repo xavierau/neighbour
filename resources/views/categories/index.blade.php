@@ -2,7 +2,7 @@
 
 @section("content")
     <div class="container">
-        <h1>Categories List <span class="pull-right"><a href="/categories/new" class="btn btn-success">Create New</a></span></h1>
+        <h1>Categories List <span class="pull-right"><a href="{{route("admin.categories.create")}}" class="btn btn-success">Create New</a></span></h1>
         <table class="table">
             <thead>
             <td>Category Name</td>
@@ -13,7 +13,7 @@
                 <tr>
                     <td style="color:black">{{$category->name}}</td>
                     <td>
-                        <a href="/categories/{{$category->id}}/edit" class="btn btn-info">Edit</a>
+                        <a href="{{route("admin.categories.edit", $category->id)}}" class="btn btn-info">Edit</a>
                         <form action="/categories/{{$category->id}}/delete" method="POST">
                             <input type="hidden" value="delete" name="_method">
                             {{csrf_field()}}

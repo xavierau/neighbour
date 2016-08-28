@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Contracts\StandardFetchSetting;
 use App\Event;
 use App\Events\NewPostCreated;
 use App\Events\Notification;
@@ -67,14 +68,11 @@ class FeedsController extends Controller
     {
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
 
-            $stream = (new Stream())->getStream($request->user()->clan_id);
+            $stream = Stream::getSpecificTypeStreamOnly(Feed::class, $request->user()->clan_id);
+
             $items = new Collection();
             foreach ($stream as $item) {
-                if ($item->item instanceof Feed) {
-                    $item->item = $item->item->loadStandardFetchSetting();
-                }elseif ($item->item instanceof Event) {
-                    $item->item = $item->item->loadStandardFetchSetting();
-                }
+                $item->item = $item->item->loadStandardFetchSetting();
                 $items->push($item->item);
             }
 
@@ -87,14 +85,13 @@ class FeedsController extends Controller
                 'items', 'nextPageUrl', 'currentPage', 'hasMorePages', 'previousPageUrl'
             ));
         } elseif (in_array($feedOption, $categoryList = Category::lists('code', "id")->toArray())) {
-            $feeds = Feed::feedCategory($feedOption)
-                ->standardFetchSetting()
+            $feeds = Feed::inSameClan($request->user())
+                ->feedCategory($feedOption)
+                ->standardFetchSetting($request->user())
                 ->get();
             $category_id = 0;
             foreach ($categoryList as $id => $categoryCode) {
-                if ($feedOption == $categoryCode) {
-                    $category_id = $id;
-                }
+                if ($feedOption == $categoryCode) $category_id = $id;
             }
 
             return response()->json(compact("feeds", "category_id"));
@@ -121,7 +118,7 @@ class FeedsController extends Controller
     {
         $comments = Feed::orderBy('created_at', 'desc')
             ->where("reply_to", $request->get('feedId'))
-            ->standardFetchSetting()
+            ->standardFetchSetting($request->user())
             ->get();
 
         return response()->json(compact("comments"));

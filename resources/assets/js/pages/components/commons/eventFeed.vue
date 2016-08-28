@@ -4,7 +4,14 @@
 <script>
     import ContentContainer from './content.vue';
     import {eventButtonsText} from "./../../../global/globalVariables.js"
+    import {shareItem} from "./../../../actions"
+
     export default{
+        vuex:{
+            actions:{
+                shareItem
+            }
+        },
         props:{
             feed:{
                 type: Object
@@ -52,7 +59,8 @@
                     this.$dispatch("joinEventNo", this.feed)
             },
             clickShare(){
-                this.$dispatch("shareWithOthers", this.feed.id, "event")
+                this.shareItem( this.feed.id, "event")
+                $("#shareWithOthers").modal("show");
             }
         },
         events:{

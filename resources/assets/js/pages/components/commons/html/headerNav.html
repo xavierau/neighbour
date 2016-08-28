@@ -20,24 +20,37 @@
                                                                           aria-hidden="true"
                                                                           style="font-size: 2em; color:gold"></i></a>
                 </li>
-                <li role="presentation" v-show="canShowPendingUser"><a @click.prevent="showPendingUsers"><i class="fa fa-users"
-                                                                          aria-hidden="true"
-                                                                          style="font-size: 2em;"></i></a>
+                <li role="presentation" v-show="canShowPendingUser"><a @click.prevent="showPendingUsers"><i
+                        class="fa fa-users"
+                        aria-hidden="true"
+                        style="font-size: 2em;"></i></a>
                 </li>
             </ul>
         </div>
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="visible-xs" v-for="category in categoryList">
-                    <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
-                </li>
-                <li class="visible-xs">
-                    <a href="" v-link="{name:'events'}">Events</a>
-                </li>
-                <li class="visible-xs">
-                    <a @click.prevent="showDirectory">Directory</a>
-                </li>
+
+                <div class="dropdown" style="padding: 5px, 0; margin: 10px 20px 10px 20px;">
+                  <li id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                      style="background-color: transparent">
+                    Categories
+                    <span class="caret"></span>
+                  </li>
+                  <ul class="dropdown-menu" aria-labelledby="dLabel">
+                     <li class="visible-xs" v-for="category in categoryList">
+                                    <a href="" v-link="{name:'category', params:{category:category.code}}">{{category.name}}</a>
+                                </li>
+                      <li class="visible-xs">
+                            <a href="" v-link="{name:'events'}">Events</a>
+                        </li>
+                        <li class="visible-xs">
+                            <a @click.prevent="showDirectory">Directory</a>
+                        </li>
+                  </ul>
+                </div>
+
+
                 <li class="default" v-show="false">
                     <a id="notifications" data-target="#" href="" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false"

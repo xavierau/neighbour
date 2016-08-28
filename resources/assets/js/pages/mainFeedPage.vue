@@ -2,23 +2,29 @@
 <template lang="html" src="html/mainFeedPage.html"></template>
 
 <script>
-    import store from "./../store";
-    import {getUser} from "./../getters";
+    import {getUser, getStream} from "./../getters";
+    import {getWhoViews, getWhoLikes, Stream} from "./../actions";
     import Feed from './components/feed.vue';
     import CreateEventModal from './components/commons/createEventModal.vue';
     import DesktopEditor from './components/desktopFeedEditor.vue';
     import MobileEditor from './components/commons/mobileEditor.vue';
     import ImageCarouselModal from './components/commons/imageCarouselModal.vue';
     import MobilePhotoUpload from './components/commons/mobilePhotoUplaod.vue';
-    import SimpleUserList from './components/commons/whoLike.vue';
     import ShareModal from './components/commons/shareModal.vue';
 
     import methods from "./methods/MainFeedPage";
 
     export default{
         vuex:{
+            actions:{
+                getWhoViews,
+                getWhoLikes,
+                updateStream: Stream.updateStream,
+                unshiftStream: Stream.unshiftStream
+            },
             getters:{
-                user:getUser
+                user:getUser,
+                stream: getStream
             }
         },
         route: {
@@ -26,8 +32,8 @@
                 var uri = this.getApi("getPublicShownFeeds"),
                         headers = this.setRequestHeaders();
                 this.$http.get(uri, "", headers).then(function ({data}) {
+                    this.updateStream(data.items);
                     transition.next({
-                        stream: data.items,
                         currentPage: data.currentPage,
                         previousPageUrl: data.previousPageUrl,
                         nextPageUrl: data.nextPageUrl,
@@ -49,7 +55,6 @@
         },
         data: function () {
             return {
-                stream: [],
                 currentPage: "",
                 previousPageUrl: "",
                 nextPageUrl: "",
@@ -99,33 +104,10 @@
             MobileEditor,
             ImageCarouselModal,
             MobilePhotoUpload,
-            SimpleUserList,
             ShareModal
         },
         methods,
         events: {
-            getWhoViewsFeed(feedId){
-                this.$http.get('/api/feeds/'+feedId+'/whoViews')
-                    .then(
-                        ({data})=>{
-                            $("#simpleUserListModal").modal("show");
-                            this.simpleUserList = data;
-                            toastr.clear()
-                        },
-                        response=>console.log(response)
-                    )
-            },
-            getWhoLikeFeed(feedId){
-                this.$http.get('/api/feed/'+feedId+'/whoLikes')
-                    .then(
-                        ({data})=>{
-                            $("#simpleUserListModal").modal("show");
-                            this.simpleUserList = data;
-                            toastr.clear()
-                        },
-                        response=>console.log(response)
-                    )
-            },
             showMobilePhotoUpload: function () {
                 $("#mobileImageUploadModal").modal("show");
             },
@@ -169,22 +151,7 @@
                 this.showLargerImage(images, selectedImageIndex)
             },
             eventCreated(event){
-                this.stream.unshift(event)
-            },
-            shareWithOthers(feedId, type){
-                this.shareFeedId = feedId;
-                this.shareFeedType = type;
-                $("#shareWithOthers").modal("show");
-            },
-            shareFeed(feedId, email){
-                $("#shareWithOthers").modal("hide");
-                toastr.info('sharing the feed');
-                this.$http.post("/api/share/"+this.shareFeedType+"/"+feedId,{email:email}, this.setRequestHeaders())
-                    .then(
-                        response=>console.log(response),
-                        response=>console.log(response)
-                    );
-
+                this.unshiftStream(event)
             }
         }
     }
