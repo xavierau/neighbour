@@ -84,7 +84,7 @@
 <script src="/assets/js/customApp.js"></script>
 
 <script>
-    var user ={!! Auth::user() !!};
+    var user ={!!  Auth::user()->toJson() !!};
 </script>
 <script src="/js/app.js"></script>
 </body>

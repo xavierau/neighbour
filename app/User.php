@@ -135,9 +135,11 @@ class User extends Authenticatable
 
         $permissionIds = Cache::tags(['permission', 'role'])->remember($key, 10, function(){
             $permissionIds = [];
-            $permissionIds = $this->roles()->with('permissions')->get()->map(function($role)use($permissionIds){
+            $permissionArray = $this->roles()->with('permissions')->get()->map(function($role)use($permissionIds){
                 return array_merge($permissionIds, $role->permissions()->lists('id')->toArray());
-            })->toArray()[0];
+            })->toArray();
+            if (count($permissionArray) > 0)
+                $permissionIds = $permissionArray[0];
             return $permissionIds;
         });
 

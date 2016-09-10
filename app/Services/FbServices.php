@@ -113,7 +113,7 @@ class FbServices
         $user->password = str_random(16);
         $user->save();
 
-        return $user;
+        return $user = User::findOrFail($user->id);
     }
 
     /**

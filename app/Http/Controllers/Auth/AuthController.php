@@ -185,12 +185,13 @@ class AuthController extends Controller
 
         $user = $service->fetchOrCreateAppUserFromFacebookUserGraph();
 
-
         $service->fetchFeedFromGroup();
 
         Auth::login($user);
+            return redirect('/');
 
-        return redirect('/app');
+
+
     }
 
     public function twitterSignUp()
