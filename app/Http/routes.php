@@ -14,6 +14,7 @@
 use App\City;
 use App\Clan;
 use App\Feed;
+use App\Permission;
 use App\Setting;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-
 
 Route::get('statTest', "StatsController@getUserContentStats");
 Route::get('email/confirmation', "UsersController@confirmEmail");

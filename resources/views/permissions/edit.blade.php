@@ -7,7 +7,7 @@
                 <h1 class="permission-header">Edit Permission</h1>
             </div>
             <div class="panel-body">
-                <form action="/permissions/{{$permission->id}}" method="POST" class="form">
+                <form action="/admin/permissions/{{$permission->id}}" method="POST" class="form">
                     <input type="hidden" name="_method" value="PUT">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -16,15 +16,6 @@
                         @if ($errors->has('label'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('label') }}</strong>
-                                    </span>
-                        @endif
-                    </div>
-                    <div class="form-group">
-                        <label for="code">Code: </label>
-                        <input type="text" name="code" id="code" class="form-control" value="{{$permission->code}}">
-                        @if ($errors->has('code'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('code') }}</strong>
                                     </span>
                         @endif
                     </div>

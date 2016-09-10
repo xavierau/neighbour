@@ -8,8 +8,10 @@
     "gulp": "^3.9.1",
     "html-loader": "^0.4.3",
     "laravel-elixir-webpack": "^1.0.1",
+    "lodash": "^4.15.0",
     "scss-loader": "0.0.1",
-    "style-loader": "^0.13.1"
+    "style-loader": "^0.13.1",
+    "vuex": "^0.6.3"
   },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",

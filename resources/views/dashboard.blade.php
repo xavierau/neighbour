@@ -5,12 +5,6 @@
         <div class="col-sm-6">
             <graph-metric></graph-metric>
         </div>
-        <div class="col-sm-6">
-            <graph-metric></graph-metric>
-        </div>
-        <div class="col-sm-6">
-            <graph-metric></graph-metric>
-        </div>
     </div>
 @endsection
 @section('script')
@@ -19,7 +13,7 @@
             <div class="panel-heading">
                 <div class="form-group">
                     <label>Choose Metric:</label>
-                    <select class="form-control" v-model="metric" @@chanage="updateMetric">
+                    <select class="form-control" v-model="metric" @@change="updateMetric">
                     <option v-for="metric in availableMetrics" :value="metric">@{{metric.label}}</option>
                     </select>
                 </div>

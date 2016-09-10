@@ -7,9 +7,9 @@
     </form>
 
     <br>
-    <div id="search-result-container" v-show="result.data" style="margin-bottom:50px">
-        <text-feed :feed="feed" v-for="feed in result.data"></text-feed>
-        <p v-show="result.data.length == 0"> No Feed Found </p>
+    <div id="search-result-container" v-show="searchResult" style="margin-bottom:50px">
+        <text-feed :feed="feed" v-for="feed in searchResult"></text-feed>
+        <p v-show="searchResult.length == 0"> No Feed Found </p>
 
         <button
                 v-show="result.next_page_url"

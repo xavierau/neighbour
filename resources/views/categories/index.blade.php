@@ -14,7 +14,7 @@
                     <td style="color:black">{{$category->name}}</td>
                     <td>
                         <a href="{{route("admin.categories.edit", $category->id)}}" class="btn btn-info">Edit</a>
-                        <form action="/categories/{{$category->id}}/delete" method="POST">
+                        <form action="{{route("admin.categories.destroy", $category->id)}}" method="POST">
                             <input type="hidden" value="delete" name="_method">
                             {{csrf_field()}}
                             <input type="submit" value="delete" class="btn btn-danger"/>

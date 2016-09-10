@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Contracts\StandardFetchSetting;
-use App\Event;
 use App\Events\NewPostCreated;
 use App\Events\Notification;
 use App\Events\NotificationEvent;
 use App\Feed;
-use App\Http\Requests;
 use App\Services\MediaServices;
 use App\Stream;
 use App\View;
@@ -22,8 +20,9 @@ use Illuminate\Support\Facades\Auth;
 
 class FeedsController extends Controller
 {
-    public function postFeed(Request $request)
-    {
+    public function postFeed(Request $request) {
+        $this->authorize('post', new Feed());
+
         $files = array_filter($request->all(), function ($entry) {
             return $entry instanceof UploadedFile;
         });
@@ -56,16 +55,18 @@ class FeedsController extends Controller
         }
     }
 
-    public function getFeed($id)
-    {
+    public function getFeed($id) {
+
         logger('feed test');
+
         $feed = Feed::find($id);
+
+        $this->authorize('getTheFeed', $feed);
 
         return response()->json(compact("feed"));
     }
 
-    public function getFeeds(Request $request, $feedOption)
-    {
+    public function getFeeds(Request $request, $feedOption) {
         if ($feedOption == "showPublicfrontPage" or $feedOption == 'public') {
 
             $stream = Stream::getSpecificTypeStreamOnly(Feed::class, $request->user()->clan_id);
@@ -81,45 +82,45 @@ class FeedsController extends Controller
             $hasMorePages = $stream->hasMorePages();
             $previousPageUrl = $stream->previousPageUrl();
 
-            return response()->json(compact(
-                'items', 'nextPageUrl', 'currentPage', 'hasMorePages', 'previousPageUrl'
-            ));
+            return response()->json(compact('items', 'nextPageUrl', 'currentPage', 'hasMorePages', 'previousPageUrl'));
         } elseif (in_array($feedOption, $categoryList = Category::lists('code', "id")->toArray())) {
-            $feeds = Feed::inSameClan($request->user())
-                ->feedCategory($feedOption)
-                ->standardFetchSetting($request->user())
-                ->get();
+            $feeds = Feed::inSameClan($request->user())->feedCategory($feedOption)->standardFetchSetting($request->user())->get();
             $category_id = 0;
             foreach ($categoryList as $id => $categoryCode) {
-                if ($feedOption == $categoryCode) $category_id = $id;
+                if ($feedOption == $categoryCode) {
+                    $category_id = $id;
+                }
             }
 
             return response()->json(compact("feeds", "category_id"));
         }
     }
 
-    public function commentFeed(Request $request)
-    {
+    public function commentFeed(Request $request) {
         $feedId = $request->get('feedId');
+
         $comment = $request->get('comment');
+
         $feed = Feed::findOrFail($feedId);
+
+        $this->authorize('comment', $feed);
+
         $replay = $request->user()->feeds()->create([
-            "content"     => $comment,
-            "reply_to"    => $feedId,
-            "category_id" => $feed->category->id
-        ])->load('sender');
+                                                        "content"     => $comment,
+                                                        "reply_to"    => $feedId,
+                                                        "category_id" => $feed->category->id
+                                                    ])->load('sender');
 
         $this->notifyFeedAuthorIfNecessary($request, $feed);
 
         return response()->json(['comment' => $replay]);
     }
 
-    public function getFeedComments(Request $request)
-    {
-        $comments = Feed::orderBy('created_at', 'desc')
-            ->where("reply_to", $request->get('feedId'))
-            ->standardFetchSetting($request->user())
-            ->get();
+    public function getFeedComments(Request $request) {
+        $this->authorize('getComments', Feed::findOrFail($request->get('feedId')));
+
+        $comments = Feed::orderBy('created_at', 'desc')->where("reply_to",
+                                                               $request->get('feedId'))->standardFetchSetting($request->user())->get();
 
         return response()->json(compact("comments"));
     }
@@ -129,21 +130,22 @@ class FeedsController extends Controller
      * @param                          $feedId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteFeed(Request $request, $feedId)
-    {
+    public function deleteFeed(Request $request, $feedId) {
+        $this->authorize('delete', Feed::findOrFail($feedId));
+
         $request->user()->feeds()->deleteFeed($feedId);
 
         return response()->json("completed");
     }
 
-    public function deleteComment(Request $request, $postId, $commentId)
-    {
+    public function deleteComment(Request $request, $postId, $commentId) {
+        $this->authorize('deleteComment', Feed::findOrFail($commentId));
         $request->user()->feeds()->deleteComment($postId, $commentId);
+
         return response()->json('completed');
     }
 
-    public function urlPreview(Request $request)
-    {
+    public function urlPreview(Request $request) {
         $uri = $request->get('uri');
         $client = new Client();
         $httpRequest = new GR('GET', $uri);
@@ -164,8 +166,7 @@ class FeedsController extends Controller
         return $promise->wait();
     }
 
-    private function getMetaTags($str)
-    {
+    private function getMetaTags($str) {
         $pattern = '
           ~<\s*meta\s
         
@@ -191,13 +192,13 @@ class FeedsController extends Controller
         return array();
     }
 
-    public function whoViews($feedId){
+    public function whoViews($feedId) {
         $views = Feed::findOrFail($feedId)->getViews();
+
         return response()->json($views);
     }
 
-    public function whoLikes($feedId)
-    {
+    public function whoLikes($feedId) {
         $feed = Feed::find($feedId);
         $likes = $feed->likes()->with("user")->get();
 
@@ -208,19 +209,18 @@ class FeedsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param                          $feed
      */
-    private function notifyFeedAuthorIfNecessary(Request $request, $feed)
-    {
+    private function notifyFeedAuthorIfNecessary(Request $request, $feed) {
         if ($feed->sender->id != $request->user()->id) {
             event(new NotificationEvent($feed, $feed->sender->id, $request->user()->id));
             event(new Notification($feed->sender));
         }
     }
 
-    public function incrementViews(Request $request, $feedId){
+    public function incrementViews(Request $request, $feedId) {
         $feed = Feed::findOrFail($feedId);
         $user = $request->user();
 
-        if(!$view = View::whereUserId($user->id)->whereFeedId($feed->id)->first()){
+        if (!$view = View::whereUserId($user->id)->whereFeedId($feed->id)->first()) {
             $data = [
                 "user_id" => $user->id,
                 "feed_id" => $feed->id,
@@ -231,5 +231,82 @@ class FeedsController extends Controller
         $likes = "okay";
 
         return response()->json($likes);
+    }
+
+
+    // Backend Rest API
+
+    public function index(Request $request) {
+        $this->authorize('show', new Feed());
+
+        $feeds = Feed::orderBy('created_at', 'desc')->paginate(15);
+
+        return view('feeds.index', compact('feeds'));
+    }
+
+    public function show($id) {
+        $this->authorize('show', new Feed());
+    }
+
+    public function create() {
+        $this->authorize('create', new Feed());
+
+        $categories = Category::all();
+
+        return view('feeds.create', compact('categories'));
+    }
+
+    public function store(Request $request) {
+        dd( $this->authorize('create', new Feed()));
+        $rules = [
+            'content'     => "required",
+            'category_id' => 'required|in:' . implode(",", Category::lists('id')->toArray())
+        ];
+
+        $this->validate($request, $rules);
+
+        $feed = $request->user()->feeds()->create($request->all());
+
+        if ($request->hasFile('files')) {
+            $service = new MediaServices();
+            foreach ($request->file('files') as $file) {
+                $link = $service->storeFeedPhoto($file);
+                $feed->media()->create([
+                                           'type' => 'image',
+                                           'link' => $link
+                                       ]);
+            }
+        }
+        event(new NewPostCreated($feed));
+
+        return redirect('admin/feeds')->withMessage('successfully create a feed');
+    }
+
+    public function edit(Request $request, $id) {
+        $this->authorize('edit', new Feed());
+        $feed = Feed::findOrFail($id);
+        $categories = Category::all();
+        return view('feeds.edit', compact('feed','categories'));
+    }
+
+    public function update(Request $request, $id) {
+        $this->authorize('edit', new Feed());
+        $rules = [
+            'content'=>"required",
+            'category_id'=>'required|in:'.implode(",", Category::lists('id')->toArray())
+        ];
+        $this->validate($request, $rules);
+
+        $feed = Feed::findOrFail($id);
+        $feed->update($request->all());
+        return redirect("/admin/feeds")->withMessage('updated');
+    }
+
+    public function destroy(Request $request, $id) {
+        $this->authorize('delete', new Feed());
+
+        $feed = Feed::findOrFail($id);
+        $feed->deleteFeed($id);
+        return redirect("/admin/feeds")->withMessage('deleted');
     }
 }

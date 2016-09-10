@@ -72,11 +72,13 @@ class Event extends Model implements InStreamInterface
         return $this->hasMany(EventInvitation::class);
     }
 
-    public function scopeGetOthersPublicEvents($query, $myUserId) {
-        return $query->where('isPublic', 1)
-            ->where('user_id', "<>", $myUserId)
+    public function scopeGetOthersPublicEvents($query, $myUser) {
+        return $query->join('users', 'users.id', '=', 'events.user_id')
+            ->where('isPublic', 1)
+            ->where('user_id', "<>", $myUser->id)
+            ->where('users.clan_id', "=", $myUser->cland_id)
             ->with('media')
-            ->orderBy('created_at', 'desc');
+            ->orderBy('events.created_at', 'desc');
     }
 
 }

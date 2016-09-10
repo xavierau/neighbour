@@ -14,16 +14,16 @@ class User_status_table_seeder extends Seeder
         $status = [
             [
                 "label"=>"Pending",
-                "code"=>"pending",
+                "code"=>\App\Enums\UserStatus::PENDING,
             ],[
                 "label"=>"Active",
-                "code"=>"active",
+                "code"=>\App\Enums\UserStatus::ACTIVE,
             ],[
                 "label"=>"Suspended",
-                "code"=>"suspended",
+                "code"=>\App\Enums\UserStatus::SUSPEND,
             ],[
                 "label"=>"New",
-                "code"=>"new",
+                "code"=>\App\Enums\UserStatus::NEW,
             ]
         ];
 

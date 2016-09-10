@@ -5,6 +5,11 @@ var Vue = require("vue")
 var Resource = require("vue-resource")
 Vue.use(Resource);
 
+const Api = {
+  createEvent: "/api/events"
+}
+
+
 export const Stream = {
   updateStream({dispatch}, stream){ dispatch("UPDATESTREAM", stream)},
   unshiftStream({dispatch}, item){ dispatch("UNSHIFTSTREAM", item)},
@@ -14,7 +19,7 @@ export const Comment = {
   commentFeed(store, feed, comment) {
     console.log("from acionts")
     console.log(feed)
-    var uri     = "/api/feeds/comment?feedId="+feed.id,
+    var uri     = "/api/feeds/comment?feedId=" + feed.id,
         headers = {
           headers: {
             "X-CSRF-TOKEN": document.querySelector("meta[name='csrf_token']").getAttribute('content')
@@ -61,5 +66,8 @@ export const shareItem = ({dispatch}, feedId, type) => {
   dispatch("UPDATESHAREITEM", item)
   $("#shareWithOthers").modal("show");
 }
+
+export const appendSearchResult = ({dispatch}, newResult) => {dispatch("APPENDTOSEARCHRESULT", newResult)}
+export const resetSearchResult = ({dispatch})=> {dispatch("RESETSEARCHRESULT")}
 
 export const logout = () => window.location.replace('/logout')

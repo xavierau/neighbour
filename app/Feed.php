@@ -147,4 +147,13 @@ class Feed extends Model implements InSteamInterface
         $feed->delete();
     }
 
+    public function summary() {
+        $summary = $this->content;
+        if (strlen($this->content) > 40){
+            $summary = substr($this->content, 0, 40)."...";
+        }
+
+        return $summary;
+    }
+
 }

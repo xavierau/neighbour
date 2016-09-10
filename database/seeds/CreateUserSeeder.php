@@ -157,7 +157,7 @@ class CreateUserSeeder extends Seeder
             $newUser->last_name = $user['last_name'];
             $newUser->city_id = $user['city_id'];
             $newUser->email = $user['email'];
-            $newUser->password = bcrypt($user['password']);
+            $newUser->password = $user['password'];
             $newUser->save();
 
             $role = $roles->first(function($key, $role)use($user){

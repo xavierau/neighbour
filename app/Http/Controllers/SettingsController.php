@@ -12,22 +12,26 @@ class SettingsController extends Controller
 {
     public function index()
     {
+        $this->authorize('show', new Setting());
         $settings = Setting::all();
         return view('settings.index', compact('settings'));
     }
 
     public function create()
     {
+        $this->authorize('create', new Setting());
         return view('settings.create');
     }
     public function edit($settingId)
     {
+        $this->authorize('update', new Setting());
         $setting = Setting::findOrFail($settingId);
         event(new SettingsChanged());
         return view('settings.edit', compact('setting'));
     }
     public function update(Request $request, $settingId)
     {
+        $this->authorize('update', new Setting());
         $rules = [
             'label'=>'required',
             'value'=>'required',
@@ -46,6 +50,7 @@ class SettingsController extends Controller
     }
     public function store(Request $request)
     {
+        $this->authorize('create', new Setting());
         $rules = [
             'label'=>'required',
             'value'=>'required',
@@ -63,6 +68,8 @@ class SettingsController extends Controller
     }
     public function delete($settingId)
     {
+        $this->authorize('delete', new Setting());
+
         $setting = Setting::findOrFail($settingId);
 
         $setting->delete();

@@ -91,8 +91,7 @@ class MessageServices
      */
     public function getConversation($conversationId = null)
     {
-        $id = $conversationId ? $conversationId : $this->request->get('conversationId');
-        if ($id) {
+        if ($id = $conversationId ?? $this->request->get('conversationId')) {
             $this->conversation = Conversation::findOrFail($id);
         } else {
             if ($this->request->has('receiverId')) {

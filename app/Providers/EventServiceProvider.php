@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\NewUserRegistrationEvent;
 use App\Events\RequireNewFacebookFeeds;
 use App\Events\NewEventCreated;
 use App\Events\NewPostCreated;
@@ -40,7 +41,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserApprovedEvent::class => [
             "App\Listeners\SendConfirmationEmailToUser",
-        ],
+        ]
     ];
 
     /**

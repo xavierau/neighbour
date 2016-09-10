@@ -5,3 +5,4 @@ export const getUser = (state) =>state.user;
 export const getSimpleUserList = (state) =>state.userList;
 export const getShareItem = (state) =>state.shareItem;
 export const getStream = (state) =>state.stream;
+export const getSearchResult = (state) =>state.searchResult;

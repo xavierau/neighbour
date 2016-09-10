@@ -1,4 +1,5 @@
 <?php
+use App\Setting;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -17,6 +18,12 @@ function getSettingValue(Collection $settings, $code){
         return $setting->value;
 
     return null;
+}
+
+function getSettingsFromCache(){
+    return  Cache::tags(['setting'])->rememberForever('settings',function(){
+        return Setting::all();
+    });
 }
 
 function refreshForeverCache(String $key, $value){

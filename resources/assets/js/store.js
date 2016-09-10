@@ -6,17 +6,32 @@ var Vuex = require("vuex");
 
 Vue.use(Vuex);
 
+
 const state = {
-  user     : user,
-  userList : [],
-  stream   : [],
-  shareItem: {
+  user        : user,
+  userList    : [],
+  stream      : [],
+  newEvent    : {},
+  searchResult: [],
+  shareItem   : {
     type: "",
     id  : 0
   }
 };
 
 const mutations = {
+  UPDATENEWEVENT(state, newEvent){
+    state.newEvent = newEvent
+  },
+  RESETNEWEVENT(state){
+    state.newEvent = {}
+  },
+  APPENDTOSEARCHRESULT(state, newResult){
+    state.searchResult = state.searchResult.concat(newResult)
+  },
+  RESETSEARCHRESULT(state){
+    state.searchResult = []
+  },
   UpdateUser (state, newUser) { state.user = newUser},
   UPDATEUSERLIST(state, newUserList){ state.userList = newUserList},
   UPDATESHAREITEM(state, newShareItem){ state.shareItem = newShareItem},
@@ -25,8 +40,8 @@ const mutations = {
   UNSHIFTCOMMENT(state, itemId, comment){ state.stream.filter(item=>item.id == itemId)[0].comments.unshift(comment)},
   REMOVECOMMENT(state, itemId, commentId){
     var index = state.stream
-         .filter(item=>item.id == itemId)[0].comments
-                                            .indexOf(comment=>comment.id == commentId)
+                     .filter(item=>item.id == itemId)[0].comments
+                                                        .indexOf(comment=>comment.id == commentId)
     if (index > -1) {
       state.stream
            .filter(item=>item.id == itemId)[0].comments.splice(index, 1);

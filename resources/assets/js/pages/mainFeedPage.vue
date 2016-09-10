@@ -151,7 +151,16 @@
                 this.showLargerImage(images, selectedImageIndex)
             },
             eventCreated(event){
-                this.unshiftStream(event)
+//                this.unshiftStream(event)
+                this.newEvent = {
+                    name: "",
+                    location: "",
+                    startDateTime: "",
+                    endDateTime: "",
+                    description: "",
+                    pic: "",
+                    isPublic: 0
+                }
             }
         }
     }

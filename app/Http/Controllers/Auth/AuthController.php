@@ -95,15 +95,6 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
             'status' =>'pending',
         ]);
-//        $user = User::create([
-//            'first_name' => $data['first_name'],
-//            'last_name' => $data['last_name'],
-//            'city_id' => $data['city_id'],
-//            'clan_id' => $data['clan_id'],
-//            'email' => $data['email'],
-//            'password' => bcrypt($data['password']),
-//            'status' =>'pending',
-//        ]);
 
         $user->roles()->save($role);
 
@@ -158,6 +149,7 @@ class AuthController extends Controller
         $credentials['user_status_id'] = $activeStatusId;
 
         if (Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
 
@@ -180,6 +172,7 @@ class AuthController extends Controller
 
     public function facebookLogin()
     {
+        dd('here');
         return Socialite::driver('facebook')->scopes([
             'user_managed_groups', 'email','user_status','user_relationships','user_friends'
         ])->redirect();
@@ -192,6 +185,7 @@ class AuthController extends Controller
         $service  = new FbServices($fbUser);
 
         $user = $service->fetchOrCreateAppUserFromFacebookUserGraph();
+
 
         $service->fetchFeedFromGroup();
 
@@ -209,20 +203,6 @@ class AuthController extends Controller
     {
         try {
             $user = Socialite::driver('twitter')->user();
-
-            $client = new Client(['base_uri'=>"https://api.twitter.com"]);
-
-//            $headers = [
-//                "Authorization: OAuth oauth_consumer_key"=>"zmZM6STK5zm7l8v5sXUDYQhLD",
-//                "oauth_nonce"=>"3c50d870bb9eeb549a1abda9860e5b17",
-//                "oauth_signature"=>"vzs9LAB4ibk3ac3YRpOG3qn75QA%3D",
-//                "oauth_signature_method"=>"HMAC-SHA1",
-//                "oauth_timestamp"=>"1467270015",
-//                "oauth_token"=>"18790700-Dv8B3ywccUnUbsVmJmy9aeEFZayGA2P9qtE3bT8ND",
-//                "oauth_version"=>"1.0",
-//            ];
-//            $response = $client->request("GET", "/1.1/account/verify_credentials.json",["headers"=>$headers] );
-//            dd($response);
         } catch (Exception $e) {
             dd($e);
             return redirect('auth/twitter');
@@ -295,6 +275,15 @@ class AuthController extends Controller
             ->withErrors([
                 $this->loginUsername() => $this->getFailedLoginMessage(),
             ]);
+    }
+
+    protected function authenticated(Request $request, User $authUser) {
+
+        if($authUser->is('sadmin'))
+            return redirect('/admin/dashboard');
+
+        return redirect()->intended($this->redirectPath());
+
     }
 
 }

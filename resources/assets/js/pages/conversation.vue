@@ -30,7 +30,7 @@
             <ul class="list-unstyled searchResult" v-show="searchTerm.length > 0">
                 <li v-for="user in searchUserResult" @click.prevent="message(user)">
                     <img :src="user.avatar" alt="">
-                    <p>{{user.name}}</p>
+                    <p>{{user.first_name}} {{user.last_name}}</p>
                 </li>
             </ul>
         </div>

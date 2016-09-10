@@ -56,9 +56,10 @@ class FbServices
 
     public function fetchOrCreateAppUserFromFacebookUserGraph(): User
     {
-        $user = User::whereEmail($this-$this->fbUser->email)->first();
+        $user = User::whereEmail($this->fbUser->email)->first();
+
         if(!$user){
-            $userTypeId = UserType::whereType(\App\Enums\UserType::FACEBOOK)->firstOrFail();
+            $userTypeId = UserType::whereType(\App\Enums\UserType::FACEBOOK)->firstOrFail()->id;
 
             $user = $this->createUser($userTypeId);
 
@@ -99,7 +100,10 @@ class FbServices
     {
         $avatar = $this->getAvatar($this->fbUser->id);
         $user = new User();
-        $user->name = $this->fbUser->name;
+        $nameArray = preg_split("/ /", $this->fbUser->name);
+
+        $user->first_name = $nameArray[0];
+        $user->last_name = end($nameArray);
         $user->email = $this->fbUser->email;
         $user->avatar = $avatar;
         $user->user_type_id = $userTypeId;

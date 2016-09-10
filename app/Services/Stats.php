@@ -18,6 +18,18 @@ use Illuminate\Support\Facades\DB;
 
 class Stats
 {
+
+    public function get($code, int $type, string $frequency, Carbon $fromDate = null, Carbon $toDate = null):array {
+        $data = [];
+        switch ($code){
+            case 'noppd':
+                $data = $this->numberOfPostBetween($type, $frequency, $fromDate, $toDate);
+                break;
+        }
+        return $data;
+    }
+
+
     public function numberOfUsers():int
     {
         return User::count();
@@ -42,6 +54,7 @@ class Stats
 
             return $stats;
         }
+        abort(405, 'invalid query');
     }
 
     //Number of users posting a post, a comment or an event per day and per week;

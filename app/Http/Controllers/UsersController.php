@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clan;
+use App\Enums\UserStatus;
 use App\Events\UserApprovedEvent;
 use App\Http\Requests\ConfirmEmailRequest;
 use App\Role;
@@ -24,6 +25,7 @@ class UsersController extends Controller
     {
         $inputs = $request->all();
         $user = User::findOrFail($inputs['id']);
+        $this->authorize('updateProfile', $user);
         $user->first_name = $inputs['first_name'];
         $user->last_name = $inputs['last_name'];
         $user->email = $inputs['email'];
@@ -41,7 +43,7 @@ class UsersController extends Controller
     public function searchByUserName(Request $request)
     {
         $needle = $request->get('name');
-        $users = User::where('name', 'like', "%$needle%")->get();
+        $users = User::where('first_name', 'like', "%$needle%")->orWhere('last_name', 'like', "%$needle%")->get();
         return response()->json(compact('users'));
     }
 
@@ -52,7 +54,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $this->authorize('show', new User());
+        $users = User::orderBy('first_name')->paginate(15);
         return view('users.index', compact('users'));
     }
 
@@ -63,7 +66,7 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
-        if($request->user()->cannot("createUser")) abort(403);
+        $this->authorize('create', new User());
 
         $roles = Role::select('label','id')->get();
         $clans = Clan::select('label','id')->get();
@@ -78,13 +81,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', new User());
+
         $rules = [
-            "label"=>"required|min:3",
-            "code"=>"required|unique:clans,code",
+            "first_name"=>"required",
+            "last_name"=>"required",
+            "email"=>"required|email|unique:users",
+            "clan_id"=>"required|in:".implode(",",Clan::lists("id")->toArray()),
+            "role_id"=>"required|in:".implode(",",Role::lists("id")->toArray()),
         ];
         $this->validate($request, $rules);
 
-        User::create($request->all());
+        $user = User::create($request->all());
+        $user->roles()->sync([$request->get("role_id")]);
+
         return redirect()->route('admin.users.index')->withMessage("Successfully create a user.");
     }
 
@@ -107,8 +117,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit', new User());
         $user = User::findOrFail($id);
-        return view('users.edit', compact("user"));
+        $clans = Clan::all();
+        $roles = Role::all();
+        return view('users.edit', compact("user", "clans", "roles"));
     }
 
     /**
@@ -120,14 +133,22 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('edit', new User());
+
         $rules = [
-            "label"=>"required|min:3",
-            "code"=>"required|unique:clans,code,".$id,
+            "first_name"=>"required",
+            "last_name"=>"required",
+            "email"=>"required|email|unique:users,email,".$id,
+            "clan_id"=>"required|in:".implode(",",Clan::lists("id")->toArray()),
+            "role_id"=>"required|in:".implode(",",Role::lists("id")->toArray()),
         ];
         $this->validate($request, $rules);
 
         $user = User::findOrFail($id);
         $user->update($request->all());
+        $user->roles()->sync([$request->get("role_id")]);
+
+
         return redirect()->route('admin.users.index')->withMessage("Successfully update the clan.");
 
     }
@@ -141,6 +162,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', new User());
+
         $user = User::findOrFail($id);
 
         $user->delete();
@@ -161,31 +184,34 @@ class UsersController extends Controller
         $user->status()->associate($activeStatus);
         $user->save();
 
+        Auth::login($user);
+
         return redirect("/");
     }
 
     public function getPendingUsers(Request $request)
     {
+        $this->authorize('get', [User::class, UserStatus::PENDING]);
+
+
         $user = $request->user();
-        if($user && $user->can("approveUser")){
-            if($user->is('dev') or $user->is("sadmin")){
-                return response()->json(['PendingUsers'=>User::getPendingUsers()]);
-            }
-            return response()->json(['PendingUsers'=>User::getPendingUsers($user->clan_id)]);
+        if($user->is('dev') or $user->is("sadmin")){
+            return response()->json(['PendingUsers'=>User::getPendingUsers()]);
         }
+        return response()->json(['PendingUsers'=>User::getPendingUsers($user->clan_id)]);
     }
 
     public function approveUser(Request $request, $userId)
     {
-        if(!$approver = $request->user() or $approver->cannot('approveUser')) abort(403);
+        // Select that particular user whose status is pending or suspend. Otherwise not approval need
+        $pendingStatusId = \App\UserStatus::whereCode(UserStatus::PENDING)->first()->id;
+        $suspendStatusId = \App\UserStatus::whereCode(UserStatus::SUSPEND)->first()->id;
+        $user = User::whereId($userId)->whereUserStatusId($pendingStatusId)->orWhere('user_status_id', $suspendStatusId)->first();
+
+        $this->authorize('approve', $user);
 
         $newStatus = \App\UserStatus::whereCode("new")->first();
 
-        if($approver->is('dev') or $approver->is("sadmin")){
-            $user = User::find($userId);
-        }else{
-            $user = User::whereClanId($request->user()->clan->id)->whereId($userId)->first();
-        }
         if ($user){
             $user->email_confirmation_token = str_random(128);
             $user->status()->associate($newStatus);

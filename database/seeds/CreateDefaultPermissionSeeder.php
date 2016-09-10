@@ -1,7 +1,9 @@
 <?php
 
+use App\Feed;
 use App\Permission;
 use App\Role;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class CreateDefaultPermissionSeeder extends Seeder
@@ -30,6 +32,16 @@ class CreateDefaultPermissionSeeder extends Seeder
             'code'=>'gen',
         ]
     ];
+
+    protected $actions = [
+        'show', 'create', 'edit', 'delete'
+    ];
+
+    protected $objects = [
+      Role::class, Permission::class, \App\Category::class, \App\User::class, \App\Feed::class, \App\Clan::class, \App\Setting::class
+    ];
+
+
     protected $permissions = [
         [
             'label'=>'Create Category',
@@ -109,8 +121,8 @@ class CreateDefaultPermissionSeeder extends Seeder
         $this->createRoles();
 
         $this->assignPermissionsToDeveloper();
-        $this->assignPermissionsToSiteAdministrator();
-        $this->assignPermissionsToBuildingAdministrator();
+//        $this->assignPermissionsToSiteAdministrator();
+//        $this->assignPermissionsToBuildingAdministrator();
 
     }
 
@@ -126,10 +138,30 @@ class CreateDefaultPermissionSeeder extends Seeder
 
     private function createPermissions(){
 
-        foreach ($this->permissions as $permission){
+        foreach ($this->objects as $object){
+            foreach ($this->actions as $action){
+                $newPermission = new \App\Permission();
+                $newPermission->object = $object;
+                $newPermission->action = $action;
+                $objectNameArray = preg_split("/\\\/", $object);
+                $objectSimpleName = end($objectNameArray);
+                $permissionLabel = ucwords($action)." ".ucwords($objectSimpleName);
+                $newPermission->label = $permissionLabel;
+                $newPermission->save();
+            }
+        }
+
+        $userSpecificActions = [
+            'approve', 'suspend', 'getPending'
+        ];
+        foreach ($userSpecificActions as $action){
             $newPermission = new \App\Permission();
-            $newPermission->label = $permission['label'];
-            $newPermission->code = $permission['code'];
+            $newPermission->object = User::class;
+            $newPermission->action = $action;
+            $objectNameArray = preg_split("/\\\/", User::class);
+            $objectSimpleName = end($objectNameArray);
+            $permissionLabel = ucwords($action)." ".ucwords($objectSimpleName);
+            $newPermission->label = $permissionLabel;
             $newPermission->save();
         }
     }

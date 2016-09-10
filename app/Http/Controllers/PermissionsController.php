@@ -4,39 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Permission;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
+use Illuminate\Support\Facades\Cache;
 
 class PermissionsController extends Controller
 {
-    public function index(Request $request)
-    {
-        if($request->user()->cannot("showRoles")) abort(403, "Request is not authorized");
+    public function index(Request $request) {
+        $this->authorize('show', new Permission());
 
-        $permissions = Permission::all();
+        $permissions = Cache::tags(['permission'])->rememberForever('permissions', function () {
+            return Permission::all();
+        });
+
         return view('permissions.index', compact('permissions'));
     }
 
-    public function create(Request $request)
-    {
-        if($request->user()->cannot("createPermission")) abort(403, "Request is not authorized");
+    public function create(Request $request) {
+
+        // This will always false
+        $this->authorize('create');
 
         return view('permissions.create');
     }
-    public function edit(Request $request, $permissionId)
-    {
-        if($request->user()->cannot("editPermission")) abort(403, "Request is not authorized");
+
+    public function edit(Request $request, $permissionId) {
+        $this->authorize('edit', new Permission());
 
         $permission = Permission::findOrFail($permissionId);
+
         return view('permissions.edit', compact('permission'));
     }
-    public function update(Request $request, $permissionId)
-    {
-        if($request->user()->cannot("editPermission")) abort(403, "Request is not authorized");
+
+    public function update(Request $request, $permissionId) {
+        $this->authorize('edit', new Permission());
 
         $rules = [
-            'label'=>'required',
-            'code'=>'required|alpha_dash|unique:permissions,code,'.$permissionId,
+            'label' => 'required'
         ];
         $this->validate($request, $rules);
 
@@ -44,15 +46,16 @@ class PermissionsController extends Controller
 
         $permission->update($request->all());
 
-        return redirect('/permissions')->withMessage('Permission Update Successfully!');
+        return redirect('/admin/permissions')->withMessage('Permission Update Successfully!');
     }
-    public function store(Request $request)
-    {
-        if($request->user()->cannot("createPermission")) abort(403, "Request is not authorized");
+
+    public function store(Request $request) {
+        // This will always false
+        $this->authorize('create');
 
         $rules = [
-            'label'=>'required',
-            'code'=>'required|alpha_dash|unique:permissions,code',
+            'label' => 'required',
+            'code'  => 'required|alpha_dash|unique:permissions,code',
         ];
         $this->validate($request, $rules);
 
@@ -61,9 +64,11 @@ class PermissionsController extends Controller
         return redirect()->route("admin.permissions.index")->withMessage('Permission Created Successfully!');
 
     }
-    public function delete(Request $request, $permissionId)
-    {
-        if($request->user()->cannot("deletePermission")) abort(403, "Request is not authorized");
+
+    public function delete(Request $request, $permissionId) {
+
+        // This will always false
+        $this->authorize('delete');
 
         $permission = Permission::findOrFail($permissionId);
 

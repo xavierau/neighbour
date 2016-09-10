@@ -45,14 +45,22 @@
 
             <!-- Branding Image -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{Cache::get('settings')->first()->value}}
+                {{getSettingsFromCache()->first()->value}}
             </a>
         </div>
 
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/home') }}">Home</a></li>
+                <li><a href="{{ url('/app') }}">App</a></li>
+                <li><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url('/admin/categories') }}">Categories</a></li>
+                <li><a href="{{ url('/admin/roles') }}">Roles</a></li>
+                <li><a href="{{ url('/admin/permissions') }}">Permissions</a></li>
+                <li><a href="{{ url('/admin/clans') }}">Buildings</a></li>
+                <li><a href="{{ url('/admin/users') }}">Users</a></li>
+                <li><a href="{{ url('/admin/feeds') }}">Feeds</a></li>
+                <li><a href="{{ url('/admin/media') }}">Media</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

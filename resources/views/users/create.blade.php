@@ -2,28 +2,40 @@
 
 @section("content")
     <div class="container">
-        <form action="{{route("admin.clans.store")}}" class="form" method="POST">
+        <form action="{{route("admin.users.store")}}" class="form" method="POST">
             {{csrf_field()}}
             <fieldset>
                 <legend>Basic Info</legend>
                 <div class="form-group">
-                    <label for="name">Clan Label</label>
-                    <input type="text" class="form-control" name="label" id="label" value="">
-                    {!! $errors->first('label', '<p class="text-danger">:message</p>') !!}
+                    <label for="name">User First Name</label>
+                    <input type="text" class="form-control" name="first_name" id="first_name" value="">
+                    {!! $errors->first('first_name', '<p class="text-danger">:message</p>') !!}
+                </div>
+                <div class="form-group">
+                    <label for="name">User Last Name</label>
+                    <input type="text" class="form-control" name="last_name" id="last_name" value="">
+                    {!! $errors->first('last_name', '<p class="text-danger">:message</p>') !!}
+                </div>
+                <div class="form-group">
+                    <label for="name">User Email</label>
+                    <input type="text" class="form-control" name="email" id="email" value="">
+                    {!! $errors->first('email', '<p class="text-danger">:message</p>') !!}
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">User Password</label>
+                    <input type="text" class="form-control" name="password" id="password" value="">
+                    {!! $errors->first('password', '<p class="text-danger">:message</p>') !!}
                 </div>
 
-                <div class="form-group">
-                    <label for="code">Clan Code </label>
-                    <input type="text" class="form-control" name="code" id="code" value="">
-                    {!! $errors->first('code', '<p class="text-danger">:message</p>') !!}
-                    <p class="helper-text">Must be unique</p>
-                </div>
+               
             </fieldset>
 
 
 
             <fieldset>
                 <legend>User Clan</legend>
+                {!! $errors->first('clan_id', '<p class="text-danger">:message</p>') !!}
                 <table class="table">
                     <thead>
                     <th>Select</th>
@@ -33,8 +45,8 @@
                         <tr>
                             <td>
                                 <input
-                                        name="permissions[]"
-                                        type="checkbox"
+                                        name="clan_id"
+                                        type="radio"
                                         value="{{$clan->id}}"
                                 >
                             </td>
@@ -47,6 +59,7 @@
             </fieldset>
             <fieldset>
                 <legend>User Roles</legend>
+                {!! $errors->first('role_id', '<p class="text-danger">:message</p>') !!}
                 <table class="table">
                     <thead>
                     <th>Select</th>
@@ -56,8 +69,8 @@
                         <tr>
                             <td>
                                 <input
-                                        name="permissions[]"
-                                        type="checkbox"
+                                        name="role_id"
+                                        type="radio"
                                         value="{{$role->id}}"
                                 >
                             </td>

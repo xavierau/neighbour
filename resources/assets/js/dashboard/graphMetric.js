@@ -15,7 +15,8 @@ let GraphMetric = Vue.extend({
             baseUrl: "/api/metrics",
             metric:{},
             availableMetrics:[],
-            randomId:""
+            randomId:"",
+            canvas:{}
         }
     },
     created(){
@@ -29,16 +30,20 @@ let GraphMetric = Vue.extend({
             this.availableMetrics = data.metrics;
             this.metric =  data.metrics[0];
 
-            let canvas = this.createCanvas("myCanvas");
-            body.appendChild(canvas);
-            this.updateMetric(canvas);
+            this.canvas = this.createCanvas("myCanvas");
+            body.appendChild(this.canvas);
+            this.updateMetric();
+
         });
 
 
 
     },
     methods: {
-        updateMetric(canvas = null){
+        updateMetric(e, canvas = null){
+            canvas = canvas? canvas : this.canvas;
+            console.log(canvas);
+            console.log('testing');
             this.$http.get(this.baseUrl, {metric: this.metric.code}).then(({data})=>this.createChart(canvas, "line", data.data, {label:"Number Of Post"}));
         },
         createChartData(fetchedData, settings=null){

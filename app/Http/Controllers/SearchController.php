@@ -17,6 +17,7 @@ class SearchController extends Controller
                 ->join("categories", "categories.id", "=", "feeds.category_id")
                 ->select("feeds.*", "users.first_name", "users.last_name", "categories.name")
                 ->whereClanId($request->user()->clan_id)
+                ->where('feeds.reply_to', '=', 0)
                 ->where('users.first_name', "like", "%$queryTerm%")
                 ->orWhere('users.last_name', "like", "%$queryTerm%")
                 ->orWhere("feeds.content", "like", "%$queryTerm%")

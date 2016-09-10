@@ -6,6 +6,7 @@ use App\RelationshipTraits\UserRelationshipTrait;
 use App\Traits\UserAuthorizationTrait;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 
@@ -16,7 +17,10 @@ use Illuminate\Support\Facades\DB;
  */
 class User extends Authenticatable
 {
-    use UserAuthorizationTrait, UserRelationshipTrait;
+    use UserRelationshipTrait;
+//    use Authorizable;
+//    use UserAuthorizationTrait;
+
     /**
      * @type string
      */
@@ -85,7 +89,7 @@ class User extends Authenticatable
 
     public function getCanApproveUserAttribute()
     {
-        return $this->can("approveUser");
+        return $this->can("approve", $this);
     }
 
     static function getPendingUsers($clanId = null){
@@ -115,5 +119,36 @@ class User extends Authenticatable
     {
         return $query->getOtherClanMembers()->whereUserStatusId(UserStatus::whereCode("active")->first()->id);
 
+    }
+
+    public function is($roleCode) {
+
+        $userRoleCodes = Cache::tags(['role'])->rememberForever('user_roleCodes_'.$this->id, function(){
+            return  $this->roles->lists('code')->toArray();
+        });
+        return in_array($roleCode, $userRoleCodes);
+    }
+
+    public function hasPermission($permissionId) {
+
+        $key = "user_permissions_".$this->id;
+
+        $permissionIds = Cache::tags(['permission', 'role'])->remember($key, 10, function(){
+            $permissionIds = [];
+            $permissionIds = $this->roles()->with('permissions')->get()->map(function($role)use($permissionIds){
+                return array_merge($permissionIds, $role->permissions()->lists('id')->toArray());
+            })->toArray()[0];
+            return $permissionIds;
+        });
+
+        return in_array($permissionId, $permissionIds);
+    }
+
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function getFullNameAttribute() {
+        return $this->first_name." ".$this->last_name;
     }
 }

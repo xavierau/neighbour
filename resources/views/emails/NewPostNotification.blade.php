@@ -50,7 +50,13 @@
     <h1>{{getSettingValue($settings, "appName")}}</h1>
     <hr />
 
-    <p>{{$feed->sender->first_name}} posted in {{$feed->sender->clan->label}}.</p>
+    <p>
+        {{$feed->sender->first_name}}
+        posted in
+        @if($feed->sender->clan)
+        {{$feed->sender->clan->label}}.
+        @endif
+    </p>
     <div class="feed-container">
         <div class="credentials">
             <div class="image-container">

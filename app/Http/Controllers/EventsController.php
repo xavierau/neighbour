@@ -13,16 +13,20 @@ class EventsController extends Controller
 {
     public function getEvents(Request $request)
     {
+        $this->authorize('get', new Event());
+
         $myEvents = $request->user()->events()->defaultQuery()->get();
-        $publicEvents = Event::getOthersPublicEvents($request->user()->id)->get();
-        
+        $publicEvents = Event::getOthersPublicEvents($request->user())->get();
 
         return response()->json(["myEvents" => $myEvents, 'publicEvents' => $publicEvents]);
     }
 
     public function getEvent($eventId)
     {
-        $event = Event::find($eventId);
+        $event = Event::findOrFail($eventId);
+
+        $this->authorize('getParticularEvent', $event);
+
         $event->load("participants", "media");
 
         return response()->json(['event' => $event, 'numberOfParticipants' => $event->numberOfParticipants()]);
@@ -30,9 +34,12 @@ class EventsController extends Controller
 
     public function postEvent(Request $request)
     {
+        $this->authorize('create', new Event());
+
         $data = $this->prepareDateForEventCreation($request);
 
         $event = $request->user()->events()->create($data);
+
         $event->participants()->attach($request->user()->id, ['status'=>'yes']);
 
         $this->createMediaIfNeeded($request, $event);
@@ -47,6 +54,9 @@ class EventsController extends Controller
     public function joinEvent(Request $request)
     {
         $event = Event::findOrFail($request->get("eventId"));
+
+        $this->authorize('join', $event);
+
         if($request->has('option')){
             if($request->get('option') == "maybe"){
                 $event = $this->joinEventWIthOption($request,$event, "maybe");
@@ -61,8 +71,11 @@ class EventsController extends Controller
 
     public function updateEvent(Request $request , $eventId)
     {
-        $data = $this->prepareDateForEventCreation($request);
         $event = Event::findOrFail($eventId);
+
+        $this->authorize('update', $event);
+
+        $data = $this->prepareDateForEventCreation($request);
         $event->update($data);
         $this->createMediaIfNeeded($request, $event);
 
@@ -74,6 +87,8 @@ class EventsController extends Controller
     public function deleteEvent(Request $request, $id)
     {
         $event = $request->user()->events()->whereId($id)->first();
+        $this->authorize('delete', $event);
+
         if($event)
             $event->stream->first()->delete();
             $event->delete();
@@ -88,6 +103,7 @@ class EventsController extends Controller
      */
     private function joinEventWIthOption(Request $request, Event $event, string $option)
     {
+        $this->authorize('join', $event);
         $eventParticipant = $event->participants()->whereUserId($request->user()->id)->first();
         if ($eventParticipant) {
             if ($eventParticipant->pivot->status !=$option) {

@@ -2,14 +2,24 @@
 <template lang = "html" src="html/search.html"></template>
     <script>
 import TextFeed from "./components/commons/textFeed.vue";
+import {appendSearchResult, resetSearchResult} from "./../actions"
+import {getSearchResult} from "./../getters"
 export default{
+    vuex:{
+        getters:{
+            searchResult:getSearchResult
+        },
+        actions:{
+            appendSearchResult,
+            resetSearchResult
+        }
+    },
     data(){
         return {
             searchText: "",
             newSearch:true,
             result: {
                 current_page: 2,
-                data: [],
                 from: 0,
                 last_page: 0,
                 next_page_url: "",
@@ -21,7 +31,8 @@ export default{
         }
     },
     ready(){
-        this.updateGA("search")
+//        this.updateGA("search")
+        console.log('this result array: ', this.searchResult)
     },
     components: {
         TextFeed
@@ -32,6 +43,7 @@ export default{
             var uri = "/api/search",
                 headers = this.setRequestHeaders(),
                 data = {query: this.searchText};
+            this.resetSearchResult()
             this.$http.get(uri, data, headers)
                 .then(({data})=>this.updatePaginator(data));
         },
@@ -42,17 +54,17 @@ export default{
                 data = {query: this.searchText};
             this.$http.get(uri, data, headers)
                 .then(({data})=>this.updatePaginator(data));
-            console.log(this.result.next_page_url)
         },
         updatePaginator(paginator){
-            console.log(paginator)
-            for(var key in paginator){
-                if(key == "data" && !this.newSearch)
-                    this.result[key].push.apply(this.result[key], paginator[key])
-                else
-                    this.result[key] = paginator[key]
-            }
+            Object.keys(paginator).map(key=>{
+                if(this.result.hasOwnProperty(key))
+                    this.result[key]= paginator[key]
+            })
+            this.appendSearchResult(paginator['data'])
         }
+    },
+    destroyed(){
+        this.resetSearchResult()
     }
 }
 </script>

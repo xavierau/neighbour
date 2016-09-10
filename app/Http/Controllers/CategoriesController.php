@@ -32,6 +32,8 @@ class CategoriesController extends Controller
 
     public function index()
     {
+        $this->authorize('show', new Category());
+
         $categories = Category::all();
 
         return view('categories.index', compact('categories'));
@@ -39,6 +41,8 @@ class CategoriesController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('edit', new Category());
+
         $category = Category::find($id);
 
         return view('categories.edit', compact('category'));
@@ -46,6 +50,8 @@ class CategoriesController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('edit', new Category());
+
         $category = Category::find($id);
         $category->update($request->all());
         
@@ -54,8 +60,11 @@ class CategoriesController extends Controller
         return redirect()->route('admin.categories.index');;
     }
 
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
+
+        $this->authorize('delete', new Category());
+
         $category = Category::find($id);
         $category->delete();
 
@@ -66,11 +75,15 @@ class CategoriesController extends Controller
 
     public function create()
     {
+        $this->authorize('create', new Category());
+
         return view('categories.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', new Category());
+
         Category::create($request->all());
         
         $request->session()->flash('message', 'new category created!');

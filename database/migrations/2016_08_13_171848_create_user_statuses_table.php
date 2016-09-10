@@ -13,9 +13,13 @@ class CreateUserStatusesTable extends Migration
     public function up()
     {
         Schema::create('user_statuses', function (Blueprint $table) {
+
+            $reflectionClass = new ReflectionClass(\App\Enums\UserStatus::class);
+            $status = array_values($reflectionClass->getConstants());
+
             $table->increments('id');
             $table->string("label");
-            $table->enum("code",["pending", "active", "suspended", "new"]);
+            $table->enum("code",$status);
             $table->timestamps();
         });
     }

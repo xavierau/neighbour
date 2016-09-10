@@ -53,7 +53,6 @@ class ConversationsController extends Controller
     public function getConversation()
     {
         $conversation = $this->messageService->getConversation();
-
         return response()->json(compact('conversation'));
     }
 

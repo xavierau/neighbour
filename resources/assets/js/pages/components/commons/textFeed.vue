@@ -93,7 +93,8 @@ export default {
                     },
                     response=>conosle.log(response))
             } else {
-                uri = this.getApi('unlikeFeed') + "/" + this.feed.likes[0].id;
+                uri = this.getApi('unlikeFeed') + "/" + this.feed.id;
+//                uri = this.getApi('unlikeFeed') + "/" + this.feed.likes[0].id;
                 this.$http.get(uri, data, headers).then(
                     ({data})=>{
                         this.feed.likes = []

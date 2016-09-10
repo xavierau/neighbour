@@ -16,6 +16,8 @@ class ClansController extends Controller
      */
     public function index()
     {
+        $this->authorize('show', new Clan());
+
         $clans = Clan::all();
         return view('clans.index', compact('clans'));
     }
@@ -27,7 +29,8 @@ class ClansController extends Controller
      */
     public function create(Request $request)
     {
-        if($request->user()->cannot('createClan')) abort(403);
+        $this->authorize('create', new Clan());
+
         return view('clans.create');
     }
 
@@ -39,7 +42,8 @@ class ClansController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->user()->cannot('createClan')) abort(403);
+        $this->authorize('create', new Clan());
+
 
         $rules = [
             "label"=>"required|min:3",
@@ -71,7 +75,7 @@ class ClansController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        if($request->user()->cannot('editClan')) abort(403);
+        $this->authorize('edit', new Clan());
 
         $clan = Clan::findOrFail($id);
         return view('clans.edit', compact("clan"));
@@ -86,7 +90,7 @@ class ClansController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->user()->cannot('editClan')) abort(403);
+        $this->authorize('edit', new Clan());
 
         $rules = [
           "label"=>"required|min:3",
@@ -109,7 +113,7 @@ class ClansController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if($request->user()->cannot('deleteClan')) abort(403);
+        $this->authorize('delete', new Clan());
 
         $clan = Clan::findOrFail($id);
         
