@@ -109,6 +109,7 @@ class FbServices
         $user->user_type_id = $userTypeId;
         $user->user_status_id = 2;
         $user->clan_id = 1;
+        $user->city_id = 1;
         $user->password = str_random(16);
         $user->save();
 
