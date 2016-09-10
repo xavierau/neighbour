@@ -88,4 +88,21 @@ class PasswordController extends Controller
             'password' => ["required", "min:5", "confirmed", "regex:".$pattern],
         ];
     }
+
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
+     * @return void
+     */
+    protected function resetPassword($user, $password)
+    {
+        $user->forceFill([
+                             'password' => $password,
+                             'remember_token' => Str::random(60),
+                         ])->save();
+
+        Auth::guard($this->getGuard())->login($user);
+    }
 }

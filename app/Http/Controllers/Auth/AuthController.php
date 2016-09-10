@@ -92,7 +92,7 @@ class AuthController extends Controller
             'clan_id' => $data['clan_id'],
             'user_type_id' => $userType->id,
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => $data['password'],
             'status' =>'pending',
         ]);
 
