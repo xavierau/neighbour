@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
