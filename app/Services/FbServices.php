@@ -107,7 +107,9 @@ class FbServices
         $user->email = $this->fbUser->email;
         $user->avatar = $avatar;
         $user->user_type_id = $userTypeId;
-        $user->password = bcrypt(str_random(12));
+        $user->user_status_id = 2;
+        $user->clan_id = 1;
+        $user->password = str_random(16);
         $user->save();
 
         return $user;

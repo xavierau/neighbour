@@ -172,7 +172,6 @@ class AuthController extends Controller
 
     public function facebookLogin()
     {
-        dd('here');
         return Socialite::driver('facebook')->scopes([
             'user_managed_groups', 'email','user_status','user_relationships','user_friends'
         ])->redirect();
